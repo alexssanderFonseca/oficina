@@ -3,7 +3,6 @@ package br.com.alexsdm.postech.oficina.clientes.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ public class Cliente {
 
     private String sobrenome;
 
-    private String cpf;
+    private String cpfCnpj;
 
     private String email;
 
@@ -37,14 +36,14 @@ public class Cliente {
     public Cliente(UUID id,
                    String nome,
                    String sobrenome,
-                   String cpf,
+                   String cpfCnpj,
                    String email,
                    Endereco endereco,
-                   String telefone ){
+                   String telefone) {
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
-        this.cpf = cpf;
+        this.cpfCnpj = cpfCnpj;
         this.email = email;
         this.endereco = endereco;
         this.telefone = telefone;
@@ -67,8 +66,8 @@ public class Cliente {
         return sobrenome;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getcpfCnpj() {
+        return cpfCnpj;
     }
 
     public String getEmail() {

@@ -13,7 +13,7 @@ CREATE TABLE cliente
     id          UUID PRIMARY KEY,
     nome        VARCHAR(255)       NOT NULL,
     sobrenome   VARCHAR(255)       NOT NULL,
-    cpf         VARCHAR(14) UNIQUE NOT NULL,
+    cpfCnpj     VARCHAR(14) UNIQUE NOT NULL,
     email       VARCHAR(255),
     telefone    VARCHAR(20),
     endereco_id UUID UNIQUE,
