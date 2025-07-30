@@ -40,7 +40,7 @@ public class ClienteService {
                 UUID.randomUUID(),
                 cadastrarClienteRequest.nome(),
                 cadastrarClienteRequest.sobrenome(),
-                cadastrarClienteRequest.cpf(),
+                cadastrarClienteRequest.cpfCnpj(),
                 cadastrarClienteRequest.email(),
                 endereco,
                 cadastrarClienteRequest.telefone()
