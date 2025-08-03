@@ -13,7 +13,7 @@ CREATE TABLE cliente
     id          UUID PRIMARY KEY,
     nome        VARCHAR(255)       NOT NULL,
     sobrenome   VARCHAR(255)       NOT NULL,
-    cpfCnpj     VARCHAR(14) UNIQUE NOT NULL,
+    cpf_cnpj     VARCHAR(14) UNIQUE NOT NULL,
     email       VARCHAR(255),
     telefone    VARCHAR(20),
     endereco_id UUID UNIQUE,
@@ -24,24 +24,38 @@ CREATE TABLE cliente
 );
 
 
+CREATE TABLE veiculo_modelo (
+                                id BIGSERIAL PRIMARY KEY,
+                                marca VARCHAR(50) NOT NULL,
+                                modelo VARCHAR(50) NOT NULL,
+                                ano_inicio INTEGER,
+                                ano_fim INTEGER,
+                                tipo VARCHAR(30)
+);
+
+
 CREATE TABLE veiculo
 (
     id         UUID PRIMARY KEY,
-    placa      VARCHAR(7) NOT NULL,
-    marca      VARCHAR(30) NOT NULL,
-    modelo     VARCHAR(30) NOT NULL,
-    cor        varchar(30) NOT NULL,
+    placa      VARCHAR(7) UNIQUE NOT NULL,
+    cor        VARCHAR(30) NOT NULL,
     ano        VARCHAR(4)  NOT NULL,
-    cliente_id UUID UNIQUE,
+    cliente_id UUID,
+    veiculo_modelo_id BIGINT NOT NULL,
     CONSTRAINT fk_cliente
         FOREIGN KEY (cliente_id)
             REFERENCES cliente (id)
+            ON DELETE CASCADE,
+    CONSTRAINT fk_veiculo_modelo
+        FOREIGN KEY (veiculo_modelo_id)
+            REFERENCES veiculo_modelo (id)
             ON DELETE CASCADE
 );
 
 
+
 CREATE TABLE peca (
-                      id UUID PRIMARY KEY,
+                      id BIGSERIAL PRIMARY KEY,
                       nome VARCHAR(100) NOT NULL,
                       descricao TEXT,
                       codigo_fabricante VARCHAR(100),
@@ -58,7 +72,7 @@ CREATE TABLE peca (
 );
 
 CREATE TABLE servico (
-                         id UUID PRIMARY KEY,
+                         id BIGSERIAL PRIMARY KEY,
                          nome VARCHAR(100) NOT NULL,
                          descricao TEXT,
                          preco NUMERIC(10,2) NOT NULL,
@@ -70,20 +84,83 @@ CREATE TABLE servico (
 );
 
 
-CREATE TABLE veiculo_modelo (
-                                id UUID PRIMARY KEY,
-                                marca VARCHAR(50) NOT NULL,
-                                modelo VARCHAR(50) NOT NULL,
-                                ano_inicio INTEGER,
-                                ano_fim INTEGER,
-                                tipo VARCHAR(30)
-);
 
 
 CREATE TABLE peca_modelo_veiculo (
-                                     peca_id UUID NOT NULL,
-                                     modelo_id UUID NOT NULL,
+                                     peca_id BIGINT NOT NULL,
+                                     modelo_id BIGINT NOT NULL,
                                      PRIMARY KEY (peca_id, modelo_id),
                                      CONSTRAINT fk_peca FOREIGN KEY (peca_id) REFERENCES peca(id),
                                      CONSTRAINT fk_modelo FOREIGN KEY (modelo_id) REFERENCES veiculo_modelo(id)
 );
+
+
+CREATE TABLE orcamento (
+                           id BIGSERIAL PRIMARY KEY,
+                           cliente_id UUID NOT NULL,
+                           status VARCHAR(50),
+                           CONSTRAINT fk_orcamento_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+);
+
+
+CREATE TABLE item_peca_orcamento (
+                                     id BIGSERIAL PRIMARY KEY,
+                                     orcamento_id BIGINT NOT NULL,
+                                     peca_id BIGINT NOT NULL,
+                                     quantidade INTEGER NOT NULL CHECK (quantidade > 0),
+
+                                     CONSTRAINT fk_item_orcamento
+                                         FOREIGN KEY (orcamento_id)
+                                             REFERENCES orcamento (id)
+                                             ON DELETE CASCADE,
+
+                                     CONSTRAINT fk_item_peca
+                                         FOREIGN KEY (peca_id)
+                                             REFERENCES peca (id)
+                                             ON DELETE CASCADE,
+
+                                     CONSTRAINT uk_orcamento_peca UNIQUE (orcamento_id, peca_id)
+);
+
+
+
+CREATE TABLE orcamento_servico (
+                                   orcamento_id BIGINT NOT NULL,
+                                   servico_id BIGINT NOT NULL,
+                                   PRIMARY KEY (orcamento_id, servico_id),
+                                   CONSTRAINT fk_os_orcamento FOREIGN KEY (orcamento_id) REFERENCES orcamento(id) ON DELETE CASCADE,
+                                   CONSTRAINT fk_os_servico FOREIGN KEY (servico_id) REFERENCES servico(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE ordem_servico (
+                               id BIGSERIAL PRIMARY KEY,
+                               cliente_id UUID NOT NULL,
+                               status VARCHAR(50),
+                               data_criacao TIMESTAMP WITHOUT TIME ZONE,
+                               instante_inicio_da_execucao TIMESTAMP WITH TIME ZONE,
+                               instante_fim_da_execucao TIMESTAMP WITH TIME ZONE,
+                               instante_entrega TIMESTAMP WITH TIME ZONE,
+                               CONSTRAINT fk_os_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+);
+
+CREATE TABLE item_peca_ordem_servico (
+                                         id BIGSERIAL PRIMARY KEY,
+                                         ordem_servico_id BIGINT NOT NULL,
+                                         peca_id BIGINT NOT NULL,
+                                         quantidade INTEGER NOT NULL,
+                                         preco_unitario NUMERIC(12, 2) NOT NULL,
+                                         CONSTRAINT fk_ipos_ordem_servico FOREIGN KEY (ordem_servico_id) REFERENCES ordem_servico(id) ON DELETE CASCADE,
+                                         CONSTRAINT fk_ipos_peca FOREIGN KEY (peca_id) REFERENCES peca(id)
+);
+
+CREATE TABLE ordem_servico_servico (
+                                       ordem_servico_id BIGINT NOT NULL,
+                                       servico_id BIGINT NOT NULL,
+                                       PRIMARY KEY (ordem_servico_id, servico_id),
+                                       FOREIGN KEY (ordem_servico_id) REFERENCES ordem_servico(id) ON DELETE CASCADE,
+                                       FOREIGN KEY (servico_id) REFERENCES servico(id) ON DELETE CASCADE
+);
+
+
+
