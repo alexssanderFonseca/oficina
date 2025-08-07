@@ -1,8 +1,10 @@
 package br.com.alexsdm.postech.oficina.orcamento.controller;
 
-import br.com.alexsdm.postech.oficina.orcamento.controller.input.CriacaoOrcamentoInput;
+import br.com.alexsdm.postech.oficina.orcamento.controller.request.CriacaoOrcamentoRequest;
 import br.com.alexsdm.postech.oficina.orcamento.model.Orcamento;
-import br.com.alexsdm.postech.oficina.orcamento.service.OrcamentoService;
+import br.com.alexsdm.postech.oficina.orcamento.service.application.OrcamentoApplicationService;
+import br.com.alexsdm.postech.oficina.orcamento.service.domain.OrcamentoDomainService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,18 +12,18 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/orcamentos")
+@RequiredArgsConstructor
 public class OrcamentoController {
 
-    private final OrcamentoService orcamentoService;
+    private final OrcamentoDomainService orcamentoDomainService;
+    private final OrcamentoApplicationService orcamentoApplicationService;
 
-    public OrcamentoController(OrcamentoService orcamentoService) {
-        this.orcamentoService = orcamentoService;
-    }
 
     @PostMapping
-    public ResponseEntity<Orcamento> criarOrcamento(@RequestBody CriacaoOrcamentoInput input) {
-        Orcamento orcamento = orcamentoService.criar(
+    public ResponseEntity<Orcamento> criarOrcamento(@RequestBody CriacaoOrcamentoRequest input) {
+        Orcamento orcamento = orcamentoDomainService.criar(
                 input.cpfCnpjCliente(),
+                input.veiculoId(),
                 input.pecas(),
                 input.servicos()
         );
@@ -31,6 +33,22 @@ public class OrcamentoController {
                 .body(orcamento);
     }
 
+    @PostMapping("/{id}/aceitos")
+    public ResponseEntity<Orcamento> aceitarOrcamento(@PathVariable  Long id) {
+        orcamentoDomainService.aprovar(id);
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
+    @PostMapping("/{id}/recusados")
+    public ResponseEntity<Orcamento> recusarOrcamento(Long id) {
+        orcamentoDomainService.recusar(id);
+        return ResponseEntity.
+                noContent().
+                build();
+    }
+
 //    @GetMapping("/{id}/orcamentos")
 //    public ResponseEntity<List<Orcamento>> listarOrcamentos(@PathVariable Long id) {
 //        List<Orcamento> orcamentos = orcamentoService.listarPorOrdemServico(id);
@@ -38,11 +56,12 @@ public class OrcamentoController {
 //    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Orcamento> buscarOrcamento(@PathVariable Long id) {
-        return orcamentoService.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> buscarOrcamento(@PathVariable Long id) {
+        var orcamento = orcamentoApplicationService.buscarPorId(id);
+        return ResponseEntity.ok(orcamento);
     }
+}
+
 
 //    @PostMapping("/{id}/orcamentos/{orcamentoId}/envio")
 //    public ResponseEntity<Void> enviarOrcamento(@PathVariable Long id,
@@ -50,4 +69,4 @@ public class OrcamentoController {
 //        orcamentoService.enviar(orcamentoId);
 //        return ResponseEntity.accepted().build();
 //    }
-}
+

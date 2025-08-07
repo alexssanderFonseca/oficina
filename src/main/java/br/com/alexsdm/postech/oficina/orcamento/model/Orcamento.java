@@ -1,22 +1,25 @@
 package br.com.alexsdm.postech.oficina.orcamento.model;
 
-import br.com.alexsdm.postech.oficina.cliente.model.Cliente;
 import br.com.alexsdm.postech.oficina.servico.model.Servico;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
+@Getter
 public class Orcamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Cliente cliente;
+    private UUID clienteId;
+
+    private UUID veiculoId;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "orcamento_id")
@@ -32,23 +35,23 @@ public class Orcamento {
 
     private OrcamentoStatus status;
 
-    @Transient
     private BigDecimal valorTotal;
 
-    @Transient
+
     private BigDecimal valorTotalEmServicos;
 
-    @Transient
+
     private BigDecimal valorTotalEmPecas;
 
     public Orcamento() {
     }
 
-    public Orcamento(Cliente cliente,
+    public Orcamento(UUID clienteId,
+                     UUID veiculoId,
                      List<ItemPecaOrcamento> itensPeca,
                      List<Servico> servicos,
                      OrcamentoStatus status) {
-        this.cliente = cliente;
+        this.clienteId = clienteId;
         this.itensPeca = itensPeca;
         this.servicos = servicos;
         this.status = status;
@@ -56,6 +59,7 @@ public class Orcamento {
         this.valorTotal = calcularValorTotal();
         this.valorTotalEmServicos = calcularValorTotalServicos();
         this.valorTotalEmPecas = calcularValorTotalPecas();
+        this.veiculoId = veiculoId;
     }
 
     public BigDecimal calcularValorTotal() {
@@ -85,37 +89,8 @@ public class Orcamento {
         return OrcamentoStatus.ACEITO.equals(this.status);
     }
 
-    public Long getId() {
-        return this.id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public List<ItemPecaOrcamento> getItensPeca() {
-        return itensPeca;
-    }
-
-    public List<Servico> getServicos() {
-        return servicos;
-    }
-
-    public OrcamentoStatus getStatus() {
-        return status;
-    }
-
-
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
-
-    public BigDecimal getValorTotalEmServicos() {
-        return valorTotalEmServicos;
-    }
-
-    public BigDecimal getValorTotalEmPecas() {
-        return valorTotalEmPecas;
+    public void recusar() {
+        this.status = OrcamentoStatus.RECUSADO;
     }
 }
 

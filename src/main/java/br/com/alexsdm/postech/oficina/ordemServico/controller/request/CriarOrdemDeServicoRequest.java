@@ -1,8 +1,10 @@
 package br.com.alexsdm.postech.oficina.ordemServico.controller.request;
 
 
+import java.util.UUID;
+
 public record CriarOrdemDeServicoRequest(
     String cpfCnpj,
-    String veiculoId,
+    UUID veiculoId,
     Long orcamentoId
 ) {}

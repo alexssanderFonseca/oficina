@@ -1,12 +1,17 @@
 package br.com.alexsdm.postech.oficina.cliente.model;
 
 import br.com.alexsdm.postech.oficina.veiculo.model.VeiculoModelo;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Getter;
 
 import java.util.UUID;
 
 
 @Entity
+@Getter
 public class Veiculo {
 
     @Id
@@ -34,23 +39,4 @@ public class Veiculo {
         this.veiculoModelo = veiculoModelo;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getPlaca() {
-        return placa;
-    }
-
-    public VeiculoModelo getVeiculoModelo() {
-        return veiculoModelo;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public String getAno() {
-        return ano;
-    }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -53,6 +54,13 @@ public class Cliente {
 
     public void adicionarVeiculo(Veiculo veiculo) {
         veiculos.add(veiculo);
+    }
+
+    public Optional<Veiculo> getVeiculoPorId(UUID id) {
+        return this.veiculos.stream()
+                .filter(veiculo -> veiculo.getId().equals(id))
+                .findFirst();
+
     }
 
     public UUID getId() {
