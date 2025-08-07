@@ -98,8 +98,13 @@ CREATE TABLE peca_modelo_veiculo (
 CREATE TABLE orcamento (
                            id BIGSERIAL PRIMARY KEY,
                            cliente_id UUID NOT NULL,
+                           veiculo_id UUID NOT NULL,
                            status VARCHAR(50),
-                           CONSTRAINT fk_orcamento_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+                           valor_total NUMERIC(12, 2) NOT NULL,
+                           valor_total_em_servicos NUMERIC(12, 2) NOT NULL,
+                           valor_total_em_pecas NUMERIC(12, 2) NOT NULL,
+                           CONSTRAINT fk_orcamento_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id),
+                           CONSTRAINT fk_veiculo_id FOREIGN KEY (veiculo_id) REFERENCES veiculo(id)
 );
 
 
@@ -136,12 +141,14 @@ CREATE TABLE orcamento_servico (
 CREATE TABLE ordem_servico (
                                id BIGSERIAL PRIMARY KEY,
                                cliente_id UUID NOT NULL,
+                               veiculo_id UUID NOT NULL,
                                status VARCHAR(50),
                                data_criacao TIMESTAMP WITHOUT TIME ZONE,
-                               instante_inicio_da_execucao TIMESTAMP WITH TIME ZONE,
-                               instante_fim_da_execucao TIMESTAMP WITH TIME ZONE,
-                               instante_entrega TIMESTAMP WITH TIME ZONE,
-                               CONSTRAINT fk_os_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+                               data_inicio_da_execucao TIMESTAMP WITHOUT TIME ZONE,
+                               data_finalizacao TIMESTAMP WITHOUT TIME ZONE,
+                               data_entrega TIMESTAMP WITHOUT TIME ZONE,
+                               CONSTRAINT fk_os_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id),
+                               CONSTRAINT fk_os_veiculo FOREIGN KEY (veiculo_id) REFERENCES veiculo(id)
 );
 
 CREATE TABLE item_peca_ordem_servico (

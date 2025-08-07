@@ -1,6 +1,6 @@
 package br.com.alexsdm.postech.oficina.cliente.controller.request;
 
-public record   DadosVeiculoRequest(
+public record AdicionarDadosVeiculoRequest(
         Long veiculoModeloId,
         String placa,
         String cor,

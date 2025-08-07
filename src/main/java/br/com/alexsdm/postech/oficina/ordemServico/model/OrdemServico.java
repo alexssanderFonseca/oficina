@@ -1,22 +1,23 @@
 package br.com.alexsdm.postech.oficina.ordemServico.model;
 
-import br.com.alexsdm.postech.oficina.cliente.model.Cliente;
 import br.com.alexsdm.postech.oficina.servico.model.Servico;
 import jakarta.persistence.*;
+import lombok.Getter;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
+@Getter
 public class OrdemServico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    private Cliente cliente;
+    private UUID clienteId;
+    private UUID veiculoId;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ordem_servico_id")
     private List<ItemPecaOrdemServico> itensPecaOrdemServico;
@@ -27,16 +28,19 @@ public class OrdemServico {
     private List<Servico> servicos;
     private Status status;
     private LocalDateTime dataCriacao;
-    private Instant instanteInicioDaExecucao;
-    private Instant instanteFimDaExecucao;
-    private Instant instanteEntrega;
+    private LocalDateTime dataInicioDaExecucao;
+    private LocalDateTime dataEntrega;
+    private LocalDateTime dataFinalizacao;
+    ;
 
     public OrdemServico() {
     }
 
-    public OrdemServico(Cliente cliente,
+    public OrdemServico(UUID clienteId,
+                        UUID veiculoId,
                         Status status) {
-        this.cliente = cliente;
+        this.clienteId = clienteId;
+        this.veiculoId = veiculoId;
         this.itensPecaOrdemServico = new ArrayList<>();
         this.servicos = new ArrayList<>();
         this.status = status;
@@ -51,7 +55,7 @@ public class OrdemServico {
         this.servicos.clear();                         // Mesmo raciocínio, se quiser limpar
         this.servicos.addAll(servicos);                // Adiciona novos serviços
 
-        this.instanteInicioDaExecucao = Instant.now();
+        this.dataInicioDaExecucao = LocalDateTime.now();
     }
 
     public void diagnosticar() {
@@ -64,48 +68,12 @@ public class OrdemServico {
 
     public void finalizar() {
         this.status = Status.FINALIZADA;
-        this.instanteFimDaExecucao = Instant.now();
+        this.dataFinalizacao = LocalDateTime.now();
     }
 
     public void entregar() {
         this.status = Status.ENTREGUE;
-        this.instanteEntrega = Instant.now();
+        this.dataEntrega = LocalDateTime.now();
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public List<ItemPecaOrdemServico> getItensPecaOrdemServico() {
-        return itensPecaOrdemServico;
-    }
-
-    public List<Servico> getServicos() {
-        return servicos;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public Instant getInstanteInicioDaExecucao() {
-        return instanteInicioDaExecucao;
-    }
-
-    public Instant getInstanteFimDaExecucao() {
-        return instanteFimDaExecucao;
-    }
-
-    public Instant getInstanteEntrega() {
-        return instanteEntrega;
-    }
 }

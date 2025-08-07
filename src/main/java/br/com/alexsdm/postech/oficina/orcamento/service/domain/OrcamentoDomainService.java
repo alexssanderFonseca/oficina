@@ -1,7 +1,7 @@
-package br.com.alexsdm.postech.oficina.orcamento.service;
+package br.com.alexsdm.postech.oficina.orcamento.service.domain;
 
 
-import br.com.alexsdm.postech.oficina.cliente.service.ClienteService;
+import br.com.alexsdm.postech.oficina.cliente.service.domain.ClienteDomainService;
 import br.com.alexsdm.postech.oficina.orcamento.model.ItemPecaOrcamento;
 import br.com.alexsdm.postech.oficina.orcamento.model.Orcamento;
 import br.com.alexsdm.postech.oficina.orcamento.model.OrcamentoStatus;
@@ -13,18 +13,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
-public class OrcamentoService {
+public class OrcamentoDomainService {
 
     private final PecaService pecaService;
     private final ServicoService servicoService;
-    private final ClienteService clienteService;
+    private final ClienteDomainService clienteService;
     private final OrcamentoRepository orcamentoRepository;
 
-    public OrcamentoService(PecaService pecaService,
-                            ServicoService servicoService,
-                            ClienteService clienteService, OrcamentoRepository orcamentoRepository) {
+    public OrcamentoDomainService(PecaService pecaService,
+                                  ServicoService servicoService,
+                                  ClienteDomainService clienteService, OrcamentoRepository orcamentoRepository) {
         this.pecaService = pecaService;
         this.servicoService = servicoService;
         this.clienteService = clienteService;
@@ -32,6 +33,7 @@ public class OrcamentoService {
     }
 
     public Orcamento criar(String cpfCnpjCliente,
+                           UUID veiculoId,
                            List<PecaOrcamentoInput> pecasOrcamentoInput,
                            List<Long> servicosId) {
 
@@ -48,7 +50,7 @@ public class OrcamentoService {
                 .map(servicoService::buscar)
                 .toList();
 
-        var orcamento = new Orcamento(cliente, itens, servicos, OrcamentoStatus.CRIADO);
+        var orcamento = new Orcamento(cliente.getId(), veiculoId, itens, servicos, OrcamentoStatus.CRIADO);
 
         return orcamentoRepository.save(orcamento);
     }
@@ -63,7 +65,15 @@ public class OrcamentoService {
         orcamentoRepository.save(orcamento);
     }
 
+    public void recusar(Long orcamentoId) {
+        var orcamento = buscarPorId(orcamentoId).orElseThrow(RuntimeException::new);
+        orcamento.recusar();
+        orcamentoRepository.save(orcamento);
+    }
+
     public Optional<Orcamento> buscarPorId(Long id) {
         return orcamentoRepository.findById(id);
     }
+
+
 }

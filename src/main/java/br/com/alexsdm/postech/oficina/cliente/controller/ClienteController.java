@@ -1,43 +1,44 @@
 package br.com.alexsdm.postech.oficina.cliente.controller;
 
 
+import br.com.alexsdm.postech.oficina.cliente.controller.request.AdicionarDadosVeiculoRequest;
 import br.com.alexsdm.postech.oficina.cliente.controller.request.AtualizarClienteRequest;
 import br.com.alexsdm.postech.oficina.cliente.controller.request.CadastrarClienteRequest;
-import br.com.alexsdm.postech.oficina.cliente.controller.request.DadosVeiculoRequest;
-import br.com.alexsdm.postech.oficina.cliente.service.ClienteService;
+import br.com.alexsdm.postech.oficina.cliente.controller.response.AdicionarVeiculoResponse;
+import br.com.alexsdm.postech.oficina.cliente.service.application.ClienteApplicationService;
+import br.com.alexsdm.postech.oficina.cliente.service.mapper.ClienteServiceMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/clientes")
+@RequiredArgsConstructor
 public class ClienteController {
 
-    private final ClienteService clienteService;
+    private final ClienteApplicationService clienteApplicationService;
 
-
-    public ClienteController(ClienteService clienteService) {
-        this.clienteService = clienteService;
-    }
+    private final ClienteServiceMapper clienteServiceMapper;
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody CadastrarClienteRequest request) {
-        var cliente = clienteService.cadastrar(request);
-        return ResponseEntity.ok()
-                .body(cliente);
+        var cadastrarClienteInput = clienteServiceMapper.toCadastrarClienteInput(request);
+        var clienteId = clienteApplicationService.cadastrar(cadastrarClienteInput);
+        return ResponseEntity.created(URI.create("/clientes/" + clienteId)).build();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscar(@PathVariable UUID id) {
-        var cliente = clienteService.buscar(id);
-        return ResponseEntity.ok()
-                .body(cliente);
+        var output = clienteApplicationService.buscar(id);
+        return ResponseEntity.ok(output);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable UUID id) {
-        clienteService.deletar(id);
+        clienteApplicationService.deletar(id);
         return ResponseEntity
                 .noContent()
                 .build();
@@ -46,15 +47,16 @@ public class ClienteController {
     @PatchMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable UUID id,
                                        @RequestBody AtualizarClienteRequest request) {
-        var cliente = clienteService.atualizar(id, request);
+        var cliente = clienteApplicationService.atualizar(id, request);
         return ResponseEntity.ok(cliente);
     }
 
 
     @PostMapping("/{id}/veiculos")
     public ResponseEntity<?> adicionarVeiculo(@PathVariable UUID id,
-                                              @RequestBody DadosVeiculoRequest request) {
-        this.clienteService.adicionarVeiculo(id, request);
-        return ResponseEntity.ok().build();
+                                              @RequestBody AdicionarDadosVeiculoRequest request) {
+        var adicionarVeiculoInput = clienteServiceMapper.toAdicionarVeiculoClientInput(request);
+        var veiculoId = clienteApplicationService.adicionarVeiculo(id, adicionarVeiculoInput);
+        return ResponseEntity.ok(new AdicionarVeiculoResponse(veiculoId));
     }
 }
