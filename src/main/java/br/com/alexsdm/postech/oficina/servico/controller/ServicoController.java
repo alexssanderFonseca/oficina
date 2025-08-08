@@ -1,44 +1,40 @@
 package br.com.alexsdm.postech.oficina.servico.controller;
 
 import br.com.alexsdm.postech.oficina.servico.controller.request.CadastrarServicoRequest;
-import br.com.alexsdm.postech.oficina.servico.service.ServicoService;
+import br.com.alexsdm.postech.oficina.servico.service.application.ServicoApplicationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/servicos")
+@RequiredArgsConstructor
 public class ServicoController {
 
-    private final ServicoService servicoService;
-
-    public ServicoController(ServicoService servicoService) {
-        this.servicoService = servicoService;
-    }
+    private final ServicoApplicationService servicoApplicationService;
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody CadastrarServicoRequest request) {
-        var servico = servicoService.cadastrar(request);
+        var servico = servicoApplicationService.cadastrar(request);
         return ResponseEntity.ok(servico);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscar(@PathVariable Long id) {
-        var servico = servicoService.buscar(id);
+        var servico = servicoApplicationService.buscar(id);
         return ResponseEntity.ok(servico);
     }
 
     @GetMapping
     public ResponseEntity<?> listar() {
-        var servicos = servicoService.listar();
+        var servicos = servicoApplicationService.listar();
         return ResponseEntity.ok(servicos);
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable Long id) {
-        servicoService.deletar(id);
+        servicoApplicationService.deletar(id);
         return ResponseEntity.noContent().build();
     }
 

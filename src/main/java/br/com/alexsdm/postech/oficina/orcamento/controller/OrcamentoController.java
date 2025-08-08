@@ -15,13 +15,12 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class OrcamentoController {
 
-    private final OrcamentoDomainService orcamentoDomainService;
     private final OrcamentoApplicationService orcamentoApplicationService;
 
 
     @PostMapping
     public ResponseEntity<Orcamento> criarOrcamento(@RequestBody CriacaoOrcamentoRequest input) {
-        Orcamento orcamento = orcamentoDomainService.criar(
+        Orcamento orcamento = orcamentoApplicationService.criar(
                 input.cpfCnpjCliente(),
                 input.veiculoId(),
                 input.pecas(),
@@ -35,7 +34,7 @@ public class OrcamentoController {
 
     @PostMapping("/{id}/aceitos")
     public ResponseEntity<Orcamento> aceitarOrcamento(@PathVariable  Long id) {
-        orcamentoDomainService.aprovar(id);
+        orcamentoApplicationService.aprovar(id);
         return ResponseEntity
                 .noContent()
                 .build();
@@ -43,7 +42,7 @@ public class OrcamentoController {
 
     @PostMapping("/{id}/recusados")
     public ResponseEntity<Orcamento> recusarOrcamento(Long id) {
-        orcamentoDomainService.recusar(id);
+        orcamentoApplicationService.recusar(id);
         return ResponseEntity.
                 noContent().
                 build();

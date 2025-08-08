@@ -1,4 +1,4 @@
-package br.com.alexsdm.postech.oficina.cliente.model;
+package br.com.alexsdm.postech.oficina.cliente.entity;
 
 import br.com.alexsdm.postech.oficina.veiculo.model.VeiculoModelo;
 import jakarta.persistence.Entity;

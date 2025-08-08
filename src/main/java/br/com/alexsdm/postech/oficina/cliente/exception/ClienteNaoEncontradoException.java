@@ -1,5 +1,4 @@
 package br.com.alexsdm.postech.oficina.cliente.exception;
 
-public class ClienteNaoEncontradoException extends RuntimeException {
-
+public class ClienteNaoEncontradoException extends ClienteException {
 }

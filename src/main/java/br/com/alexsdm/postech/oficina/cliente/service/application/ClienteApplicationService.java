@@ -2,10 +2,10 @@ package br.com.alexsdm.postech.oficina.cliente.service.application;
 
 
 import br.com.alexsdm.postech.oficina.cliente.controller.request.AtualizarClienteRequest;
+import br.com.alexsdm.postech.oficina.cliente.entity.Cliente;
+import br.com.alexsdm.postech.oficina.cliente.entity.Endereco;
+import br.com.alexsdm.postech.oficina.cliente.entity.Veiculo;
 import br.com.alexsdm.postech.oficina.cliente.exception.ClienteNaoEncontradoException;
-import br.com.alexsdm.postech.oficina.cliente.model.Cliente;
-import br.com.alexsdm.postech.oficina.cliente.model.Endereco;
-import br.com.alexsdm.postech.oficina.cliente.model.Veiculo;
 import br.com.alexsdm.postech.oficina.cliente.repository.ClienteRepository;
 import br.com.alexsdm.postech.oficina.cliente.service.application.output.BuscarClienteEnderecoOutput;
 import br.com.alexsdm.postech.oficina.cliente.service.application.output.BuscarClienteOuput;
@@ -13,7 +13,7 @@ import br.com.alexsdm.postech.oficina.cliente.service.application.output.BuscarC
 import br.com.alexsdm.postech.oficina.cliente.service.domain.ClienteDomainService;
 import br.com.alexsdm.postech.oficina.cliente.service.input.AdicionarVeiculoClientInput;
 import br.com.alexsdm.postech.oficina.cliente.service.input.CadastrarClienteInput;
-import br.com.alexsdm.postech.oficina.veiculo.repository.VeiculoModeloRepository;
+import br.com.alexsdm.postech.oficina.veiculo.service.application.VeiculoModeloApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class ClienteApplicationService {
 
     private final ClienteDomainService clienteDomainService;
     private final ClienteRepository clienteRepository;
-    private final VeiculoModeloRepository veiculoModeloRepository;
+    private final VeiculoModeloApplicationService veiculoModeloApplicationService;
 
     public String cadastrar(CadastrarClienteInput cadastrarClienteInput) {
         var endereco = new Endereco(
@@ -61,12 +61,17 @@ public class ClienteApplicationService {
         return buildBuscaClienteOuput(cliente);
     }
 
+
+    public Optional<Cliente> buscarEntidade(UUID id) {
+        return clienteRepository.findById(id);
+
+    }
+
     public UUID adicionarVeiculo(UUID idCliente, AdicionarVeiculoClientInput input) {
         var cliente = clienteRepository.findById(idCliente)
                 .orElseThrow(ClienteNaoEncontradoException::new);
 
-        var veiculoModelo = veiculoModeloRepository.findById(input.veiculoModeloId())
-                .orElseThrow(RuntimeException::new);
+        var veiculoModelo = veiculoModeloApplicationService.buscarEntidade(input.veiculoModeloId());
 
         var veiculo = new Veiculo(
                 UUID.randomUUID(),
