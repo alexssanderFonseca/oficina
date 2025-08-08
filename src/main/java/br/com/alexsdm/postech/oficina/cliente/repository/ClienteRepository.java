@@ -1,6 +1,6 @@
 package br.com.alexsdm.postech.oficina.cliente.repository;
 
-import br.com.alexsdm.postech.oficina.cliente.model.Cliente;
+import br.com.alexsdm.postech.oficina.cliente.entity.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

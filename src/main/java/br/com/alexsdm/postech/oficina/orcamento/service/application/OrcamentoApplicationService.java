@@ -1,26 +1,81 @@
 package br.com.alexsdm.postech.oficina.orcamento.service.application;
 
 
-import br.com.alexsdm.postech.oficina.cliente.service.domain.ClienteDomainService;
+import br.com.alexsdm.postech.oficina.cliente.service.application.ClienteApplicationService;
+import br.com.alexsdm.postech.oficina.orcamento.model.ItemPecaOrcamento;
+import br.com.alexsdm.postech.oficina.orcamento.model.Orcamento;
+import br.com.alexsdm.postech.oficina.orcamento.model.OrcamentoStatus;
+import br.com.alexsdm.postech.oficina.orcamento.repository.OrcamentoRepository;
 import br.com.alexsdm.postech.oficina.orcamento.service.domain.OrcamentoDomainService;
+import br.com.alexsdm.postech.oficina.orcamento.service.input.PecaOrcamentoInput;
 import br.com.alexsdm.postech.oficina.orcamento.service.output.*;
+import br.com.alexsdm.postech.oficina.peca.service.application.PecaApplicationService;
+import br.com.alexsdm.postech.oficina.servico.service.application.ServicoApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class OrcamentoApplicationService {
 
     private final OrcamentoDomainService orcamentoDomainService;
-    private final ClienteDomainService clienteService;
+    private final OrcamentoRepository orcamentoRepository;
+    private final ClienteApplicationService clienteApplicationService;
+    private final PecaApplicationService pecaApplicationService;
+    private final ServicoApplicationService servicoApplicationService;
 
+    public Orcamento criar(String cpfCnpjCliente,
+                           UUID veiculoId,
+                           List<PecaOrcamentoInput> pecasOrcamentoInput,
+                           List<Long> servicosId) {
+
+        var cliente = clienteApplicationService.buscarPorCpfCnpj(cpfCnpjCliente)
+                .orElseThrow(RuntimeException::new);
+
+        var itens = pecasOrcamentoInput.stream()
+                .map(input -> new ItemPecaOrcamento(
+                        pecaApplicationService.buscarPorId(input.pecaId()),
+                        input.qtd()))
+                .toList();
+
+        var servicos = servicosId.stream()
+                .map(servicoApplicationService::buscar)
+                .toList();
+
+        var orcamento = new Orcamento(cliente.getId(), veiculoId, itens, servicos, OrcamentoStatus.CRIADO);
+
+        return orcamentoRepository.save(orcamento);
+    }
+
+    //TODO gerar pdf
+    public void enviar() {
+    }
+
+    public void aprovar(Long orcamentoId) {
+        var orcamento = buscarEntidade(orcamentoId).orElseThrow(RuntimeException::new);
+        orcamentoDomainService.aprovar(orcamento);
+        orcamentoRepository.save(orcamento);
+    }
+
+    public void recusar(Long orcamentoId) {
+        var orcamento = buscarEntidade(orcamentoId).orElseThrow(RuntimeException::new);
+        orcamentoDomainService.recusar(orcamento);
+        orcamentoRepository.save(orcamento);
+    }
+
+    public Optional<Orcamento> buscarEntidade(Long id) {
+        return orcamentoRepository.findById(id);
+    }
 
     public OrcamentoOutput buscarPorId(Long id) {
 
-        var orcamento = orcamentoDomainService.buscarPorId(id)
-                .orElseThrow(RuntimeException::new);
+        var orcamento = orcamentoRepository.findById(id).get();
 
-        var cliente = clienteService.buscar(orcamento.getClienteId());
+        var cliente = clienteApplicationService.buscarEntidade(orcamento.getClienteId()).get();
         var veiculo = cliente.getVeiculoPorId(orcamento.getVeiculoId()).get();
         var orcamentoVeiculoResponse = new OrcamentoVeiculoResponse(
                 veiculo.getPlaca(),
@@ -64,3 +119,5 @@ public class OrcamentoApplicationService {
         );
     }
 }
+
+

@@ -1,4 +1,4 @@
-package br.com.alexsdm.postech.oficina.ordemServico.service.output;
+package br.com.alexsdm.postech.oficina.ordemServico.service.application.output;
 
 import java.time.LocalDateTime;
 import java.util.List;

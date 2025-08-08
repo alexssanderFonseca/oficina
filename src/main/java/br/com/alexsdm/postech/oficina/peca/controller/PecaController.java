@@ -3,37 +3,35 @@ package br.com.alexsdm.postech.oficina.peca.controller;
 
 import br.com.alexsdm.postech.oficina.peca.controller.input.CadastrarPecaRequest;
 import br.com.alexsdm.postech.oficina.peca.model.Peca;
-import br.com.alexsdm.postech.oficina.peca.service.PecaService;
+import br.com.alexsdm.postech.oficina.peca.service.application.PecaApplicationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/pecas")
+@RequiredArgsConstructor
 public class PecaController {
 
-    private final PecaService pecaService;
+    private final PecaApplicationService pecaApplicationService;
 
-    public PecaController(PecaService pecaService) {
-        this.pecaService = pecaService;
-    }
 
     @GetMapping
     public List<Peca> listarTodas() {
-        return pecaService.listarTodas();
+        return pecaApplicationService.listarTodas();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Peca> buscarPorId(@PathVariable Long id) {
-        var peca = pecaService.buscarPorId(id);
+        var peca = pecaApplicationService.buscarPorId(id);
         return ResponseEntity.ok(peca);
     }
 
     @PostMapping
     public ResponseEntity<Peca> criar(@RequestBody CadastrarPecaRequest request) {
-        Peca salva = pecaService.salvar(request);
+        Peca salva = pecaApplicationService.salvar(request);
         return ResponseEntity.ok(salva);
     }
 
@@ -49,7 +47,7 @@ public class PecaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        pecaService.deletar(id);
+        pecaApplicationService.deletar(id);
         return ResponseEntity.noContent().build();
 
     }

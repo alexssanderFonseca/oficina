@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.cliente.service.domain;
 
-import br.com.alexsdm.postech.oficina.cliente.model.Cliente;
-import br.com.alexsdm.postech.oficina.cliente.model.Veiculo;
+import br.com.alexsdm.postech.oficina.cliente.entity.Cliente;
+import br.com.alexsdm.postech.oficina.cliente.entity.Veiculo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +11,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClienteDomainService {
 
-
     public UUID adicionarVeiculo(Cliente cliente, Veiculo veiculo) {
         cliente.adicionarVeiculo(veiculo);
         return veiculo.getId();
     }
-
 
 
 }
