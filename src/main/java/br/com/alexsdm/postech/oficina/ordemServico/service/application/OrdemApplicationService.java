@@ -4,6 +4,7 @@ import br.com.alexsdm.postech.oficina.cliente.service.application.ClienteApplica
 import br.com.alexsdm.postech.oficina.orcamento.service.application.OrcamentoApplicationService;
 import br.com.alexsdm.postech.oficina.orcamento.service.input.PecaOrcamentoInput;
 import br.com.alexsdm.postech.oficina.ordemServico.controller.request.CriarOrdemDeServicoRequest;
+import br.com.alexsdm.postech.oficina.ordemServico.exception.*;
 import br.com.alexsdm.postech.oficina.ordemServico.model.ItemPecaOrdemServico;
 import br.com.alexsdm.postech.oficina.ordemServico.model.OrdemServico;
 import br.com.alexsdm.postech.oficina.ordemServico.model.Status;
@@ -30,7 +31,7 @@ public class OrdemApplicationService {
 
     public Long criar(CriarOrdemDeServicoRequest criarOrdemDeServicoRequest) {
         var cliente = clienteApplicationService.buscarPorCpfCnpj(criarOrdemDeServicoRequest.cpfCnpj())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(OrdemServicoClienteNaoEncontradoException::new);
 
         var veiculoId = criarOrdemDeServicoRequest.veiculoId();
 
@@ -40,9 +41,9 @@ public class OrdemApplicationService {
 
         if (orcamentoId != null) {
             var orcamento = orcamentoApplicationService.buscarEntidade(orcamentoId)
-                    .orElseThrow(RuntimeException::new);
+                    .orElseThrow(OrdemServicoOrcamentoNaoEncontradoException::new);
             if (!orcamento.isAceito()) {
-                throw new RuntimeException("dsaodsaj");
+                throw new OrdemServicoException("Ordem de serviço não pode ser executada, sem o aceite do orçamento");
             }
 
 
@@ -136,19 +137,21 @@ public class OrdemApplicationService {
     private OrdemServico buscarOrdemServico(Long idOrdemServico) {
         return this.ordemServicoRepository
                 .findById(idOrdemServico)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(OrdemServicoNaoEncontradaException::new);
     }
 
     public VisualizarOrdemServiceOutput visualizarOrdemServico(Long ordemServicoId) {
         var ordemServico = buscarOrdemServico(ordemServicoId);
-        var cliente = clienteApplicationService.buscarEntidade(ordemServico.getClienteId()).get();
+        var cliente = clienteApplicationService.buscarEntidade(ordemServico.getClienteId()).
+                orElseThrow(OrdemServicoClienteNaoEncontradoException::new);
 
         var dadosCliente = new VisualizarOrdemServiceDadosClientOutput(cliente.getNome(), cliente.getCpfCnpj());
+
         var veiculoOs = cliente.getVeiculos()
                 .stream()
                 .filter(veiculo -> ordemServico.getVeiculoId().equals(veiculo.getId()))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(OrdemServicoVeiculoNaoEncontradoException::new);
 
         var dadosVeiculo = new VisualizarOrdemServiceDadosVeiculoOutput(veiculoOs.getPlaca(),
                 veiculoOs.getVeiculoModelo().getMarca(),

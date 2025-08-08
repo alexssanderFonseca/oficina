@@ -8,11 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OrcamentoDomainService {
-
-    //TODO gerar pdf
-    public void enviar() {
-    }
-
+    
     public void aprovar(Orcamento orcamento) {
         orcamento.aceitar();
 

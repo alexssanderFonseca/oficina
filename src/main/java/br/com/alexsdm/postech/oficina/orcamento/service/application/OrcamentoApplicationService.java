@@ -2,6 +2,8 @@ package br.com.alexsdm.postech.oficina.orcamento.service.application;
 
 
 import br.com.alexsdm.postech.oficina.cliente.service.application.ClienteApplicationService;
+import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoException;
+import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoNaoEncontradaException;
 import br.com.alexsdm.postech.oficina.orcamento.model.ItemPecaOrcamento;
 import br.com.alexsdm.postech.oficina.orcamento.model.Orcamento;
 import br.com.alexsdm.postech.oficina.orcamento.model.OrcamentoStatus;
@@ -34,7 +36,7 @@ public class OrcamentoApplicationService {
                            List<Long> servicosId) {
 
         var cliente = clienteApplicationService.buscarPorCpfCnpj(cpfCnpjCliente)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new OrcamentoException("Não foi encontrado o cliente vinculado ao orçamento informado"));
 
         var itens = pecasOrcamentoInput.stream()
                 .map(input -> new ItemPecaOrcamento(
@@ -56,13 +58,13 @@ public class OrcamentoApplicationService {
     }
 
     public void aprovar(Long orcamentoId) {
-        var orcamento = buscarEntidade(orcamentoId).orElseThrow(RuntimeException::new);
+        var orcamento = buscarEntidade(orcamentoId).orElseThrow(OrcamentoNaoEncontradaException::new);
         orcamentoDomainService.aprovar(orcamento);
         orcamentoRepository.save(orcamento);
     }
 
     public void recusar(Long orcamentoId) {
-        var orcamento = buscarEntidade(orcamentoId).orElseThrow(RuntimeException::new);
+        var orcamento = buscarEntidade(orcamentoId).orElseThrow(OrcamentoNaoEncontradaException::new);
         orcamentoDomainService.recusar(orcamento);
         orcamentoRepository.save(orcamento);
     }
@@ -73,10 +75,14 @@ public class OrcamentoApplicationService {
 
     public OrcamentoOutput buscarPorId(Long id) {
 
-        var orcamento = orcamentoRepository.findById(id).get();
+        var orcamento = orcamentoRepository.findById(id)
+                .orElseThrow(OrcamentoNaoEncontradaException::new);
 
-        var cliente = clienteApplicationService.buscarEntidade(orcamento.getClienteId()).get();
-        var veiculo = cliente.getVeiculoPorId(orcamento.getVeiculoId()).get();
+        var cliente = clienteApplicationService.buscarEntidade(orcamento.getClienteId())
+                .orElseThrow(RuntimeException::new);
+        var veiculo = cliente.getVeiculoPorId(orcamento.getVeiculoId())
+                .orElseThrow(() -> new OrcamentoException("Não foi encontrado o veiculo vinculado ao orçamento informado"));
+
         var orcamentoVeiculoResponse = new OrcamentoVeiculoResponse(
                 veiculo.getPlaca(),
                 veiculo.getVeiculoModelo().getMarca(),

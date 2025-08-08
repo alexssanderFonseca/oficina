@@ -5,7 +5,6 @@ import br.com.alexsdm.postech.oficina.peca.exception.PecaNaoEncontradaException;
 import br.com.alexsdm.postech.oficina.peca.model.Peca;
 import br.com.alexsdm.postech.oficina.peca.repository.PecaRepository;
 import br.com.alexsdm.postech.oficina.peca.service.domain.PecaDomainService;
-import br.com.alexsdm.postech.oficina.veiculo.repository.VeiculoModeloRepository;
 import br.com.alexsdm.postech.oficina.veiculo.service.application.VeiculoModeloApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -63,7 +62,7 @@ public class PecaApplicationService {
     }
 
     public void retirarItemEstoque(Long pecaId, Integer quantidade) {
-        var peca = pecaRepository.findById(pecaId).orElseThrow(RuntimeException::new);
+        var peca = pecaRepository.findById(pecaId).orElseThrow(PecaNaoEncontradaException::new);
         pecaDomainService.retirarItemEstoque(peca, quantidade);
         pecaRepository.save(peca);
     }
