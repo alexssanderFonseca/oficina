@@ -4,7 +4,7 @@ import br.com.alexsdm.postech.oficina.ordemServico.controller.request.CriarOrdem
 import br.com.alexsdm.postech.oficina.ordemServico.controller.request.ExecutarOrdemServicoRequest;
 import br.com.alexsdm.postech.oficina.ordemServico.controller.request.FinalizarDiagnosticoRequest;
 import br.com.alexsdm.postech.oficina.ordemServico.model.OrdemServico;
-import br.com.alexsdm.postech.oficina.ordemServico.service.application.OrdemApplicationService;
+import br.com.alexsdm.postech.oficina.ordemServico.service.application.OrdemServicoApplicationService;
 import br.com.alexsdm.postech.oficina.ordemServico.service.application.input.OsPecaNecessariasInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class OrdemServicoController {
 
-    private final OrdemApplicationService ordemApplicationService;
+    private final OrdemServicoApplicationService ordemApplicationService;
 
 
     @PostMapping

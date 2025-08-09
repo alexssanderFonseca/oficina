@@ -54,7 +54,7 @@ CREATE TABLE veiculo
 
 
 
-CREATE TABLE peca (
+CREATE TABLE peca_insumo (
                       id BIGSERIAL PRIMARY KEY,
                       nome VARCHAR(100) NOT NULL,
                       descricao TEXT,
@@ -90,7 +90,7 @@ CREATE TABLE peca_modelo_veiculo (
                                      peca_id BIGINT NOT NULL,
                                      modelo_id BIGINT NOT NULL,
                                      PRIMARY KEY (peca_id, modelo_id),
-                                     CONSTRAINT fk_peca FOREIGN KEY (peca_id) REFERENCES peca(id),
+                                     CONSTRAINT fk_peca FOREIGN KEY (peca_id) REFERENCES peca_insumo(id),
                                      CONSTRAINT fk_modelo FOREIGN KEY (modelo_id) REFERENCES veiculo_modelo(id)
 );
 
@@ -121,7 +121,7 @@ CREATE TABLE item_peca_orcamento (
 
                                      CONSTRAINT fk_item_peca
                                          FOREIGN KEY (peca_id)
-                                             REFERENCES peca (id)
+                                             REFERENCES peca_insumo (id)
                                              ON DELETE CASCADE,
 
                                      CONSTRAINT uk_orcamento_peca UNIQUE (orcamento_id, peca_id)
@@ -158,7 +158,7 @@ CREATE TABLE item_peca_ordem_servico (
                                          quantidade INTEGER NOT NULL,
                                          preco_unitario NUMERIC(12, 2) NOT NULL,
                                          CONSTRAINT fk_ipos_ordem_servico FOREIGN KEY (ordem_servico_id) REFERENCES ordem_servico(id) ON DELETE CASCADE,
-                                         CONSTRAINT fk_ipos_peca FOREIGN KEY (peca_id) REFERENCES peca(id)
+                                         CONSTRAINT fk_ipos_peca FOREIGN KEY (peca_id) REFERENCES peca_insumo(id)
 );
 
 CREATE TABLE ordem_servico_servico (
@@ -171,3 +171,8 @@ CREATE TABLE ordem_servico_servico (
 
 
 
+CREATE TABLE usuarios (
+                          id UUID PRIMARY KEY,
+                          username VARCHAR(255) UNIQUE NOT NULL,
+                          password VARCHAR(255) NOT NULL
+);

@@ -1,6 +1,6 @@
 package br.com.alexsdm.postech.oficina.orcamento.model;
 
-import br.com.alexsdm.postech.oficina.peca.model.Peca;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -18,14 +18,14 @@ public class ItemPecaOrcamento {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "peca_id")
-    private Peca peca;
+    private PecaInsumo peca;
 
     private Integer quantidade;
 
     public ItemPecaOrcamento() {
     }
 
-    public ItemPecaOrcamento(Peca peca, Integer quantidade) {
+    public ItemPecaOrcamento(PecaInsumo peca, Integer quantidade) {
         this.peca = peca;
         this.quantidade = quantidade;
     }
@@ -38,7 +38,7 @@ public class ItemPecaOrcamento {
         return quantidade;
     }
 
-    public Peca getPeca() {
+    public PecaInsumo getPeca() {
         return peca;
     }
 
