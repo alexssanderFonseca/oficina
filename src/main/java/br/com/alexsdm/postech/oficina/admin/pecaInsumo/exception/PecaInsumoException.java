@@ -1,4 +1,5 @@
 package br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception;
 
-public class PecaNaoEncontradaException extends PecaException {
+public class PecaInsumoException extends RuntimeException {
+
 }

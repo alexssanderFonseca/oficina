@@ -13,6 +13,8 @@ public class Endereco {
 
     private String rua;
 
+    private String numero;
+
     private String bairro;
 
     private String cep;
@@ -21,15 +23,18 @@ public class Endereco {
 
     private String uf;
 
-    public Endereco() {}
+    public Endereco() {
+    }
 
     public Endereco(UUID id,
                     String rua,
+                    String numero,
                     String bairro,
                     String cep,
                     String cidade,
                     String uf) {
         this.id = id;
+        this.numero = numero;
         this.rua = rua;
         this.bairro = bairro;
         this.cep = cep;

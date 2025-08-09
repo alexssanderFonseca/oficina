@@ -35,6 +35,7 @@ public class ClienteApplicationService {
         var endereco = new Endereco(
                 UUID.randomUUID(),
                 cadastrarClienteInput.endereco().rua(),
+                cadastrarClienteInput.endereco().numero(),
                 cadastrarClienteInput.endereco().bairro(),
                 cadastrarClienteInput.endereco().cep(),
                 cadastrarClienteInput.endereco().cidade(),

@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.domain;
 
 
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception.QuantidadeIndisponivelException;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception.PecaInsumoIndisponivelException;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class PecaInsumoDomainService {
 
     public void retirarItemEstoque(PecaInsumo peca, Integer quantidade) {
         if (quantidade > peca.getQuantidadeEstoque()) {
-            throw new QuantidadeIndisponivelException();
+            throw new PecaInsumoIndisponivelException();
         }
         peca.retirar(quantidade);
     }
