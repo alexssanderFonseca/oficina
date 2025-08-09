@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application;
 
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.CadastrarPecaRequest;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception.PecaNaoEncontradaException;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception.PecaInsumoNaoEncontradaException;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.repository.PecaRepository;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.domain.PecaInsumoDomainService;
@@ -27,7 +27,7 @@ public class PecaInsumoApplicationService {
 
     public PecaInsumo buscarPorId(Long id) {
         return pecaRepository.findById(id)
-                .orElseThrow(PecaNaoEncontradaException::new);
+                .orElseThrow(PecaInsumoNaoEncontradaException::new);
 
     }
 
@@ -57,12 +57,12 @@ public class PecaInsumoApplicationService {
 
     public void deletar(Long id) {
         pecaRepository.findById(id)
-                .orElseThrow(PecaNaoEncontradaException::new);
+                .orElseThrow(PecaInsumoNaoEncontradaException::new);
         pecaRepository.deleteById(id);
     }
 
     public void retirarItemEstoque(Long pecaId, Integer quantidade) {
-        var peca = pecaRepository.findById(pecaId).orElseThrow(PecaNaoEncontradaException::new);
+        var peca = pecaRepository.findById(pecaId).orElseThrow(PecaInsumoNaoEncontradaException::new);
         pecaDomainService.retirarItemEstoque(peca, quantidade);
         pecaRepository.save(peca);
     }

@@ -25,7 +25,6 @@ public class VeiculoModelo {
     public VeiculoModelo() {}
 
     public VeiculoModelo( String marca, String modelo, Integer anoInicio, Integer anoFim, String tipo) {
-
         this.marca = marca;
         this.modelo = modelo;
         this.anoInicio = anoInicio;

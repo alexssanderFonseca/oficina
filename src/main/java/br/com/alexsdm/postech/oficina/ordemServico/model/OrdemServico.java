@@ -47,6 +47,7 @@ public class OrdemServico {
         this.dataCriacao = LocalDateTime.now();
     }
 
+
     public void executar(List<ItemPecaOrdemServico> itens, List<Servico> servicos) {
         this.status = Status.EM_EXECUCAO;
         this.itensPecaOrdemServico.clear();            // Remove os antigos (serão deletados pelo orphanRemoval)
