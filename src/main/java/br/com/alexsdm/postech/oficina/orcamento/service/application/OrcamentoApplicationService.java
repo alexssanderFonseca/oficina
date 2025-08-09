@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.orcamento.service.application;
 
 
-import br.com.alexsdm.postech.oficina.cliente.service.application.ClienteApplicationService;
+import br.com.alexsdm.postech.oficina.admin.cliente.service.application.ClienteApplicationService;
 import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoException;
 import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoNaoEncontradaException;
 import br.com.alexsdm.postech.oficina.orcamento.model.ItemPecaOrcamento;
@@ -11,8 +11,8 @@ import br.com.alexsdm.postech.oficina.orcamento.repository.OrcamentoRepository;
 import br.com.alexsdm.postech.oficina.orcamento.service.domain.OrcamentoDomainService;
 import br.com.alexsdm.postech.oficina.orcamento.service.input.PecaOrcamentoInput;
 import br.com.alexsdm.postech.oficina.orcamento.service.output.*;
-import br.com.alexsdm.postech.oficina.peca.service.application.PecaApplicationService;
-import br.com.alexsdm.postech.oficina.servico.service.application.ServicoApplicationService;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application.PecaInsumoApplicationService;
+import br.com.alexsdm.postech.oficina.admin.servico.service.application.ServicoApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class OrcamentoApplicationService {
     private final OrcamentoDomainService orcamentoDomainService;
     private final OrcamentoRepository orcamentoRepository;
     private final ClienteApplicationService clienteApplicationService;
-    private final PecaApplicationService pecaApplicationService;
+    private final PecaInsumoApplicationService pecaApplicationService;
     private final ServicoApplicationService servicoApplicationService;
 
     public Orcamento criar(String cpfCnpjCliente,
@@ -79,8 +79,10 @@ public class OrcamentoApplicationService {
                 .orElseThrow(OrcamentoNaoEncontradaException::new);
 
         var cliente = clienteApplicationService.buscarEntidade(orcamento.getClienteId())
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() ->
+                        new OrcamentoException("Não foi encontrado o cliente vinculado ao orçamento informado"));
         var veiculo = cliente.getVeiculoPorId(orcamento.getVeiculoId())
+
                 .orElseThrow(() -> new OrcamentoException("Não foi encontrado o veiculo vinculado ao orçamento informado"));
 
         var orcamentoVeiculoResponse = new OrcamentoVeiculoResponse(

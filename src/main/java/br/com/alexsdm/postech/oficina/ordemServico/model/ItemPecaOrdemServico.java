@@ -1,6 +1,6 @@
 package br.com.alexsdm.postech.oficina.ordemServico.model;
 
-import br.com.alexsdm.postech.oficina.peca.model.Peca;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ public class ItemPecaOrdemServico {
     private Long id;
 
     @ManyToOne
-    private Peca peca;
+    private PecaInsumo peca;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "ordem_servico_id", nullable = false)
@@ -27,7 +27,7 @@ public class ItemPecaOrdemServico {
     public ItemPecaOrdemServico() {
     }
 
-    public ItemPecaOrdemServico(Peca peca,
+    public ItemPecaOrdemServico(PecaInsumo peca,
                                 BigDecimal precoUnitario,
                                 Integer quantidade,
                                 OrdemServico ordemServico) {

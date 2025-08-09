@@ -1,0 +1,69 @@
+package br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application;
+
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.CadastrarPecaRequest;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception.PecaNaoEncontradaException;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.repository.PecaRepository;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.domain.PecaInsumoDomainService;
+import br.com.alexsdm.postech.oficina.admin.veiculo.service.application.VeiculoModeloApplicationService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class PecaInsumoApplicationService {
+
+    private final PecaRepository pecaRepository;
+    private final VeiculoModeloApplicationService veiculoModeloApplicationService;
+    private final PecaInsumoDomainService pecaDomainService;
+
+
+    public List<PecaInsumo> listarTodas() {
+        return pecaRepository.findAll();
+    }
+
+    public PecaInsumo buscarPorId(Long id) {
+        return pecaRepository.findById(id)
+                .orElseThrow(PecaNaoEncontradaException::new);
+
+    }
+
+    public PecaInsumo salvar(CadastrarPecaRequest cadastrarPecaRequest) {
+        var modelosCompativeis = cadastrarPecaRequest.idsModelosCompativeis()
+                .stream()
+                .map(veiculoModeloApplicationService::buscarEntidade)
+                .toList();
+
+
+        var peca = new PecaInsumo(
+                cadastrarPecaRequest.nome(),
+                cadastrarPecaRequest.descricao(),
+                cadastrarPecaRequest.codigoFabricante(),
+                cadastrarPecaRequest.marca(),
+                modelosCompativeis,
+                cadastrarPecaRequest.quantidadeEstoque(),
+                cadastrarPecaRequest.precoCusto(),
+                cadastrarPecaRequest.precoVenda(),
+                cadastrarPecaRequest.categoria(),
+                cadastrarPecaRequest.ativo(),
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+        return pecaRepository.save(peca);
+    }
+
+    public void deletar(Long id) {
+        pecaRepository.findById(id)
+                .orElseThrow(PecaNaoEncontradaException::new);
+        pecaRepository.deleteById(id);
+    }
+
+    public void retirarItemEstoque(Long pecaId, Integer quantidade) {
+        var peca = pecaRepository.findById(pecaId).orElseThrow(PecaNaoEncontradaException::new);
+        pecaDomainService.retirarItemEstoque(peca, quantidade);
+        pecaRepository.save(peca);
+    }
+}

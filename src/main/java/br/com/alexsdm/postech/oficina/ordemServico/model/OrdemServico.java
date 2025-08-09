@@ -1,6 +1,6 @@
 package br.com.alexsdm.postech.oficina.ordemServico.model;
 
-import br.com.alexsdm.postech.oficina.servico.model.Servico;
+import br.com.alexsdm.postech.oficina.admin.servico.model.Servico;
 import jakarta.persistence.*;
 import lombok.Getter;
 
