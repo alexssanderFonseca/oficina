@@ -3,6 +3,8 @@ package br.com.alexsdm.postech.oficina.admin.cliente.entity;
 import br.com.alexsdm.postech.oficina.admin.cliente.entity.validation.ValidadorCpfCnpj;
 import br.com.alexsdm.postech.oficina.admin.cliente.exception.ClienteDocumentoInvalidoException;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.UUID;
 
 
 @Entity
+@Getter
+@Setter
 public class Cliente {
 
     @Id
@@ -59,46 +63,42 @@ public class Cliente {
         this.veiculos = new ArrayList<>();
     }
 
+    public String getNomeCompleto() {
+        return nome + " " + sobrenome;
+    }
+
     public void adicionarVeiculo(Veiculo veiculo) {
+        if (this.veiculos == null) {
+            this.veiculos = new ArrayList<>();
+        }
         veiculos.add(veiculo);
     }
 
     public Optional<Veiculo> getVeiculoPorId(UUID id) {
+        if (this.veiculos == null) {
+            return Optional.empty();
+        }
         return this.veiculos.stream()
                 .filter(veiculo -> veiculo.getId().equals(id))
                 .findFirst();
 
     }
 
-    public UUID getId() {
-        return id;
+    public void atualizarEmail(String email) {
+        if (email == null || email.isBlank()) {
+            return;
+        }
+        this.email = email;
     }
 
-    public String getNome() {
-        return nome;
+    public void atualizarTelefone(String telefone) {
+        if (telefone == null || telefone.isBlank()) {
+            return;
+        }
+        this.telefone = telefone;
     }
 
-    public String getSobrenome() {
-        return sobrenome;
-    }
-
-    public String getCpfCnpj() {
-        return cpfCnpj;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public List<Veiculo> getVeiculos() {
-        return veiculos;
+    public void atualizarEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 }

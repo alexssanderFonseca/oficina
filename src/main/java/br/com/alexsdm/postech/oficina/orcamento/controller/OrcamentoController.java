@@ -3,9 +3,8 @@ package br.com.alexsdm.postech.oficina.orcamento.controller;
 import br.com.alexsdm.postech.oficina.orcamento.controller.request.CriacaoOrcamentoRequest;
 import br.com.alexsdm.postech.oficina.orcamento.model.Orcamento;
 import br.com.alexsdm.postech.oficina.orcamento.service.application.OrcamentoApplicationService;
-import br.com.alexsdm.postech.oficina.orcamento.service.domain.OrcamentoDomainService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -33,7 +32,7 @@ public class OrcamentoController {
     }
 
     @PostMapping("/{id}/aceitos")
-    public ResponseEntity<Orcamento> aceitarOrcamento(@PathVariable  Long id) {
+    public ResponseEntity<Orcamento> aceitarOrcamento(@PathVariable Long id) {
         orcamentoApplicationService.aprovar(id);
         return ResponseEntity
                 .noContent()
@@ -59,13 +58,18 @@ public class OrcamentoController {
         var orcamento = orcamentoApplicationService.buscarPorId(id);
         return ResponseEntity.ok(orcamento);
     }
+
+    @GetMapping("/{id}/envios")
+    public ResponseEntity<?> enviarOrcamento(@PathVariable Long id) {
+        var pdfBytes = orcamentoApplicationService.enviar(id);
+        var headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.builder("attachment").filename("orcamento.pdf").build());
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+
 }
 
 
-//    @PostMapping("/{id}/orcamentos/{orcamentoId}/envio")
-//    public ResponseEntity<Void> enviarOrcamento(@PathVariable Long id,
-//                                                @PathVariable Long orcamentoId) {
-//        orcamentoService.enviar(orcamentoId);
-//        return ResponseEntity.accepted().build();
-//    }
+
 

@@ -3,12 +3,14 @@ package br.com.alexsdm.postech.oficina.admin.pecaInsumo.model;
 
 import br.com.alexsdm.postech.oficina.admin.veiculo.model.VeiculoModelo;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Getter
 public class PecaInsumo {
 
     @Id
@@ -84,57 +86,20 @@ public class PecaInsumo {
         this.quantidadeEstoque -= qtd;
     }
 
-
-    public Long getId() {
-        return id;
+    public void atualizarQuantidadeEstoque(Integer qtd) {
+        if (qtd != null) this.quantidadeEstoque = qtd;
     }
 
-    public String getNome() {
-        return nome;
+    public void atualizarStatus(Boolean ativo) {
+        if (ativo != null) this.ativo = ativo;
+
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
+    public void atualizarPrecos(BigDecimal precoCusto, BigDecimal precoVenda) {
+        if (precoCusto != null) this.precoCusto = precoCusto;
+        if (precoVenda != null) this.precoVenda = precoVenda;
 
-    public String getCodigoFabricante() {
-        return codigoFabricante;
     }
 
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public List<VeiculoModelo> getModelosCompativeis() {
-        return modelosCompativeis;
-    }
-
-    public Integer getQuantidadeEstoque() {
-        return quantidadeEstoque;
-    }
-
-    public BigDecimal getPrecoCusto() {
-        return precoCusto;
-    }
-
-    public BigDecimal getPrecoVenda() {
-        return precoVenda;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public LocalDateTime getDataAtualizacao() {
-        return dataAtualizacao;
-    }
 }

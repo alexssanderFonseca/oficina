@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class PecaInsumoDomainService {
 
     public void retirarItemEstoque(PecaInsumo peca, Integer quantidade) {
-        if (quantidade > peca.getQuantidadeEstoque()) {
+        if (!peca.isDisponivel() || quantidade > peca.getQuantidadeEstoque()) {
             throw new PecaInsumoIndisponivelException();
         }
         peca.retirar(quantidade);

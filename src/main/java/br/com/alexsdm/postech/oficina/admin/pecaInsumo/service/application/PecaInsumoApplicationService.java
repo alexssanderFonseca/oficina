@@ -1,6 +1,7 @@
 package br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application;
 
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.CadastrarPecaRequest;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.AtualizarPecaInsumoRequest;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.CadastrarPecaInsumoRequest;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception.PecaInsumoNaoEncontradaException;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.repository.PecaRepository;
@@ -31,7 +32,7 @@ public class PecaInsumoApplicationService {
 
     }
 
-    public PecaInsumo salvar(CadastrarPecaRequest cadastrarPecaRequest) {
+    public PecaInsumo salvar(CadastrarPecaInsumoRequest cadastrarPecaRequest) {
         var modelosCompativeis = cadastrarPecaRequest.idsModelosCompativeis()
                 .stream()
                 .map(veiculoModeloApplicationService::buscarEntidade)
@@ -55,9 +56,16 @@ public class PecaInsumoApplicationService {
         return pecaRepository.save(peca);
     }
 
+    public void atualizar(Long pecaId, AtualizarPecaInsumoRequest pecaInsumoRequest) {
+        var peca = buscarEntidade(pecaId);
+        peca.atualizarPrecos(pecaInsumoRequest.precoCusto(), pecaInsumoRequest.precoVenda());
+        peca.atualizarStatus(pecaInsumoRequest.ativa());
+        peca.atualizarQuantidadeEstoque(pecaInsumoRequest.qtd());
+        pecaRepository.save(peca);
+    }
+
     public void deletar(Long id) {
-        pecaRepository.findById(id)
-                .orElseThrow(PecaInsumoNaoEncontradaException::new);
+        buscarEntidade(id);
         pecaRepository.deleteById(id);
     }
 
@@ -65,5 +73,10 @@ public class PecaInsumoApplicationService {
         var peca = pecaRepository.findById(pecaId).orElseThrow(PecaInsumoNaoEncontradaException::new);
         pecaDomainService.retirarItemEstoque(peca, quantidade);
         pecaRepository.save(peca);
+    }
+
+    private PecaInsumo buscarEntidade(Long id) {
+        return pecaRepository.findById(id)
+                .orElseThrow(PecaInsumoNaoEncontradaException::new);
     }
 }
