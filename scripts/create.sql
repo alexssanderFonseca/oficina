@@ -2,6 +2,7 @@ CREATE TABLE endereco
 (
     id     UUID PRIMARY KEY,
     rua    VARCHAR(255) NOT NULL,
+    numero varchar(10)  NOT NULL,
     bairro VARCHAR(255) NOT NULL,
     cep    VARCHAR(20)  NOT NULL,
     cidade VARCHAR(255) NOT NULL,

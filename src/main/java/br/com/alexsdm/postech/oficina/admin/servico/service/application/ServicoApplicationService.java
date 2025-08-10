@@ -2,6 +2,7 @@ package br.com.alexsdm.postech.oficina.admin.servico.service.application;
 
 
 import br.com.alexsdm.postech.oficina.admin.servico.controller.request.CadastrarServicoRequest;
+import br.com.alexsdm.postech.oficina.admin.servico.controller.request.ServicoAtualizarRequest;
 import br.com.alexsdm.postech.oficina.admin.servico.exception.ServicoNaoEncontradoException;
 import br.com.alexsdm.postech.oficina.admin.servico.model.Servico;
 import br.com.alexsdm.postech.oficina.admin.servico.repository.ServicoRepository;
@@ -40,24 +41,14 @@ public class ServicoApplicationService {
                 .orElseThrow(ServicoNaoEncontradoException::new);
     }
 
-//    public Servico atualizar(UUID id, ServicoAtualizarRequest request) {
-//        var servico = servicoRepository.findById(id)
-//                .orElseThrow(ServicoNaoEncontradoException::new);
-//
-//        servico = new Servico(
-//                servico.getId(),
-//                request.nome(),
-//                request.descricao(),
-//                request.preco(),
-//                request.duracaoEstimada(),
-//                request.categoria(),
-//                request.ativo(),
-//                servico.getDataCadastro(),
-//                LocalDateTime.now()
-//        );
-//
-//        return servicoRepository.save(servico);
-//    }
+    public Servico atualizar(Long id, ServicoAtualizarRequest request) {
+        var servico = servicoRepository.findById(id)
+                .orElseThrow(ServicoNaoEncontradoException::new);
+
+        servico.atualizar(request.preco(), request.ativo());
+
+        return servicoRepository.save(servico);
+    }
 
     public void deletar(Long id) {
         if (!servicoRepository.existsById(id)) {

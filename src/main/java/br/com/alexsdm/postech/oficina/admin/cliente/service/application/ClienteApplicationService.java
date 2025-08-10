@@ -107,6 +107,25 @@ public class ClienteApplicationService {
                              AtualizarClienteRequest clienteAtualizarRequest) {
         var cliente = clienteRepository.findById(id)
                 .orElseThrow(ClienteNaoEncontradoException::new);
+
+        cliente.atualizarEmail(clienteAtualizarRequest.email());
+        cliente.atualizarTelefone(clienteAtualizarRequest.telefone());
+
+        if (clienteAtualizarRequest.endereco() != null) {
+            var novoEnderecoDados = clienteAtualizarRequest.endereco();
+            var endereco = new Endereco(
+                    UUID.randomUUID(),
+                    novoEnderecoDados.rua(),
+                    novoEnderecoDados.numero(),
+                    novoEnderecoDados.cep(),
+                    novoEnderecoDados.cep(),
+                    novoEnderecoDados.cidade(),
+                    novoEnderecoDados.uf()
+            );
+            cliente.atualizarEndereco(endereco);
+        }
+
+
         clienteRepository.save(cliente);
         return cliente;
     }

@@ -46,4 +46,8 @@ public class Veiculo {
         this.veiculoModelo = veiculoModelo;
     }
 
+    public String getDescricaoCompleta() {
+        return veiculoModelo.getMarca() + " - " + veiculoModelo.getModelo() + " - " +this.getAno() + " - " + this.getCor();
+    }
+
 }

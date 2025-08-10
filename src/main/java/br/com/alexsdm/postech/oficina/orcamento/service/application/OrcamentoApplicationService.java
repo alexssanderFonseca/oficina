@@ -1,7 +1,11 @@
 package br.com.alexsdm.postech.oficina.orcamento.service.application;
 
 
+import br.com.alexsdm.postech.oficina.admin.cliente.entity.Cliente;
+import br.com.alexsdm.postech.oficina.admin.cliente.entity.Veiculo;
 import br.com.alexsdm.postech.oficina.admin.cliente.service.application.ClienteApplicationService;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application.PecaInsumoApplicationService;
+import br.com.alexsdm.postech.oficina.admin.servico.service.application.ServicoApplicationService;
 import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoException;
 import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoNaoEncontradaException;
 import br.com.alexsdm.postech.oficina.orcamento.model.ItemPecaOrcamento;
@@ -11,8 +15,6 @@ import br.com.alexsdm.postech.oficina.orcamento.repository.OrcamentoRepository;
 import br.com.alexsdm.postech.oficina.orcamento.service.domain.OrcamentoDomainService;
 import br.com.alexsdm.postech.oficina.orcamento.service.input.PecaOrcamentoInput;
 import br.com.alexsdm.postech.oficina.orcamento.service.output.*;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application.PecaInsumoApplicationService;
-import br.com.alexsdm.postech.oficina.admin.servico.service.application.ServicoApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,7 @@ public class OrcamentoApplicationService {
     private final ClienteApplicationService clienteApplicationService;
     private final PecaInsumoApplicationService pecaApplicationService;
     private final ServicoApplicationService servicoApplicationService;
+    private final OrcamentoPdfGeradorService orcamentoPdfGeradorService;
 
     public Orcamento criar(String cpfCnpjCliente,
                            UUID veiculoId,
@@ -53,8 +56,13 @@ public class OrcamentoApplicationService {
         return orcamentoRepository.save(orcamento);
     }
 
-    //TODO gerar pdf
-    public void enviar() {
+    public byte[] enviar(Long orcamentoId) {
+        var orcamento = orcamentoRepository.findById(orcamentoId)
+                .orElseThrow(OrcamentoNaoEncontradaException::new);
+        var cliente = buscarCliente(orcamento.getClienteId());
+        var veiculo = buscarVeiculo(cliente, orcamento.getVeiculoId());
+        return orcamentoPdfGeradorService.gerar(orcamento, cliente, veiculo);
+
     }
 
     public void aprovar(Long orcamentoId) {
@@ -78,12 +86,8 @@ public class OrcamentoApplicationService {
         var orcamento = orcamentoRepository.findById(id)
                 .orElseThrow(OrcamentoNaoEncontradaException::new);
 
-        var cliente = clienteApplicationService.buscarEntidade(orcamento.getClienteId())
-                .orElseThrow(() ->
-                        new OrcamentoException("Não foi encontrado o cliente vinculado ao orçamento informado"));
-        var veiculo = cliente.getVeiculoPorId(orcamento.getVeiculoId())
-
-                .orElseThrow(() -> new OrcamentoException("Não foi encontrado o veiculo vinculado ao orçamento informado"));
+        var cliente = buscarCliente(orcamento.getClienteId());
+        var veiculo = buscarVeiculo(cliente, orcamento.getVeiculoId());
 
         var orcamentoVeiculoResponse = new OrcamentoVeiculoResponse(
                 veiculo.getPlaca(),
@@ -125,6 +129,17 @@ public class OrcamentoApplicationService {
                 pecasOutput,
                 servicosOuput
         );
+    }
+
+    private Cliente buscarCliente(UUID clientId) {
+        return clienteApplicationService.buscarEntidade(clientId)
+                .orElseThrow(() ->
+                        new OrcamentoException("Não foi encontrado o cliente vinculado ao orçamento informado"));
+    }
+
+    private Veiculo buscarVeiculo(Cliente cliente, UUID veiculoId) {
+        return cliente.getVeiculoPorId(veiculoId)
+                .orElseThrow(() -> new OrcamentoException("Não foi encontrado o veiculo vinculado ao orçamento informado"));
     }
 }
 

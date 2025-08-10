@@ -1,11 +1,11 @@
 package br.com.alexsdm.postech.oficina.admin.veiculo.model;
 
 import jakarta.persistence.*;
-
-import java.util.UUID;
+import lombok.Getter;
 
 @Entity
 @Table(name = "veiculo_modelo")
+@Getter
 public class VeiculoModelo {
 
     @Id
@@ -16,15 +16,16 @@ public class VeiculoModelo {
 
     private String modelo;
 
-    private Integer anoInicio;  // Ano inicial do modelo (ex: 2015)
+    private Integer anoInicio;
 
-    private Integer anoFim;     // Ano final do modelo (ex: 2020), pode ser null
+    private Integer anoFim;
 
-    private String tipo;        // Exemplo: "SUV", "Sedan", "Hatch", etc
+    private String tipo;
 
-    public VeiculoModelo() {}
+    public VeiculoModelo() {
+    }
 
-    public VeiculoModelo( String marca, String modelo, Integer anoInicio, Integer anoFim, String tipo) {
+    public VeiculoModelo(String marca, String modelo, Integer anoInicio, Integer anoFim, String tipo) {
         this.marca = marca;
         this.modelo = modelo;
         this.anoInicio = anoInicio;
@@ -32,27 +33,4 @@ public class VeiculoModelo {
         this.tipo = tipo;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public Integer getAnoInicio() {
-        return anoInicio;
-    }
-
-    public Integer getAnoFim() {
-        return anoFim;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
 }

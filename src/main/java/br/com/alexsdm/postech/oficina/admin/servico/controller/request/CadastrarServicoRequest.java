@@ -5,13 +5,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record CadastrarServicoRequest(
-    UUID id,
     String nome,
     String descricao,
     BigDecimal preco,
     Integer duracaoEstimada,
-    String categoria,
-    Boolean ativo,
-    LocalDateTime dataCadastro,
-    LocalDateTime dataAtualizacao
+    String categoria
 ) {}

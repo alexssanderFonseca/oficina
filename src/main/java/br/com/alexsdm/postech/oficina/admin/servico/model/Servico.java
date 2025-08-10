@@ -4,12 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
+@Getter
 public class Servico {
 
     @Id
@@ -45,39 +46,11 @@ public class Servico {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public Long getId() {
-        return id;
+    public void atualizar(BigDecimal preco,
+                          boolean ativo) {
+        this.preco = preco;
+        this.ativo = ativo;
+        this.dataAtualizacao = LocalDateTime.now();
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public Integer getDuracaoEstimada() {
-        return duracaoEstimada;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public Boolean getAtivo() {
-        return ativo;
-    }
-
-    public LocalDateTime getDataCadastro() {
-        return dataCadastro;
-    }
-
-    public LocalDateTime getDataAtualizacao() {
-        return dataAtualizacao;
-    }
 }
