@@ -37,9 +37,10 @@ public class PecaInsumoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable String id,
+    public ResponseEntity<Void> atualizar(@PathVariable Long id,
                                           @RequestBody AtualizarPecaInsumoRequest atualizarPecaInsumoRequest) {
-        pecaInsumoApplicationService.atualizar();
+        pecaInsumoApplicationService.atualizar(id, atualizarPecaInsumoRequest);
+        return ResponseEntity.noContent().build();
 
     }
 

@@ -82,13 +82,14 @@ class ClienteApplicationServiceTest {
         adicionarVeiculoInput = new AdicionarVeiculoClientInput(veiculoModeloId, placa, "2020", "Branco");
 
         atualizarClienteRequest = new AtualizarClienteRequest("joao.santos@email.com", "34998392501",
-                "Souza", new EnderecoAtualizarRequest(
-                "Rua dos beija flores",
-                "Centro",
-                "38400-321",
-                "Uberlândia",
-                "MG"
-        ));
+                new EnderecoAtualizarRequest(
+                        "Rua dos beija flores",
+                        "123",
+                        "Centro",
+                        "38400-321",
+                        "Uberlândia",
+                        "MG"
+                ));
     }
 
     @Test
