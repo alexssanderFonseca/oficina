@@ -5,10 +5,12 @@ import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.Atualiza
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.CadastrarPecaInsumoRequest;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application.PecaInsumoApplicationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -31,14 +33,14 @@ public class PecaInsumoController {
     }
 
     @PostMapping
-    public ResponseEntity<PecaInsumo> criar(@RequestBody CadastrarPecaInsumoRequest request) {
-        PecaInsumo salva = pecaInsumoApplicationService.salvar(request);
-        return ResponseEntity.ok(salva);
+    public ResponseEntity<?> criar(@RequestBody @Valid CadastrarPecaInsumoRequest request) {
+        var idPeca = pecaInsumoApplicationService.salvar(request);
+        return ResponseEntity.created(URI.create("/pecas/" + idPeca)).build();
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Void> atualizar(@PathVariable Long id,
-                                          @RequestBody AtualizarPecaInsumoRequest atualizarPecaInsumoRequest) {
+                                          @RequestBody @Valid AtualizarPecaInsumoRequest atualizarPecaInsumoRequest) {
         pecaInsumoApplicationService.atualizar(id, atualizarPecaInsumoRequest);
         return ResponseEntity.noContent().build();
 

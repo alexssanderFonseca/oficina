@@ -189,8 +189,6 @@ class PecaInsumoApplicationServiceTest {
 
         // Assert
         assertNotNull(resultado);
-        assertEquals("Pastilha de Freio", resultado.getNome());
-        assertEquals("PF001", resultado.getCodigoFabricante());
         verify(veiculoModeloApplicationService).buscarEntidade(veiculoModeloId);
         verify(pecaRepository).save(any(PecaInsumo.class));
     }

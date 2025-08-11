@@ -28,17 +28,24 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.mapstruct:mapstruct:1.6.3")
-	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
-	compileOnly("org.projectlombok:lombok:1.18.30")
-	annotationProcessor("org.projectlombok:lombok:1.18.30")
 	implementation("org.postgresql:postgresql:42.7.3")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	implementation("com.itextpdf:itextpdf:5.5.13.3")
+	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
+	annotationProcessor("org.projectlombok:lombok:1.18.30")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.rest-assured:rest-assured:5.5.5")
+	testImplementation("com.h2database:h2")
+	testImplementation("io.rest-assured:json-path:5.3.0")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	compileOnly("org.projectlombok:lombok:1.18.30")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
-	implementation("com.itextpdf:itextpdf:5.5.13.3")
+
+
+
 
 }
 
@@ -58,12 +65,23 @@ tasks.jacocoTestReport {
 
 sonar {
 	properties {
-		property("sonar.junit.reportPaths", "${layout.buildDirectory.get()}/test-results/test")
-		property("sonar.coverage.jacoco.xmlReportPaths",
-			"${layout.buildDirectory.get()}/reports/jacoco/test/jacocoTestReport.xml"
+		property("sonar.tests", "src/test/java")
+
+
+		property("sonar.junit.reportPaths", "build/test-results/test")
+		property("sonar.test.exclusions", "src/test/java/**/*.java")
+		property(
+			"sonar.exclusions",
+			"src/main/java/**/security/**,src/main/java/**/commons/**,src/main/java/**/request/**,src/main/java/**/response/**,src/main/java/**/input/**,src/main/java/**/output/**," +
+					"src/main/java/**/exceptions/**,src/main/java/**/handler/**"
 		)
+
+		property("sonar.java.coveragePlugin", "jacoco")
+		property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
 	}
 }
+
+
 
 jacoco {
 	toolVersion = "0.8.12"

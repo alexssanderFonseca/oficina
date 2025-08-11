@@ -6,6 +6,8 @@ import br.com.alexsdm.postech.oficina.admin.veiculo.service.VeiculoModeloService
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+
 @RestController
 @RequestMapping("/veiculos")
 public class VeiculoModeloController {
@@ -18,8 +20,8 @@ public class VeiculoModeloController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody CadastrarVeiculoModeloRequest request) {
-        var modelo = service.cadastrar(request);
-        return ResponseEntity.ok(modelo);
+        var idModelo = service.cadastrar(request);
+        return ResponseEntity.created(URI.create("/veiculos/" + idModelo)).build();
     }
 
     @GetMapping("/{id}")

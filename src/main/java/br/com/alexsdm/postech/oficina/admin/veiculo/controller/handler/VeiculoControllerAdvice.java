@@ -13,8 +13,8 @@ public class VeiculoControllerAdvice {
 
     @ExceptionHandler(VeiculoModeloNaoEncontradoException.class)
     public ResponseEntity<ApiError> handleMyCustomException(VeiculoModeloNaoEncontradoException ex) {
-        ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        ApiError error = new ApiError(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
 

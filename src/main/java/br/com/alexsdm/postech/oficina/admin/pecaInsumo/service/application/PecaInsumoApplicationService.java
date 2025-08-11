@@ -32,7 +32,7 @@ public class PecaInsumoApplicationService {
 
     }
 
-    public PecaInsumo salvar(CadastrarPecaInsumoRequest cadastrarPecaRequest) {
+    public Long salvar(CadastrarPecaInsumoRequest cadastrarPecaRequest) {
         var modelosCompativeis = cadastrarPecaRequest.idsModelosCompativeis()
                 .stream()
                 .map(veiculoModeloApplicationService::buscarEntidade)
@@ -53,7 +53,9 @@ public class PecaInsumoApplicationService {
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
-        return pecaRepository.save(peca);
+        pecaRepository.save(peca);
+
+        return peca.getId();
     }
 
     public void atualizar(Long pecaId, AtualizarPecaInsumoRequest pecaInsumoRequest) {
