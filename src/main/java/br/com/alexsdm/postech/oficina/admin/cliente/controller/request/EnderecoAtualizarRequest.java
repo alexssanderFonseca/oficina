@@ -1,10 +1,13 @@
 package br.com.alexsdm.postech.oficina.admin.cliente.controller.request;
 
-public record EnderecoAtualizarRequest(String rua,
-                                       String numero,
-                                       String bairro,
-                                       String cep,
-                                       String cidade,
-                                       String uf) {
+
+import jakarta.validation.constraints.NotBlank;
+
+public record EnderecoAtualizarRequest(@NotBlank String rua,
+                                       @NotBlank String numero,
+                                       @NotBlank String bairro,
+                                       @NotBlank String cep,
+                                       @NotBlank String cidade,
+                                       @NotBlank String uf) {
 
 }

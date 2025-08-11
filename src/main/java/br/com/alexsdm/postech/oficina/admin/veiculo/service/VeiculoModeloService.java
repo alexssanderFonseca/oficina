@@ -16,7 +16,7 @@ public class VeiculoModeloService {
         this.repository = repository;
     }
 
-    public VeiculoModelo cadastrar(CadastrarVeiculoModeloRequest request) {
+    public Long cadastrar(CadastrarVeiculoModeloRequest request) {
         var modelo = new VeiculoModelo(
                 request.marca(),
                 request.modelo(),
@@ -24,7 +24,8 @@ public class VeiculoModeloService {
                 request.anoFim(),
                 request.tipo()
         );
-        return repository.save(modelo);
+        repository.save(modelo);
+        return modelo.getId();
     }
 
     public VeiculoModelo buscar(Long id) {

@@ -2,9 +2,11 @@ package br.com.alexsdm.postech.oficina.admin.cliente.controller.handler;
 
 
 import br.com.alexsdm.postech.oficina.admin.cliente.exception.ClienteException;
+import br.com.alexsdm.postech.oficina.admin.cliente.exception.ClienteNaoEncontradoException;
 import br.com.alexsdm.postech.oficina.commons.ApiError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -17,5 +19,17 @@ public class ClienteControllerAdvice {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+
+    @ExceptionHandler(ClienteNaoEncontradoException.class)
+    public ResponseEntity<ApiError> handleMyCustomException(ClienteNaoEncontradoException ex) {
+        ApiError error = new ApiError(HttpStatus.NOT_FOUND.value(), ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiError> handleMyCustomException(MethodArgumentNotValidException ex) {
+        ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
 }

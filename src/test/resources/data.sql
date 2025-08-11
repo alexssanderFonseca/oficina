@@ -1,0 +1,2 @@
+insert into veiculo_modelo values(1,'Jeep', 'Compass', 2014, 2025, 'SUV');
+insert into usuarios(id,username, password) values ('6d0ff74a-d338-4880-9fdf-94a55881e6c9', 'admin', '$2a$10$r.i31qRacNVGkDfdZ31l6ejI8Po3QuXwrZJC1FT2kqYLGIQJcVS16')

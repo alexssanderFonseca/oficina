@@ -7,6 +7,7 @@ import br.com.alexsdm.postech.oficina.admin.cliente.controller.request.Cadastrar
 import br.com.alexsdm.postech.oficina.admin.cliente.controller.response.AdicionarVeiculoResponse;
 import br.com.alexsdm.postech.oficina.admin.cliente.service.application.ClienteApplicationService;
 import br.com.alexsdm.postech.oficina.admin.cliente.service.mapper.ClienteServiceMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class ClienteController {
     private final ClienteServiceMapper clienteServiceMapper;
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody CadastrarClienteRequest request) {
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastrarClienteRequest request) {
         var cadastrarClienteInput = clienteServiceMapper.toCadastrarClienteInput(request);
         var clienteId = clienteApplicationService.cadastrar(cadastrarClienteInput);
         return ResponseEntity.created(URI.create("/clientes/" + clienteId)).build();
@@ -46,7 +47,7 @@ public class ClienteController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable UUID id,
-                                       @RequestBody AtualizarClienteRequest request) {
+                                       @RequestBody @Valid AtualizarClienteRequest request) {
         var cliente = clienteApplicationService.atualizar(id, request);
         return ResponseEntity.ok(cliente);
     }
@@ -54,7 +55,7 @@ public class ClienteController {
 
     @PostMapping("/{id}/veiculos")
     public ResponseEntity<?> adicionarVeiculo(@PathVariable UUID id,
-                                              @RequestBody AdicionarDadosVeiculoRequest request) {
+                                              @RequestBody @Valid AdicionarDadosVeiculoRequest request) {
         var adicionarVeiculoInput = clienteServiceMapper.toAdicionarVeiculoClientInput(request);
         var veiculoId = clienteApplicationService.adicionarVeiculo(id, adicionarVeiculoInput);
         return ResponseEntity.ok(new AdicionarVeiculoResponse(veiculoId));

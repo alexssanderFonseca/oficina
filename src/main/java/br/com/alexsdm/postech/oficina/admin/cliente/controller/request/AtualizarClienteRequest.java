@@ -1,7 +1,11 @@
 package br.com.alexsdm.postech.oficina.admin.cliente.controller.request;
 
-public record AtualizarClienteRequest(String email,
-                                      String telefone,
-                                      EnderecoAtualizarRequest endereco) {
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record AtualizarClienteRequest(@NotBlank String email,
+                                      @NotBlank String telefone,
+                                      @NotNull EnderecoAtualizarRequest endereco) {
 }
 

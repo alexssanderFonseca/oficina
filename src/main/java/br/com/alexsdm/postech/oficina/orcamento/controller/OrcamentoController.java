@@ -40,18 +40,13 @@ public class OrcamentoController {
     }
 
     @PostMapping("/{id}/recusados")
-    public ResponseEntity<Orcamento> recusarOrcamento(Long id) {
+    public ResponseEntity<Orcamento> recusarOrcamento(@PathVariable Long id) {
         orcamentoApplicationService.recusar(id);
         return ResponseEntity.
                 noContent().
                 build();
     }
 
-//    @GetMapping("/{id}/orcamentos")
-//    public ResponseEntity<List<Orcamento>> listarOrcamentos(@PathVariable Long id) {
-//        List<Orcamento> orcamentos = orcamentoService.listarPorOrdemServico(id);
-//        return ResponseEntity.ok(orcamentos);
-//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarOrcamento(@PathVariable Long id) {
