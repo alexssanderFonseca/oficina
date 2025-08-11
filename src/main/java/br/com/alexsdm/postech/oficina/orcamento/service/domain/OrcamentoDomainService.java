@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.orcamento.service.domain;
 
 
-import br.com.alexsdm.postech.oficina.orcamento.model.Orcamento;
+import br.com.alexsdm.postech.oficina.orcamento.entity.Orcamento;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

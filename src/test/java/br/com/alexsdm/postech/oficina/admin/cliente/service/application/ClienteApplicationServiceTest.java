@@ -12,8 +12,8 @@ import br.com.alexsdm.postech.oficina.admin.cliente.service.domain.ClienteDomain
 import br.com.alexsdm.postech.oficina.admin.cliente.service.input.AdicionarVeiculoClientInput;
 import br.com.alexsdm.postech.oficina.admin.cliente.service.input.CadastrarClienteEnderecoInput;
 import br.com.alexsdm.postech.oficina.admin.cliente.service.input.CadastrarClienteInput;
-import br.com.alexsdm.postech.oficina.admin.veiculo.model.VeiculoModelo;
-import br.com.alexsdm.postech.oficina.admin.veiculo.service.application.VeiculoModeloApplicationService;
+import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.admin.veiculomodelo.service.application.VeiculoModeloApplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

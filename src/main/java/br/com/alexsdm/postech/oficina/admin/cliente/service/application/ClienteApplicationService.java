@@ -14,7 +14,7 @@ import br.com.alexsdm.postech.oficina.admin.cliente.service.application.output.B
 import br.com.alexsdm.postech.oficina.admin.cliente.service.domain.ClienteDomainService;
 import br.com.alexsdm.postech.oficina.admin.cliente.service.input.AdicionarVeiculoClientInput;
 import br.com.alexsdm.postech.oficina.admin.cliente.service.input.CadastrarClienteInput;
-import br.com.alexsdm.postech.oficina.admin.veiculo.service.application.VeiculoModeloApplicationService;
+import br.com.alexsdm.postech.oficina.admin.veiculomodelo.service.application.VeiculoModeloApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

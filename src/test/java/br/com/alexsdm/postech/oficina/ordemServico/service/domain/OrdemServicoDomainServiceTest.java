@@ -1,11 +1,11 @@
 package br.com.alexsdm.postech.oficina.ordemServico.service.domain;
 
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
-import br.com.alexsdm.postech.oficina.admin.servico.model.Servico;
-import br.com.alexsdm.postech.oficina.admin.veiculo.model.VeiculoModelo;
-import br.com.alexsdm.postech.oficina.ordemServico.model.ItemPecaOrdemServico;
-import br.com.alexsdm.postech.oficina.ordemServico.model.OrdemServico;
-import br.com.alexsdm.postech.oficina.ordemServico.model.Status;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity.PecaInsumo;
+import br.com.alexsdm.postech.oficina.admin.servico.entity.Servico;
+import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.ItemPecaOrdemServico;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.OrdemServico;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.Status;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

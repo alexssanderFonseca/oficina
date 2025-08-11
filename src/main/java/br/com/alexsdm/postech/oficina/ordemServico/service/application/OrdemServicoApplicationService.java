@@ -6,9 +6,9 @@ import br.com.alexsdm.postech.oficina.orcamento.service.application.OrcamentoApp
 import br.com.alexsdm.postech.oficina.orcamento.service.input.PecaOrcamentoInput;
 import br.com.alexsdm.postech.oficina.ordemServico.controller.request.CriarOrdemDeServicoRequest;
 import br.com.alexsdm.postech.oficina.ordemServico.exception.*;
-import br.com.alexsdm.postech.oficina.ordemServico.model.ItemPecaOrdemServico;
-import br.com.alexsdm.postech.oficina.ordemServico.model.OrdemServico;
-import br.com.alexsdm.postech.oficina.ordemServico.model.Status;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.ItemPecaOrdemServico;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.OrdemServico;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.Status;
 import br.com.alexsdm.postech.oficina.ordemServico.repository.OrdemServicoRepository;
 import br.com.alexsdm.postech.oficina.ordemServico.service.application.input.OsPecaNecessariasInput;
 import br.com.alexsdm.postech.oficina.ordemServico.service.application.output.*;

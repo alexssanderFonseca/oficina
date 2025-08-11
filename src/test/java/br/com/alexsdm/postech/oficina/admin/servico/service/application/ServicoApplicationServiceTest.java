@@ -3,7 +3,7 @@ package br.com.alexsdm.postech.oficina.admin.servico.service.application;
 import br.com.alexsdm.postech.oficina.admin.servico.controller.request.CadastrarServicoRequest;
 import br.com.alexsdm.postech.oficina.admin.servico.controller.request.ServicoAtualizarRequest;
 import br.com.alexsdm.postech.oficina.admin.servico.exception.ServicoNaoEncontradoException;
-import br.com.alexsdm.postech.oficina.admin.servico.model.Servico;
+import br.com.alexsdm.postech.oficina.admin.servico.entity.Servico;
 import br.com.alexsdm.postech.oficina.admin.servico.repository.ServicoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

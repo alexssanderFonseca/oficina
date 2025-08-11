@@ -2,7 +2,7 @@ package br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.domain;
 
 
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception.PecaInsumoIndisponivelException;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity.PecaInsumo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

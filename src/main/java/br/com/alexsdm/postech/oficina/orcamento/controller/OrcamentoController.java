@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.orcamento.controller;
 
 import br.com.alexsdm.postech.oficina.orcamento.controller.request.CriacaoOrcamentoRequest;
-import br.com.alexsdm.postech.oficina.orcamento.model.Orcamento;
+import br.com.alexsdm.postech.oficina.orcamento.entity.Orcamento;
 import br.com.alexsdm.postech.oficina.orcamento.service.application.OrcamentoApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

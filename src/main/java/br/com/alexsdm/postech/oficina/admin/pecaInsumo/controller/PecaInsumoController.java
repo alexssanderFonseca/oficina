@@ -3,7 +3,7 @@ package br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller;
 
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.AtualizarPecaInsumoRequest;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.CadastrarPecaInsumoRequest;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity.PecaInsumo;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application.PecaInsumoApplicationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
