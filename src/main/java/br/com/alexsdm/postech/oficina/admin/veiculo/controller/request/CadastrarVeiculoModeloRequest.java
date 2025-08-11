@@ -1,9 +1,13 @@
 package br.com.alexsdm.postech.oficina.admin.veiculo.controller.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record CadastrarVeiculoModeloRequest(
-    String marca,
-    String modelo,
-    Integer anoInicio,
-    Integer anoFim,
-    String tipo
-) {}
+        @NotBlank String marca,
+        @NotBlank String modelo,
+        @NotNull Integer anoInicio,
+        @NotNull Integer anoFim,
+        @NotBlank String tipo
+) {
+}

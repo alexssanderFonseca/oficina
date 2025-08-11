@@ -1,10 +1,10 @@
-package br.com.alexsdm.postech.oficina.integrados.pecaInsumo;
+package br.com.alexsdm.postech.oficina.integrados.pecainsumo;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 public class JsonPayloadsPecaInsumo {
 
-    private static final AtomicLong counter = new AtomicLong(1);
+    private static final AtomicLong counter = new AtomicLong(100);
 
     private static String getUniqueId() {
         return String.valueOf(counter.getAndIncrement());
@@ -27,8 +27,8 @@ public class JsonPayloadsPecaInsumo {
                     "descricao": "Filtro de óleo original para motor",
                     "codigoFabricante": "FO-%s",
                     "marca": "Bosch",
-                    "idsModelosCompativeis": [1],
-                    "quantidadeEstoque": 10,
+                    "idsModelosCompativeis": [100],
+                    "quantidadeEstoque": 1000,
                     "precoCusto": 25.50,
                     "precoVenda": 45.90,
                     "categoria": "FILTROS",
@@ -45,8 +45,8 @@ public class JsonPayloadsPecaInsumo {
                     "codigoFabricante": "",
                     "marca": "",
                     "idsModelosCompativeis": [],
-                    "quantidadeEstoque": -1,
-                    "precoCusto": -10.50,
+                    "quantidadeEstoque": -100,
+                    "precoCusto": -1000.50,
                     "precoVenda": -25.90,
                     "categoria": "",
                     "ativo": null
@@ -79,7 +79,7 @@ public class JsonPayloadsPecaInsumo {
                     "descricao": "Pastilha de freio dianteira",
                     "codigoFabricante": "PF-%s",
                     "marca": "TRW",
-                    "idsModelosCompativeis": [1],
+                    "idsModelosCompativeis": [100],
                     "quantidadeEstoque": 8,
                     "precoCusto": 35.00,
                     "precoVenda": 65.00,
@@ -97,9 +97,9 @@ public class JsonPayloadsPecaInsumo {
                     "descricao": "Vela de ignição NGK padrão",
                     "codigoFabricante": "VI-%s",
                     "marca": "NGK",
-                    "idsModelosCompativeis": [1],
+                    "idsModelosCompativeis": [100],
                     "quantidadeEstoque": 4,
-                    "precoCusto": 12.50,
+                    "precoCusto": 1002.50,
                     "precoVenda": 22.90,
                     "categoria": "IGNICAO",
                     "ativo": true
@@ -112,13 +112,13 @@ public class JsonPayloadsPecaInsumo {
         return """
                 {
                     "nome": "Correia Dentada %s",
-                    "descricao": "Correia dentada para motor 1.6",
+                    "descricao": "Correia dentada para motor 100.6",
                     "codigoFabricante": "CD-%s",
                     "marca": "Gates",
-                    "idsModelosCompativeis": [1],
+                    "idsModelosCompativeis": [100],
                     "quantidadeEstoque": 3,
                     "precoCusto": 85.00,
-                    "precoVenda": 150.00,
+                    "precoVenda": 10050.00,
                     "categoria": "MOTOR",
                     "ativo": true
                 }
@@ -128,7 +128,7 @@ public class JsonPayloadsPecaInsumo {
     public static String atualizacaoCompleta() {
         return """
                 {
-                    "qtd": 15,
+                    "qtd": 1005,
                     "precoCusto": 30.00,
                     "precoVenda": 55.00,
                     "ativa": true
@@ -140,7 +140,7 @@ public class JsonPayloadsPecaInsumo {
         return """
                 {
                     "qtd": -5,
-                    "precoCusto": -15.00,
+                    "precoCusto": -1005.00,
                     "precoVenda": -30.00,
                     "ativa": null
                 }

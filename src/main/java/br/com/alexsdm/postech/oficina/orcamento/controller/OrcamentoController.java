@@ -3,6 +3,7 @@ package br.com.alexsdm.postech.oficina.orcamento.controller;
 import br.com.alexsdm.postech.oficina.orcamento.controller.request.CriacaoOrcamentoRequest;
 import br.com.alexsdm.postech.oficina.orcamento.model.Orcamento;
 import br.com.alexsdm.postech.oficina.orcamento.service.application.OrcamentoApplicationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class OrcamentoController {
 
 
     @PostMapping
-    public ResponseEntity<Orcamento> criarOrcamento(@RequestBody CriacaoOrcamentoRequest input) {
-        Orcamento orcamento = orcamentoApplicationService.criar(
+    public ResponseEntity<?> criarOrcamento(@RequestBody @Valid CriacaoOrcamentoRequest input) {
+        var orcamentoId = orcamentoApplicationService.criar(
                 input.cpfCnpjCliente(),
                 input.veiculoId(),
                 input.pecas(),
@@ -27,8 +28,7 @@ public class OrcamentoController {
         );
 
         return ResponseEntity
-                .created(URI.create("/orcamentos/" + orcamento.getId()))
-                .body(orcamento);
+                .created(URI.create("/orcamentos/" + orcamentoId)).build();
     }
 
     @PostMapping("/{id}/aceitos")

@@ -27,7 +27,7 @@ class VeiculoModeloServiceTest {
     private VeiculoModeloRepository repository;
 
     @InjectMocks
-    private VeiculoModeloService veiculoModeloService;
+    private VeiculoApplicationModeloService veiculoModeloService;
 
     private VeiculoModelo veiculoModelo;
     private CadastrarVeiculoModeloRequest cadastrarRequest;
@@ -213,10 +213,9 @@ class VeiculoModeloServiceTest {
         when(repository.save(any(VeiculoModelo.class))).thenReturn(veiculoModeloMinimo);
 
         // Act
-        var resultado = veiculoModeloService.cadastrar(requestMinimo);
+        veiculoModeloService.cadastrar(requestMinimo);
 
-        // Assert
-        assertNotNull(resultado);
+        verify(repository).save(any(VeiculoModelo.class));
     }
 
     @Test

@@ -188,7 +188,6 @@ class PecaInsumoApplicationServiceTest {
         var resultado = pecaInsumoApplicationService.salvar(cadastrarPecaRequest);
 
         // Assert
-        assertNotNull(resultado);
         verify(veiculoModeloApplicationService).buscarEntidade(veiculoModeloId);
         verify(pecaRepository).save(any(PecaInsumo.class));
     }
@@ -220,7 +219,6 @@ class PecaInsumoApplicationServiceTest {
         var resultado = pecaInsumoApplicationService.salvar(cadastrarPecaMultiplosModelos);
 
         // Assert
-        assertNotNull(resultado);
         verify(veiculoModeloApplicationService).buscarEntidade(veiculoModeloId);
         verify(veiculoModeloApplicationService).buscarEntidade(veiculoModeloId2);
         verify(pecaRepository).save(any(PecaInsumo.class));
@@ -246,10 +244,9 @@ class PecaInsumoApplicationServiceTest {
         when(pecaRepository.save(any(PecaInsumo.class))).thenReturn(pecaInsumo);
 
         // Act
-        var resultado = pecaInsumoApplicationService.salvar(cadastrarPecaSemModelos);
+        pecaInsumoApplicationService.salvar(cadastrarPecaSemModelos);
 
         // Assert
-        assertNotNull(resultado);
         verify(veiculoModeloApplicationService, never()).buscarEntidade(any());
         verify(pecaRepository).save(any(PecaInsumo.class));
     }

@@ -8,11 +8,11 @@ import br.com.alexsdm.postech.oficina.admin.veiculo.repository.VeiculoModeloRepo
 import org.springframework.stereotype.Service;
 
 @Service
-public class VeiculoModeloService {
+public class VeiculoApplicationModeloService {
 
     private final VeiculoModeloRepository repository;
 
-    public VeiculoModeloService(VeiculoModeloRepository repository) {
+    public VeiculoApplicationModeloService(VeiculoModeloRepository repository) {
         this.repository = repository;
     }
 

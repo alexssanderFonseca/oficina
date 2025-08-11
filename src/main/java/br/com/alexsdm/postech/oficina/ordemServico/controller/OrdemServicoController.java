@@ -6,6 +6,7 @@ import br.com.alexsdm.postech.oficina.ordemServico.controller.request.FinalizarD
 import br.com.alexsdm.postech.oficina.ordemServico.model.OrdemServico;
 import br.com.alexsdm.postech.oficina.ordemServico.service.application.OrdemServicoApplicationService;
 import br.com.alexsdm.postech.oficina.ordemServico.service.application.input.OsPecaNecessariasInput;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class OrdemServicoController {
 
 
     @PostMapping
-    public ResponseEntity<OrdemServico> criar(@RequestBody CriarOrdemDeServicoRequest request) {
+    public ResponseEntity<OrdemServico> criar(@RequestBody @Valid CriarOrdemDeServicoRequest request) {
         var ordemServicoId = ordemApplicationService.criar(request);
         return ResponseEntity.created(URI.create("/ordens-servicos/" + ordemServicoId))
                 .build();
@@ -49,8 +50,9 @@ public class OrdemServicoController {
     }
 
     @PostMapping("/{id}/execucoes")
-    public ResponseEntity<?> executar(@PathVariable Long id, @RequestBody ExecutarOrdemServicoRequest
-            executarOrdemServicoRequest) {
+    public ResponseEntity<?> executar(@PathVariable Long id,
+                                      @RequestBody ExecutarOrdemServicoRequest
+                                              executarOrdemServicoRequest) {
         ordemApplicationService.executar(id, executarOrdemServicoRequest.orcamentoId());
         return ResponseEntity.noContent().build();
     }

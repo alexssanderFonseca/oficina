@@ -21,3 +21,4 @@ public record CadastrarPecaInsumoRequest(
         @NotBlank String categoria,
         @NotNull Boolean ativo) {
 }
+

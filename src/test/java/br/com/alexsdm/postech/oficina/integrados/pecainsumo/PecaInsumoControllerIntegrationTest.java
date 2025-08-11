@@ -1,4 +1,4 @@
-package br.com.alexsdm.postech.oficina.integrados.pecaInsumo;
+package br.com.alexsdm.postech.oficina.integrados.pecainsumo;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
