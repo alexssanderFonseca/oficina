@@ -1,13 +1,15 @@
 package br.com.alexsdm.postech.oficina.admin.servico.controller.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 public record CadastrarServicoRequest(
-    String nome,
-    String descricao,
-    BigDecimal preco,
-    Integer duracaoEstimada,
-    String categoria
-) {}
+        @NotBlank String nome,
+        @NotBlank String descricao,
+        @NotNull BigDecimal preco,
+        @NotNull Integer duracaoEstimada,
+        @NotBlank String categoria
+) {
+}

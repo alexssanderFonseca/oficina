@@ -1,11 +1,12 @@
 package br.com.alexsdm.postech.oficina.ordemServico.controller.request;
 
+import jakarta.validation.constraints.NotEmpty;
+
 import java.util.List;
-import java.util.UUID;
 
 public record FinalizarDiagnosticoRequest(
-        List<ItemPeca> idPecasNecessarias,
-        List<Long> idServicosNecessarios
+        @NotEmpty List<ItemPeca> idPecasNecessarias,
+        @NotEmpty List<Long> idServicosNecessarios
 ) {
 }
 

@@ -1,4 +1,6 @@
 package br.com.alexsdm.postech.oficina.ordemServico.controller.request;
 
-public record ExecutarOrdemServicoRequest(Long orcamentoId) {
+import jakarta.validation.constraints.NotNull;
+
+public record ExecutarOrdemServicoRequest(@NotNull Long orcamentoId) {
 }

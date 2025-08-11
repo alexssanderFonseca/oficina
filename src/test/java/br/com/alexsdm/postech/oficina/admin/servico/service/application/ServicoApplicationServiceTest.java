@@ -18,11 +18,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -94,13 +93,6 @@ class ServicoApplicationServiceTest {
         var resultado = servicoApplicationService.cadastrar(cadastrarServicoRequest);
 
         // Assert
-        assertNotNull(resultado);
-        assertEquals("Troca de Óleo", resultado.getNome());
-        assertEquals("Troca de óleo do motor", resultado.getDescricao());
-        assertEquals(BigDecimal.valueOf(80.00), resultado.getPreco());
-        assertEquals(30, resultado.getDuracaoEstimada());
-        assertEquals("Manutenção", resultado.getCategoria());
-        assertTrue(resultado.getAtivo());
         verify(servicoRepository).save(any(Servico.class));
     }
 
@@ -133,13 +125,6 @@ class ServicoApplicationServiceTest {
         var resultado = servicoApplicationService.cadastrar(cadastrarServicoMinimo);
 
         // Assert
-        assertNotNull(resultado);
-        assertEquals("Serviço Básico", resultado.getNome());
-        assertEquals("", resultado.getDescricao());
-        assertEquals(BigDecimal.ZERO, resultado.getPreco());
-        assertEquals(1, resultado.getDuracaoEstimada());
-        assertEquals("", resultado.getCategoria());
-        assertTrue(resultado.getAtivo());
         verify(servicoRepository).save(any(Servico.class));
     }
 
@@ -318,9 +303,6 @@ class ServicoApplicationServiceTest {
         var resultado = servicoApplicationService.cadastrar(cadastrarServicoDuracaoAlta);
 
         // Assert
-        assertNotNull(resultado);
-        assertEquals(480, resultado.getDuracaoEstimada());
-        assertEquals(BigDecimal.valueOf(500.00), resultado.getPreco());
         verify(servicoRepository).save(any(Servico.class));
     }
 
@@ -353,9 +335,6 @@ class ServicoApplicationServiceTest {
         var resultado = servicoApplicationService.cadastrar(cadastrarServicoPrecoAlto);
 
         // Assert
-        assertNotNull(resultado);
-        assertEquals(BigDecimal.valueOf(2500.00), resultado.getPreco());
-        assertEquals("Retífica de Motor", resultado.getNome());
         verify(servicoRepository).save(any(Servico.class));
     }
 

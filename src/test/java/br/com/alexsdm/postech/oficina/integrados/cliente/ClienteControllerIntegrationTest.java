@@ -19,7 +19,7 @@ public class ClienteControllerIntegrationTest {
     @LocalServerPort
     private int port;
 
-    private Long veiculoModeloId = 1L;
+    private final Long veiculoModeloId = 100L;
 
 
     @BeforeEach

@@ -33,10 +33,10 @@ public class OrcamentoApplicationService {
     private final ServicoApplicationService servicoApplicationService;
     private final OrcamentoPdfGeradorService orcamentoPdfGeradorService;
 
-    public Orcamento criar(String cpfCnpjCliente,
-                           UUID veiculoId,
-                           List<PecaOrcamentoInput> pecasOrcamentoInput,
-                           List<Long> servicosId) {
+    public Long criar(String cpfCnpjCliente,
+                      UUID veiculoId,
+                      List<PecaOrcamentoInput> pecasOrcamentoInput,
+                      List<Long> servicosId) {
 
         var cliente = clienteApplicationService.buscarPorCpfCnpj(cpfCnpjCliente)
                 .orElseThrow(() -> new OrcamentoException("Não foi encontrado o cliente vinculado ao orçamento informado"));
@@ -53,7 +53,9 @@ public class OrcamentoApplicationService {
 
         var orcamento = new Orcamento(cliente.getId(), veiculoId, itens, servicos, OrcamentoStatus.CRIADO);
 
-        return orcamentoRepository.save(orcamento);
+        orcamentoRepository.save(orcamento);
+
+        return orcamento.getId();
     }
 
     public byte[] enviar(Long orcamentoId) {

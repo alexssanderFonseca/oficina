@@ -32,4 +32,10 @@ public class ClienteControllerAdvice {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiError> handleMyCustomException(IllegalArgumentException ex) {
+        ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 }

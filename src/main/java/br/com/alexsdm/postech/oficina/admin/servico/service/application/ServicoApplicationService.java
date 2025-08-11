@@ -18,7 +18,7 @@ public class ServicoApplicationService {
 
     private final ServicoRepository servicoRepository;
 
-    public Servico cadastrar(CadastrarServicoRequest cadastrarServicoRequest) {
+    public Long cadastrar(CadastrarServicoRequest cadastrarServicoRequest) {
         var servico = new Servico(
                 cadastrarServicoRequest.nome(),
                 cadastrarServicoRequest.descricao(),
@@ -29,7 +29,8 @@ public class ServicoApplicationService {
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
-        return servicoRepository.save(servico);
+        servicoRepository.save(servico);
+        return servico.getId();
     }
 
     public List<Servico> listar() {

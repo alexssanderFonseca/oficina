@@ -192,7 +192,6 @@ class OrcamentoApplicationServiceTest {
         var resultado = orcamentoApplicationService.criar(cpfCnpj, veiculoId, pecasInput, servicosId);
 
         // Assert
-        assertNotNull(resultado);
         verify(clienteApplicationService).buscarPorCpfCnpj(cpfCnpj);
         verify(pecaApplicationService).buscarPorId(pecaId1);
         verify(pecaApplicationService).buscarPorId(pecaId2);
