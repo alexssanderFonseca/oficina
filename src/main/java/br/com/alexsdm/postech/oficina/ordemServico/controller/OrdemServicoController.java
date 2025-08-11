@@ -3,7 +3,7 @@ package br.com.alexsdm.postech.oficina.ordemServico.controller;
 import br.com.alexsdm.postech.oficina.ordemServico.controller.request.CriarOrdemDeServicoRequest;
 import br.com.alexsdm.postech.oficina.ordemServico.controller.request.ExecutarOrdemServicoRequest;
 import br.com.alexsdm.postech.oficina.ordemServico.controller.request.FinalizarDiagnosticoRequest;
-import br.com.alexsdm.postech.oficina.ordemServico.model.OrdemServico;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.OrdemServico;
 import br.com.alexsdm.postech.oficina.ordemServico.service.application.OrdemServicoApplicationService;
 import br.com.alexsdm.postech.oficina.ordemServico.service.application.input.OsPecaNecessariasInput;
 import jakarta.validation.Valid;

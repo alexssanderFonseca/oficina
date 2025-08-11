@@ -8,9 +8,9 @@ import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application.PecaI
 import br.com.alexsdm.postech.oficina.admin.servico.service.application.ServicoApplicationService;
 import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoException;
 import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoNaoEncontradaException;
-import br.com.alexsdm.postech.oficina.orcamento.model.ItemPecaOrcamento;
-import br.com.alexsdm.postech.oficina.orcamento.model.Orcamento;
-import br.com.alexsdm.postech.oficina.orcamento.model.OrcamentoStatus;
+import br.com.alexsdm.postech.oficina.orcamento.entity.ItemPecaOrcamento;
+import br.com.alexsdm.postech.oficina.orcamento.entity.Orcamento;
+import br.com.alexsdm.postech.oficina.orcamento.entity.OrcamentoStatus;
 import br.com.alexsdm.postech.oficina.orcamento.repository.OrcamentoRepository;
 import br.com.alexsdm.postech.oficina.orcamento.service.domain.OrcamentoDomainService;
 import br.com.alexsdm.postech.oficina.orcamento.service.input.PecaOrcamentoInput;

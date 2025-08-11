@@ -1,6 +1,6 @@
 package br.com.alexsdm.postech.oficina.ordemServico.repository;
 
-import br.com.alexsdm.postech.oficina.ordemServico.model.OrdemServico;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.OrdemServico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

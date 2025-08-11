@@ -1,8 +1,8 @@
 package br.com.alexsdm.postech.oficina.ordemServico.service.domain;
 
-import br.com.alexsdm.postech.oficina.ordemServico.model.ItemPecaOrdemServico;
-import br.com.alexsdm.postech.oficina.ordemServico.model.OrdemServico;
-import br.com.alexsdm.postech.oficina.admin.servico.model.Servico;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.ItemPecaOrdemServico;
+import br.com.alexsdm.postech.oficina.ordemServico.entity.OrdemServico;
+import br.com.alexsdm.postech.oficina.admin.servico.entity.Servico;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

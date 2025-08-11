@@ -2,7 +2,7 @@ package br.com.alexsdm.postech.oficina.admin.cliente.entity;
 
 import br.com.alexsdm.postech.oficina.admin.cliente.entity.validation.ValidadorPlacaVeiculo;
 import br.com.alexsdm.postech.oficina.admin.cliente.exception.ClienteException;
-import br.com.alexsdm.postech.oficina.admin.veiculo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;

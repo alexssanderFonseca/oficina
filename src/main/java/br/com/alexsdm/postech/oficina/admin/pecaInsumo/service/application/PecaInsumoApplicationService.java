@@ -3,10 +3,10 @@ package br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.AtualizarPecaInsumoRequest;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.CadastrarPecaInsumoRequest;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception.PecaInsumoNaoEncontradaException;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.model.PecaInsumo;
+import br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity.PecaInsumo;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.repository.PecaRepository;
 import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.domain.PecaInsumoDomainService;
-import br.com.alexsdm.postech.oficina.admin.veiculo.service.application.VeiculoModeloApplicationService;
+import br.com.alexsdm.postech.oficina.admin.veiculomodelo.service.application.VeiculoModeloApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
