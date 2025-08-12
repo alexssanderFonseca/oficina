@@ -14,9 +14,6 @@ import br.com.alexsdm.postech.oficina.ordemServico.service.application.output.*;
 import br.com.alexsdm.postech.oficina.ordemServico.service.domain.OrdemServicoDomainService;
 import br.com.alexsdm.postech.oficina.pecaInsumo.service.application.PecaInsumoApplicationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -77,9 +74,9 @@ public class OrdemServicoApplicationService {
         ordemServicoRepository.save(ordemServico);
     }
 
-    public void finalizarDiagnostico(Long idOrdemServico,
-                                     List<OsPecaNecessariasInput> osPecaNecessariasInputs,
-                                     List<Long> idServicosNecessarios) {
+    public FinalizarDiagnosticoOutput finalizarDiagnostico(Long idOrdemServico,
+                                                           List<OsPecaNecessariasInput> osPecaNecessariasInputs,
+                                                           List<Long> idServicosNecessarios) {
         var ordemServico = buscarOrdemServico(idOrdemServico);
 
         var cliente = clienteApplicationService.buscarEntidade(ordemServico.getClienteId()).
@@ -94,11 +91,13 @@ public class OrdemServicoApplicationService {
                         new PecaOrcamentoInput(osPecaNecessariasInput.pecaId(), osPecaNecessariasInput.qtd()))
                 .toList();
 
-        orcamentoApplicationService.criar(
+        var orcamentoID = orcamentoApplicationService.criar(
                 cliente.getCpfCnpj(),
                 ordemServico.getVeiculoId(),
                 orcamentoInput,
                 idServicosNecessarios);
+
+        return new FinalizarDiagnosticoOutput(orcamentoID);
     }
 
     public void executar(Long idOrdemServico, Long orcamentoID) {
