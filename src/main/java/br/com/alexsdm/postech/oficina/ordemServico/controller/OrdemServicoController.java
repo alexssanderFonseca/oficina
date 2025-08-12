@@ -57,7 +57,7 @@ public class OrdemServicoController {
                 .map(itemPeca -> new OsPecaNecessariasInput(itemPeca.idPeca(), itemPeca.qtd()))
                 .toList();
 
-        ordemApplicationService.finalizarDiagnostico(id,
+        var orcamentoId = ordemApplicationService.finalizarDiagnostico(id,
                 pecasNecessariasOS,
                 request.idServicosNecessarios());
         return ResponseEntity.noContent().build();
