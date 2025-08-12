@@ -29,12 +29,30 @@ A aplicação foi desenvolvida com foco em **boas práticas**, **DDD** (quando a
 
 ---
 
+## Documentação da API
+
+A documentação da API está disponível via Swagger UI, que é gerada automaticamente com base nas anotações OpenAPI presentes nos controllers.
+
+### Como acessar
+
+1. Execute a aplicação:
+   ```bash
+   ./gradlew bootRun
+   ```
+ou rode via sua IDE / java -jar
+
+2. Abra o navegador e acesse o endereço:
+   ```text
+   http://localhost:8080/swagger-ui/index.html
+   ```
+
+
 ## 📂 Estrutura do Projeto
 
 A partir do diretório `src/main/java`, o projeto está organizado por módulos de domínio:
 
 ```text
-br.com.seuusuario.oficina/
+br.com.alexsdm.oficina/
  ├── admin/                # Funcionalidades administrativas
  │   ├── clientes/         # Gestão de clientes
  │   ├── pecasinsumos/     # Gestão de peças e insumos
