@@ -3,6 +3,9 @@ package br.com.alexsdm.postech.oficina.orcamento.controller;
 import br.com.alexsdm.postech.oficina.orcamento.controller.request.CriacaoOrcamentoRequest;
 import br.com.alexsdm.postech.oficina.orcamento.entity.Orcamento;
 import br.com.alexsdm.postech.oficina.orcamento.service.application.OrcamentoApplicationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
@@ -13,13 +16,16 @@ import java.net.URI;
 @RestController
 @RequestMapping("/orcamentos")
 @RequiredArgsConstructor
+@Tag(name = "Orçamentos", description = "Gerenciamento dos orçamentos")
 public class OrcamentoController {
 
     private final OrcamentoApplicationService orcamentoApplicationService;
 
-
+    @Operation(summary = "Criar novo orçamento", description = "Cria um novo orçamento com peças e serviços")
     @PostMapping
-    public ResponseEntity<?> criarOrcamento(@RequestBody @Valid CriacaoOrcamentoRequest input) {
+    public ResponseEntity<?> criarOrcamento(
+            @Parameter(description = "Dados para criação do orçamento")
+            @RequestBody @Valid CriacaoOrcamentoRequest input) {
         var orcamentoId = orcamentoApplicationService.criar(
                 input.cpfCnpjCliente(),
                 input.veiculoId(),
@@ -27,35 +33,41 @@ public class OrcamentoController {
                 input.servicos()
         );
 
-        return ResponseEntity
-                .created(URI.create("/orcamentos/" + orcamentoId)).build();
+        return ResponseEntity.created(URI.create("/orcamentos/" + orcamentoId)).build();
     }
 
+    @Operation(summary = "Aceitar orçamento", description = "Marca o orçamento como aceito")
     @PostMapping("/{id}/aceitos")
-    public ResponseEntity<Orcamento> aceitarOrcamento(@PathVariable Long id) {
+    public ResponseEntity<Orcamento> aceitarOrcamento(
+            @Parameter(description = "ID do orçamento", example = "1")
+            @PathVariable Long id) {
         orcamentoApplicationService.aprovar(id);
-        return ResponseEntity
-                .noContent()
-                .build();
+        return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Recusar orçamento", description = "Marca o orçamento como recusado")
     @PostMapping("/{id}/recusados")
-    public ResponseEntity<Orcamento> recusarOrcamento(@PathVariable Long id) {
+    public ResponseEntity<Orcamento> recusarOrcamento(
+            @Parameter(description = "ID do orçamento", example = "1")
+            @PathVariable Long id) {
         orcamentoApplicationService.recusar(id);
-        return ResponseEntity.
-                noContent().
-                build();
+        return ResponseEntity.noContent().build();
     }
 
-
+    @Operation(summary = "Buscar orçamento por ID", description = "Retorna os detalhes do orçamento")
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarOrcamento(@PathVariable Long id) {
+    public ResponseEntity<?> buscarOrcamento(
+            @Parameter(description = "ID do orçamento", example = "1")
+            @PathVariable Long id) {
         var orcamento = orcamentoApplicationService.buscarPorId(id);
         return ResponseEntity.ok(orcamento);
     }
 
+    @Operation(summary = "Enviar orçamento em PDF", description = "Gera e envia o orçamento em formato PDF para download")
     @GetMapping("/{id}/envios")
-    public ResponseEntity<?> enviarOrcamento(@PathVariable Long id) {
+    public ResponseEntity<?> enviarOrcamento(
+            @Parameter(description = "ID do orçamento", example = "1")
+            @PathVariable Long id) {
         var pdfBytes = orcamentoApplicationService.enviar(id);
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
@@ -64,7 +76,3 @@ public class OrcamentoController {
     }
 
 }
-
-
-
-
