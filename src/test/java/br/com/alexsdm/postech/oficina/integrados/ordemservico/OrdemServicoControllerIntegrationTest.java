@@ -301,7 +301,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .when()
                 .post("/ordens-servicos/{id}/entregas", id)
                 .then()
-                .statusCode(200);
+                .statusCode(204);
     }
 
     // POST /ordens-servicos/{id}/entregas - ordem não encontrada
