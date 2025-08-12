@@ -60,7 +60,7 @@ public class OrdemServicoController {
         var orcamentoId = ordemApplicationService.finalizarDiagnostico(id,
                 pecasNecessariasOS,
                 request.idServicosNecessarios());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(orcamentoId);
     }
 
     @Operation(summary = "Executar ordem de serviço", description = "Executa a ordem de serviço com base em um orçamento")
