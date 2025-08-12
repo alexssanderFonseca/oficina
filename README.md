@@ -85,10 +85,12 @@ model/            # Entidades e Value Objects
 
 ## 🚀 Como Executar
 
-> **Em breve:** instruções detalhadas para instalação e execução local.
+1. Para executar a aplicação roda o comando na raiz do projeto:
 
+   ```bash
+   docker compose up
+   ```
 ---
-
 ## 📜 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.

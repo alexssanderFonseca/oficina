@@ -21,7 +21,6 @@ FROM eclipse-temurin:21-jdk-jammy
 
 WORKDIR /app
 
-# Copia o jar do estágio anterior
 COPY --from=build /app/build/libs/*.jar app.jar
 
 EXPOSE 8080
