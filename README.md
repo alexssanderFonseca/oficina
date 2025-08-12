@@ -31,7 +31,11 @@ A aplicação foi desenvolvida com foco em **boas práticas**, **DDD** (quando a
 
 ## Documentação da API
 
-A documentação da API está disponível via Swagger UI, que é gerada automaticamente com base nas anotações OpenAPI presentes nos controllers.
+A documentação da API está disponível via Swagger UI, para ter acesso, entre em:
+ ```
+    http://localhost:8080/swagger-ui/index.html
+ ```
+
 
 ### Como acessar
 ## 🚀 Como Executar
