@@ -38,7 +38,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .path("token");
     }
 
-    private String criarOrdemServicoERetornarId(String jsonPayload) {
+    private Long criarOrdemServicoERetornarId(String jsonPayload) {
         String location = RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
@@ -51,7 +51,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .extract()
                 .header("Location");
 
-        return location.substring(location.lastIndexOf("/") + 1);
+        return Long.parseLong(location.substring(location.lastIndexOf("/") + 1));
     }
 
     // POST /ordens-servicos - sucesso
@@ -96,7 +96,7 @@ public class OrdemServicoControllerIntegrationTest {
     // POST /ordens-servicos/{id}/diagnosticos - sucesso
     @Test
     public void deveIniciarDiagnosticoComSucesso() {
-        String id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
+        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -120,8 +120,8 @@ public class OrdemServicoControllerIntegrationTest {
     // POST /ordens-servicos/{id}/diagnosticos/finalizacoes - sucesso
     @Test
     public void deveFinalizarDiagnosticoComSucesso() {
-        String id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
-        
+        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
+
         // Iniciar diagnóstico primeiro
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -143,8 +143,8 @@ public class OrdemServicoControllerIntegrationTest {
     // POST /ordens-servicos/{id}/diagnosticos/finalizacoes - dados inválidos
     @Test
     public void naoDeveFinalizarDiagnosticoComDadosInvalidos() {
-        String id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
-        
+        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
+
         // Iniciar diagnóstico primeiro
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -166,8 +166,8 @@ public class OrdemServicoControllerIntegrationTest {
     // POST /ordens-servicos/{id}/execucoes - sucesso
     @Test
     public void deveExecutarOrdemServicoComSucesso() {
-        String id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
-        
+        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
+
         // Iniciar e finalizar diagnóstico primeiro
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -211,8 +211,8 @@ public class OrdemServicoControllerIntegrationTest {
     // POST /ordens-servicos/{id}/finalizacoes - sucesso
     @Test
     public void deveFinalizarOrdemServicoComSucesso() {
-        String id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
-        
+        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
+
         // Executar fluxo completo até execução
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -261,8 +261,8 @@ public class OrdemServicoControllerIntegrationTest {
     // POST /ordens-servicos/{id}/entregas - sucesso
     @Test
     public void deveEntregarOrdemServicoComSucesso() {
-        String id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida2());
-        
+        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida2());
+
         // Executar fluxo completo até finalização
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -318,7 +318,7 @@ public class OrdemServicoControllerIntegrationTest {
     // GET /ordens-servicos/{id} - sucesso
     @Test
     public void deveBuscarOrdemServicoPorIdComSucesso() {
-        String id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
+        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -327,7 +327,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .get("/ordens-servicos/{id}", id)
                 .then()
                 .statusCode(200)
-                .body("id", equalTo(id))
+                .body("id", equalTo(id.intValue()))
                 .body("dadosCliente", notNullValue())
                 .body("dadosVeiculo", notNullValue())
                 .body("status", notNullValue());
@@ -347,7 +347,7 @@ public class OrdemServicoControllerIntegrationTest {
     // GET /ordens-servicos/{id} - sem autenticação
     @Test
     public void naoDeveBuscarOrdemServicoSemAutenticacao() {
-        String id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
+        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
 
         RestAssured.given()
                 .when()

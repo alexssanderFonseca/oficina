@@ -1,11 +1,11 @@
 package br.com.alexsdm.postech.oficina.orcamento.service.application;
 
 
-import br.com.alexsdm.postech.oficina.admin.cliente.entity.Cliente;
-import br.com.alexsdm.postech.oficina.admin.cliente.entity.Veiculo;
-import br.com.alexsdm.postech.oficina.admin.cliente.service.application.ClienteApplicationService;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application.PecaInsumoApplicationService;
-import br.com.alexsdm.postech.oficina.admin.servico.service.application.ServicoApplicationService;
+import br.com.alexsdm.postech.oficina.cliente.entity.Cliente;
+import br.com.alexsdm.postech.oficina.cliente.entity.Veiculo;
+import br.com.alexsdm.postech.oficina.cliente.service.application.ClienteApplicationService;
+import br.com.alexsdm.postech.oficina.pecaInsumo.service.application.PecaInsumoApplicationService;
+import br.com.alexsdm.postech.oficina.servico.service.application.ServicoApplicationService;
 import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoException;
 import br.com.alexsdm.postech.oficina.orcamento.exception.OrcamentoNaoEncontradaException;
 import br.com.alexsdm.postech.oficina.orcamento.entity.ItemPecaOrcamento;

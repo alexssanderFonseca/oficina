@@ -1,22 +1,27 @@
 package br.com.alexsdm.postech.oficina.ordemServico.service.application;
 
-import br.com.alexsdm.postech.oficina.admin.cliente.service.application.ClienteApplicationService;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application.PecaInsumoApplicationService;
+import br.com.alexsdm.postech.oficina.cliente.service.application.ClienteApplicationService;
 import br.com.alexsdm.postech.oficina.orcamento.service.application.OrcamentoApplicationService;
 import br.com.alexsdm.postech.oficina.orcamento.service.input.PecaOrcamentoInput;
 import br.com.alexsdm.postech.oficina.ordemServico.controller.request.CriarOrdemDeServicoRequest;
-import br.com.alexsdm.postech.oficina.ordemServico.exception.*;
 import br.com.alexsdm.postech.oficina.ordemServico.entity.ItemPecaOrdemServico;
 import br.com.alexsdm.postech.oficina.ordemServico.entity.OrdemServico;
 import br.com.alexsdm.postech.oficina.ordemServico.entity.Status;
+import br.com.alexsdm.postech.oficina.ordemServico.exception.*;
 import br.com.alexsdm.postech.oficina.ordemServico.repository.OrdemServicoRepository;
 import br.com.alexsdm.postech.oficina.ordemServico.service.application.input.OsPecaNecessariasInput;
 import br.com.alexsdm.postech.oficina.ordemServico.service.application.output.*;
 import br.com.alexsdm.postech.oficina.ordemServico.service.domain.OrdemServicoDomainService;
+import br.com.alexsdm.postech.oficina.pecaInsumo.service.application.PecaInsumoApplicationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -177,7 +182,7 @@ public class OrdemServicoApplicationService {
                 .toList();
 
         return new VisualizarOrdemServiceOutput(
-                ordemServico.getId().toString(),
+                ordemServico.getId(),
                 ordemServico.getDataCriacao(),
                 ordemServico.getDataInicioDaExecucao(),
                 ordemServico.getDataFinalizacao(),
@@ -193,6 +198,28 @@ public class OrdemServicoApplicationService {
 
     public Double getTempoMedioExecucaoServicosEmSegundos() {
         return this.ordemServicoRepository.calcularTempoMedioExecucaoSegundos();
+    }
+
+    public PaginaResumida<OrdemServicoAcompanhamentoOutput> listarOrdensServico(Pageable pageable) {
+        var page = ordemServicoRepository.findAll(pageable);
+
+        var content = page.getContent().stream()
+                .map(os -> new OrdemServicoAcompanhamentoOutput(
+                        os.getId(),
+                        os.getDataCriacao(),
+                        os.getDataInicioDaExecucao(),
+                        os.getDataFinalizacao(),
+                        os.getDataEntrega(),
+                        os.getStatus().name()
+                ))
+                .toList();
+
+        return new PaginaResumida<>(content, page.getTotalElements(), page.getNumber());
+    }
+
+
+    public List<OrdemServico> statusByCliente(UUID clientId) {
+        return this.ordemServicoRepository.findAllByClienteId(clientId);
     }
 
 

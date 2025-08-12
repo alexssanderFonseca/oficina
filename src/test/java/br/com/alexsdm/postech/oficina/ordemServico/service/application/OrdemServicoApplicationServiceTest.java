@@ -1,13 +1,13 @@
 package br.com.alexsdm.postech.oficina.ordemServico.service.application;
 
-import br.com.alexsdm.postech.oficina.admin.cliente.entity.Cliente;
-import br.com.alexsdm.postech.oficina.admin.cliente.entity.Endereco;
-import br.com.alexsdm.postech.oficina.admin.cliente.entity.Veiculo;
-import br.com.alexsdm.postech.oficina.admin.cliente.service.application.ClienteApplicationService;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity.PecaInsumo;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application.PecaInsumoApplicationService;
-import br.com.alexsdm.postech.oficina.admin.servico.entity.Servico;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.cliente.entity.Cliente;
+import br.com.alexsdm.postech.oficina.cliente.entity.Endereco;
+import br.com.alexsdm.postech.oficina.cliente.entity.Veiculo;
+import br.com.alexsdm.postech.oficina.cliente.service.application.ClienteApplicationService;
+import br.com.alexsdm.postech.oficina.pecaInsumo.entity.PecaInsumo;
+import br.com.alexsdm.postech.oficina.pecaInsumo.service.application.PecaInsumoApplicationService;
+import br.com.alexsdm.postech.oficina.servico.entity.Servico;
+import br.com.alexsdm.postech.oficina.veiculomodelo.model.VeiculoModelo;
 import br.com.alexsdm.postech.oficina.orcamento.entity.ItemPecaOrcamento;
 import br.com.alexsdm.postech.oficina.orcamento.entity.Orcamento;
 import br.com.alexsdm.postech.oficina.orcamento.entity.OrcamentoStatus;
@@ -450,7 +450,7 @@ class OrdemServicoApplicationServiceTest {
 
         // Assert
         assertNotNull(resultado);
-        assertEquals(ordemServicoId.toString(), resultado.id());
+        assertEquals(ordemServicoId, resultado.id());
         assertEquals("João", resultado.dadosCliente().nome());
         assertEquals(cpfCnpj, resultado.dadosCliente().cpfCnpj());
         assertEquals("FFA3I31", resultado.dadosVeiculo().placa());

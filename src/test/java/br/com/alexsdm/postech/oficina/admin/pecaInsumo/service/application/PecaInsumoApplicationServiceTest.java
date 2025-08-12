@@ -1,12 +1,13 @@
 package br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.application;
 
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.controller.input.CadastrarPecaInsumoRequest;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.exception.PecaInsumoNaoEncontradaException;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity.PecaInsumo;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.repository.PecaRepository;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.service.domain.PecaInsumoDomainService;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.service.application.VeiculoModeloApplicationService;
+import br.com.alexsdm.postech.oficina.pecaInsumo.controller.input.CadastrarPecaInsumoRequest;
+import br.com.alexsdm.postech.oficina.pecaInsumo.exception.PecaInsumoNaoEncontradaException;
+import br.com.alexsdm.postech.oficina.pecaInsumo.entity.PecaInsumo;
+import br.com.alexsdm.postech.oficina.pecaInsumo.repository.PecaRepository;
+import br.com.alexsdm.postech.oficina.pecaInsumo.service.domain.PecaInsumoDomainService;
+import br.com.alexsdm.postech.oficina.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.veiculomodelo.service.application.VeiculoModeloApplicationService;
+import br.com.alexsdm.postech.oficina.pecaInsumo.service.application.PecaInsumoApplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

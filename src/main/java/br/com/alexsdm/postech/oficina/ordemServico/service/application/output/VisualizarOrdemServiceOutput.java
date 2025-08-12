@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record VisualizarOrdemServiceOutput(
-        String id,
+        Long id,
         LocalDateTime dataHoraCriacao,
         LocalDateTime dataInicioDaExecucao,
         LocalDateTime dataFinalizacao,

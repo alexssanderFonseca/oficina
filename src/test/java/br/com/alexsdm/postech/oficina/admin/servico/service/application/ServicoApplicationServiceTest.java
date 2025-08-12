@@ -1,10 +1,11 @@
 package br.com.alexsdm.postech.oficina.admin.servico.service.application;
 
-import br.com.alexsdm.postech.oficina.admin.servico.controller.request.CadastrarServicoRequest;
-import br.com.alexsdm.postech.oficina.admin.servico.controller.request.ServicoAtualizarRequest;
-import br.com.alexsdm.postech.oficina.admin.servico.exception.ServicoNaoEncontradoException;
-import br.com.alexsdm.postech.oficina.admin.servico.entity.Servico;
-import br.com.alexsdm.postech.oficina.admin.servico.repository.ServicoRepository;
+import br.com.alexsdm.postech.oficina.servico.controller.request.CadastrarServicoRequest;
+import br.com.alexsdm.postech.oficina.servico.controller.request.ServicoAtualizarRequest;
+import br.com.alexsdm.postech.oficina.servico.exception.ServicoNaoEncontradoException;
+import br.com.alexsdm.postech.oficina.servico.entity.Servico;
+import br.com.alexsdm.postech.oficina.servico.repository.ServicoRepository;
+import br.com.alexsdm.postech.oficina.servico.service.application.ServicoApplicationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

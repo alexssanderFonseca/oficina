@@ -1,5 +1,6 @@
 package br.com.alexsdm.postech.oficina.admin.servico.entity;
 
+import br.com.alexsdm.postech.oficina.servico.entity.Servico;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

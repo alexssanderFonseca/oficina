@@ -1,6 +1,6 @@
 package br.com.alexsdm.postech.oficina.ordemServico.entity;
 
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity.PecaInsumo;
+import br.com.alexsdm.postech.oficina.pecaInsumo.entity.PecaInsumo;
 import jakarta.persistence.*;
 import lombok.Getter;
 
