@@ -34,16 +34,12 @@ A aplicação foi desenvolvida com foco em **boas práticas**, **DDD** (quando a
 A documentação da API está disponível via Swagger UI, que é gerada automaticamente com base nas anotações OpenAPI presentes nos controllers.
 
 ### Como acessar
+## 🚀 Como Executar
 
-1. Execute a aplicação:
+1. Para executar a aplicação roda o comando na raiz do projeto:
+
    ```bash
-   ./gradlew bootRun
-   ```
-ou rode via sua IDE / java -jar
-
-2. Abra o navegador e acesse o endereço:
-   ```text
-   http://localhost:8080/swagger-ui/index.html
+    docker compose up
    ```
 
 
@@ -81,15 +77,8 @@ model/            # Entidades e Value Objects
 
 ```
 
----
 
-## 🚀 Como Executar
 
-1. Para executar a aplicação roda o comando na raiz do projeto:
-
-   ```bash
-   docker compose up
-   ```
 ---
 ## 📜 Licença
 
