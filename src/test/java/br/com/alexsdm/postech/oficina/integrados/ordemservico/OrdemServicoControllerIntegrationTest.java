@@ -137,7 +137,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .when()
                 .post("/ordens-servicos/{id}/diagnosticos/finalizacoes", id)
                 .then()
-                .statusCode(204);
+                .statusCode(200);
     }
 
     // POST /ordens-servicos/{id}/diagnosticos/finalizacoes - dados inválidos
@@ -183,7 +183,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .when()
                 .post("/ordens-servicos/{id}/diagnosticos/finalizacoes", id)
                 .then()
-                .statusCode(204);
+                .statusCode(200);
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -228,7 +228,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .when()
                 .post("/ordens-servicos/{id}/diagnosticos/finalizacoes", id)
                 .then()
-                .statusCode(204);
+                .statusCode(200);
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -278,7 +278,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .when()
                 .post("/ordens-servicos/{id}/diagnosticos/finalizacoes", id)
                 .then()
-                .statusCode(204);
+                .statusCode(200);
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -301,7 +301,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .when()
                 .post("/ordens-servicos/{id}/entregas", id)
                 .then()
-                .statusCode(204);
+                .statusCode(200);
     }
 
     // POST /ordens-servicos/{id}/entregas - ordem não encontrada
