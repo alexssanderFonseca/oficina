@@ -1,8 +1,8 @@
 package br.com.alexsdm.postech.oficina.ordemServico.service.domain;
 
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity.PecaInsumo;
-import br.com.alexsdm.postech.oficina.admin.servico.entity.Servico;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.pecaInsumo.entity.PecaInsumo;
+import br.com.alexsdm.postech.oficina.servico.entity.Servico;
+import br.com.alexsdm.postech.oficina.veiculomodelo.model.VeiculoModelo;
 import br.com.alexsdm.postech.oficina.ordemServico.entity.ItemPecaOrdemServico;
 import br.com.alexsdm.postech.oficina.ordemServico.entity.OrdemServico;
 import br.com.alexsdm.postech.oficina.ordemServico.entity.Status;

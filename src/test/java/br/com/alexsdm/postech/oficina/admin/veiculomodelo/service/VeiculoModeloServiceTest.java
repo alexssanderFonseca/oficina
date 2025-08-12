@@ -1,10 +1,11 @@
 package br.com.alexsdm.postech.oficina.admin.veiculomodelo.service;
 
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.controller.request.AtualizarVeiculoModeloRequest;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.controller.request.CadastrarVeiculoModeloRequest;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.exception.VeiculoModeloNaoEncontradoException;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.repository.VeiculoModeloRepository;
+import br.com.alexsdm.postech.oficina.veiculomodelo.controller.request.AtualizarVeiculoModeloRequest;
+import br.com.alexsdm.postech.oficina.veiculomodelo.controller.request.CadastrarVeiculoModeloRequest;
+import br.com.alexsdm.postech.oficina.veiculomodelo.exception.VeiculoModeloNaoEncontradoException;
+import br.com.alexsdm.postech.oficina.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.veiculomodelo.repository.VeiculoModeloRepository;
+import br.com.alexsdm.postech.oficina.veiculomodelo.service.VeiculoApplicationModeloService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

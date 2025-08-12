@@ -1,10 +1,10 @@
 package br.com.alexsdm.postech.oficina.orcamento.service.application;
 
-import br.com.alexsdm.postech.oficina.admin.cliente.entity.Cliente;
-import br.com.alexsdm.postech.oficina.admin.cliente.entity.Veiculo;
-import br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity.PecaInsumo;
-import br.com.alexsdm.postech.oficina.admin.servico.entity.Servico;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.cliente.entity.Cliente;
+import br.com.alexsdm.postech.oficina.cliente.entity.Veiculo;
+import br.com.alexsdm.postech.oficina.pecaInsumo.entity.PecaInsumo;
+import br.com.alexsdm.postech.oficina.servico.entity.Servico;
+import br.com.alexsdm.postech.oficina.veiculomodelo.model.VeiculoModelo;
 import br.com.alexsdm.postech.oficina.orcamento.entity.ItemPecaOrcamento;
 import br.com.alexsdm.postech.oficina.orcamento.entity.Orcamento;
 import br.com.alexsdm.postech.oficina.orcamento.entity.OrcamentoStatus;

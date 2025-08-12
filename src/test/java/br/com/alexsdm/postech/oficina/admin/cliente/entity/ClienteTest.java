@@ -1,7 +1,10 @@
 package br.com.alexsdm.postech.oficina.admin.cliente.entity;
 
-import br.com.alexsdm.postech.oficina.admin.cliente.exception.ClienteDocumentoInvalidoException;
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.cliente.entity.Cliente;
+import br.com.alexsdm.postech.oficina.cliente.entity.Veiculo;
+import br.com.alexsdm.postech.oficina.cliente.exception.ClienteDocumentoInvalidoException;
+import br.com.alexsdm.postech.oficina.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.cliente.entity.Endereco;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

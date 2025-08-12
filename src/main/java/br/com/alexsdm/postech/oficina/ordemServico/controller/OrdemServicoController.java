@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -99,4 +100,13 @@ public class OrdemServicoController {
         var ordemServico = ordemApplicationService.visualizarOrdemServico(id);
         return ResponseEntity.ok(ordemServico);
     }
+
+    @Operation(summary = "Lista todas as ordens de serviço", description = "Lista todas as ordens")
+    @GetMapping()
+    public ResponseEntity<?> buscar(Pageable pageable) {
+        var ordemServico = ordemApplicationService.listarOrdensServico(pageable);
+        return ResponseEntity.ok(ordemServico);
+    }
+
+
 }

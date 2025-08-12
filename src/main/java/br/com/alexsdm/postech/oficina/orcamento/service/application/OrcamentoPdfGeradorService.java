@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.orcamento.service.application;
 
-import br.com.alexsdm.postech.oficina.admin.cliente.entity.Cliente;
-import br.com.alexsdm.postech.oficina.admin.cliente.entity.Veiculo;
+import br.com.alexsdm.postech.oficina.cliente.entity.Cliente;
+import br.com.alexsdm.postech.oficina.cliente.entity.Veiculo;
 import br.com.alexsdm.postech.oficina.orcamento.entity.Orcamento;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;

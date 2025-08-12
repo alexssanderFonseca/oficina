@@ -1,6 +1,7 @@
 package br.com.alexsdm.postech.oficina.admin.pecaInsumo.entity;
 
-import br.com.alexsdm.postech.oficina.admin.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.veiculomodelo.model.VeiculoModelo;
+import br.com.alexsdm.postech.oficina.pecaInsumo.entity.PecaInsumo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
