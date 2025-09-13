@@ -28,7 +28,9 @@ public class JsonPayloads {
                 {
                     "marca": "Toyota",
                     "modelo": "Corolla_%s",
-                    "categoria": "SEDAN"
+                    "anoInicio": 2010,
+                    "anoFim": 2020,
+                    "tipo": "SEDAN"
                 }
                 """.formatted(unique);
     }
@@ -287,7 +289,7 @@ public class JsonPayloads {
         return """
                 {
                     "veiculoModeloId": %d,
-                    "placa": "VLD3I3%s",
+                    "placa": "NET-5747",
                     "cor": "Branco",
                     "ano": "2022"
                 }

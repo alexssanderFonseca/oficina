@@ -38,7 +38,7 @@ CREATE TABLE veiculo_modelo (
 CREATE TABLE veiculo
 (
     id         UUID PRIMARY KEY,
-    placa      VARCHAR(7) UNIQUE NOT NULL,
+    placa      VARCHAR(8) UNIQUE NOT NULL,
     cor        VARCHAR(30) NOT NULL,
     ano        VARCHAR(4)  NOT NULL,
     cliente_id UUID,
