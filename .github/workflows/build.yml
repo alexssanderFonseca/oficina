@@ -26,10 +26,22 @@ jobs:
       - name: Executar testes e build
         run: ./gradlew test build # Roda os testes e o build da aplicação
 
+          
+  validate-image:
+      runs-on: ubuntu-latest
+      needs: build
+      if: success()
+      steps:
+        - name: Checkout do código
+          uses: actions/checkout@v4
+        
+        - name: Validar o build da imagem Docker
+          run: |
+            docker build . --file Dockerfile
         
   create-pr:
       runs-on: ubuntu-latest
-      needs: build 
+      needs: validate-image
       if: success()
       permissions:
         contents: write 
