@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.cliente.application.usecase.impl;
 
 import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteGateway;
-import br.com.alexsdm.postech.oficina.cliente.application.gateway.VeiculoModeloGateway;
+import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteVeiculoModeloGateway;
 import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.AdicionarVeiculoInput;
 import br.com.alexsdm.postech.oficina.cliente.domain.entity.Cliente;
 import br.com.alexsdm.postech.oficina.cliente.domain.entity.Endereco;
@@ -31,7 +31,7 @@ class AdicionarVeiculoUseCaseImplTest {
     private ClienteGateway clienteGateway;
 
     @Mock
-    private VeiculoModeloGateway veiculoModeloGateway;
+    private ClienteVeiculoModeloGateway veiculoModeloGateway;
 
     @InjectMocks
     private AdicionarVeiculoUseCaseImpl adicionarVeiculoUseCase;
@@ -67,7 +67,7 @@ class AdicionarVeiculoUseCaseImplTest {
                 .endereco(endereco)
                 .build();
 
-        veiculoModelo = new VeiculoModelo("Marca Teste", "Modelo Teste");
+        veiculoModelo = new VeiculoModelo(1L, "Marca Teste", "Modelo Teste");
 
         input = AdicionarVeiculoInput.builder()
                 .clienteId(clienteId)
@@ -96,7 +96,9 @@ class AdicionarVeiculoUseCaseImplTest {
         verify(veiculoModeloGateway).buscarPorId(veiculoModeloId);
         verify(clienteGateway).salvar(any(Cliente.class));
         assertEquals(1, cliente.getVeiculos().size());
-        assertEquals("NET-5747", cliente.getVeiculos().get(0).placa());
+        veiculoModelo = new VeiculoModelo(1L, "Marca Teste", "Modelo Teste");
+        // ...
+        assertEquals("NET-5747", cliente.getVeiculos().getFirst().getPlaca());
     }
 
     @Test

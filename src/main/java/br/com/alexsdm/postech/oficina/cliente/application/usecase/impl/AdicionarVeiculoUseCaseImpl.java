@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.cliente.application.usecase.impl;
 
 import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteGateway;
-import br.com.alexsdm.postech.oficina.cliente.application.gateway.VeiculoModeloGateway;
+import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteVeiculoModeloGateway;
 import br.com.alexsdm.postech.oficina.cliente.application.usecase.AdicionarVeiculoUseCase;
 import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.AdicionarVeiculoInput;
 import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.AdicionarVeiculoOutput;
@@ -11,7 +11,7 @@ import br.com.alexsdm.postech.oficina.cliente.exception.VeiculoModeloNaoEncontra
 import jakarta.inject.Named;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+
 import java.util.UUID;
 
 @Named
@@ -20,7 +20,7 @@ import java.util.UUID;
 public class AdicionarVeiculoUseCaseImpl implements AdicionarVeiculoUseCase {
 
     private final ClienteGateway clienteGateway;
-    private final VeiculoModeloGateway veiculoModeloGateway;
+    private final ClienteVeiculoModeloGateway clienteVeiculoModeloGateway;
 
     @Override
     public AdicionarVeiculoOutput executar(AdicionarVeiculoInput input) {
@@ -29,7 +29,7 @@ public class AdicionarVeiculoUseCaseImpl implements AdicionarVeiculoUseCase {
                 .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado com o ID: " + input.clienteId()));
 
         log.info("Buscando modelo de veículo com ID {}", input.veiculoModeloId());
-        var veiculoModelo = veiculoModeloGateway.buscarPorId(input.veiculoModeloId())
+        var veiculoModelo = clienteVeiculoModeloGateway.buscarPorId(input.veiculoModeloId())
                 .orElseThrow(() -> {
                     log.error("Modelo de veículo não encontrado com o ID: {}", input.veiculoModeloId());
                     return new VeiculoModeloNaoEncontradoException("Modelo de veículo não encontrado com o ID: " + input.veiculoModeloId());
@@ -45,8 +45,8 @@ public class AdicionarVeiculoUseCaseImpl implements AdicionarVeiculoUseCase {
 
         cliente.adicionarVeiculo(novoVeiculo);
         clienteGateway.salvar(cliente);
-        log.info("Veículo {} adicionado com sucesso ao cliente {}", novoVeiculo.id(), cliente.getId());
+        log.info("Veículo {} adicionado com sucesso ao cliente {}", novoVeiculo.getId(), cliente.getId());
 
-        return new AdicionarVeiculoOutput(novoVeiculo.id());
+        return new AdicionarVeiculoOutput(novoVeiculo.getId());
     }
 }

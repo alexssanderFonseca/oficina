@@ -55,7 +55,7 @@ public class Cliente {
             return Optional.empty();
         }
         return this.veiculos.stream()
-                .filter(veiculo -> veiculo.id().equals(id))
+                .filter(veiculo -> veiculo.getId().equals(id))
                 .findFirst();
     }
 

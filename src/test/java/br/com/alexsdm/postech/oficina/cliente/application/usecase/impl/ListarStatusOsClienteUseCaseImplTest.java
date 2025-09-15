@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.cliente.application.usecase.impl;
 
 import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteGateway;
-import br.com.alexsdm.postech.oficina.cliente.application.gateway.OrdemServicoGateway;
+import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteOrdemServicoGateway;
 import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.ListarStatusOsClienteInput;
 import br.com.alexsdm.postech.oficina.cliente.domain.entity.Cliente;
 import br.com.alexsdm.postech.oficina.cliente.domain.entity.OrdemServicoStatus;
@@ -29,7 +29,7 @@ class ListarStatusOsClienteUseCaseImplTest {
     private ClienteGateway clienteGateway;
 
     @Mock
-    private OrdemServicoGateway ordemServicoGateway;
+    private ClienteOrdemServicoGateway ordemServicoGateway;
 
     private Cliente cliente;
 
@@ -38,13 +38,12 @@ class ListarStatusOsClienteUseCaseImplTest {
 
     @BeforeEach
     void setup() {
-        this.cliente = mock();
+        this.cliente = mock(Cliente.class);
     }
 
     @Test
     @DisplayName("Deve retornar lista de status de OS quando cliente existe")
     void deveRetornarListaDeStatusQuandoClienteExiste() {
-        // Arrange
         var clienteId = UUID.randomUUID();
         var input = new ListarStatusOsClienteInput(clienteId);
         var listaStatus = List.of(new OrdemServicoStatus(1L, "EM_DIAGNOSTICO"));
@@ -52,10 +51,8 @@ class ListarStatusOsClienteUseCaseImplTest {
         when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
         when(ordemServicoGateway.buscarStatusPorCliente(clienteId)).thenReturn(listaStatus);
 
-        // Act
         var resultado = listarStatusOsClienteUseCase.executar(input);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
         assertEquals("EM_DIAGNOSTICO", resultado.get(0).status());
@@ -66,13 +63,11 @@ class ListarStatusOsClienteUseCaseImplTest {
     @Test
     @DisplayName("Deve lançar ClienteNaoEncontradoException quando cliente não existe")
     void deveLancarExcecaoQuandoClienteNaoExiste() {
-        // Arrange
         var clienteId = UUID.randomUUID();
         var input = new ListarStatusOsClienteInput(clienteId);
 
         when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         assertThrows(ClienteNaoEncontradoException.class, () -> {
             listarStatusOsClienteUseCase.executar(input);
         });
@@ -84,18 +79,14 @@ class ListarStatusOsClienteUseCaseImplTest {
     @Test
     @DisplayName("Deve retornar lista vazia quando cliente existe mas não tem ordens de serviço")
     void deveRetornarListaVaziaQuandoClienteNaoTemOS() {
-        // Arrange
         var clienteId = UUID.randomUUID();
         var input = new ListarStatusOsClienteInput(clienteId);
-        var clienteOptional = Optional.ofNullable(cliente);
-        var cliente =
-                when(clienteGateway.buscarPorId(clienteId)).thenReturn(clienteOptional);
+
+        when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
         when(ordemServicoGateway.buscarStatusPorCliente(clienteId)).thenReturn(List.of());
 
-        // Act
         var resultado = listarStatusOsClienteUseCase.executar(input);
 
-        // Assert
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
         verify(clienteGateway).buscarPorId(clienteId);

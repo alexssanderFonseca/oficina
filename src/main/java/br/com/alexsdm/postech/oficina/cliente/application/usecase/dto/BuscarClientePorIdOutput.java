@@ -32,11 +32,11 @@ public record BuscarClientePorIdOutput(UUID id,
 
         var veiculosOutput = Optional.ofNullable(cliente.getVeiculos()).orElse(Collections.emptyList()).stream()
                 .map(veiculo -> (VeiculoOutput) VeiculoOutput.builder()
-                        .placa(veiculo.placa())
-                        .marca(veiculo.veiculoModelo().marca())
-                        .modelo(veiculo.veiculoModelo().modelo())
-                        .cor(veiculo.cor())
-                        .ano(veiculo.ano())
+                        .placa(veiculo.getPlaca())
+                        .marca(veiculo.getVeiculoModelo().getMarca())
+                        .modelo(veiculo.getVeiculoModelo().getModelo())
+                        .cor(veiculo.getCor())
+                        .ano(veiculo.getAno())
                         .build())
                 .collect(Collectors.toList());
 

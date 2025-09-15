@@ -1,4 +1,16 @@
 package br.com.alexsdm.postech.oficina.cliente.domain.entity;
 
-public record VeiculoModelo(String marca, String modelo) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class VeiculoModelo {
+    private Long id;
+    private String marca;
+    private String modelo;
 }

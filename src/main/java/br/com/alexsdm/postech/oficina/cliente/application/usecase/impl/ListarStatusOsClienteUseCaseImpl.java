@@ -1,7 +1,7 @@
 package br.com.alexsdm.postech.oficina.cliente.application.usecase.impl;
 
 import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteGateway;
-import br.com.alexsdm.postech.oficina.cliente.application.gateway.OrdemServicoGateway;
+import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteOrdemServicoGateway;
 import br.com.alexsdm.postech.oficina.cliente.application.usecase.ListarStatusOsClienteUseCase;
 import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.ListarStatusOsClienteInput;
 import br.com.alexsdm.postech.oficina.cliente.domain.entity.OrdemServicoStatus;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ListarStatusOsClienteUseCaseImpl implements ListarStatusOsClienteUseCase {
 
     private final ClienteGateway clienteGateway;
-    private final OrdemServicoGateway ordemServicoGateway;
+    private final ClienteOrdemServicoGateway ordemServicoGateway;
 
     @Override
     public List<OrdemServicoStatus> executar(ListarStatusOsClienteInput input) {
