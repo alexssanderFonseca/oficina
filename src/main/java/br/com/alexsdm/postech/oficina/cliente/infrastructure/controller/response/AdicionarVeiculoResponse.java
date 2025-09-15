@@ -2,6 +2,6 @@ package br.com.alexsdm.postech.oficina.cliente.infrastructure.controller.respons
 
 import java.util.UUID;
 
-public record AdicionarVeiculoResponse(UUID veiculoID) {
+public record AdicionarVeiculoResponse(UUID veiculoId) {
 
 }

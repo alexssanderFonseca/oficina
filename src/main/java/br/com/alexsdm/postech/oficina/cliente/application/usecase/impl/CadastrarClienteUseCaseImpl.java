@@ -22,7 +22,8 @@ public class CadastrarClienteUseCaseImpl implements CadastrarClienteUseCase {
 
     @Override
     public CadastrarClienteOutput executar(CadastrarClienteInput input) {
-        clienteGateway.buscarPorDocumento(input.cpfCnpj()).ifPresent(cliente -> {
+        clienteGateway.buscarPorDocumento(input.cpfCnpj())
+                .ifPresent(cliente -> {
             throw new ClienteException("Cliente já cadastrado!");
         });
 

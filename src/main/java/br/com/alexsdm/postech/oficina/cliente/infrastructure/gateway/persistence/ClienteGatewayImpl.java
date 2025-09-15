@@ -2,8 +2,8 @@ package br.com.alexsdm.postech.oficina.cliente.infrastructure.gateway.persistenc
 
 import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteGateway;
 import br.com.alexsdm.postech.oficina.cliente.domain.entity.Cliente;
-import br.com.alexsdm.postech.oficina.cliente.infrastructure.persistence.jpa.ClienteJpaRepository;
-import br.com.alexsdm.postech.oficina.cliente.infrastructure.persistence.mapper.ClienteMapper;
+import br.com.alexsdm.postech.oficina.cliente.infrastructure.gateway.persistence.jpa.ClienteJpaRepository;
+import br.com.alexsdm.postech.oficina.cliente.infrastructure.gateway.persistence.mapper.ClienteMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

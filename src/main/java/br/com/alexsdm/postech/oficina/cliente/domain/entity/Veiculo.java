@@ -1,25 +1,24 @@
 package br.com.alexsdm.postech.oficina.cliente.domain.entity;
 
-import br.com.alexsdm.postech.oficina.cliente.domain.validation.ValidadorPlacaVeiculo;
-import br.com.alexsdm.postech.oficina.cliente.exception.ClienteException;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
-@Builder
-public record Veiculo(UUID id,
-                      String placa,
-                      VeiculoModelo veiculoModelo,
-                      String cor,
-                      String ano) {
-
-    public Veiculo {
-        if (!ValidadorPlacaVeiculo.isValida(placa)) {
-            throw new ClienteException("Veiculo informado possui uma placa invalida");
-        }
-    }
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Veiculo {
+    private UUID id;
+    private String placa;
+    private VeiculoModelo veiculoModelo;
+    private String cor;
+    private String ano;
 
     public String getDescricaoCompleta() {
-        return veiculoModelo.marca() + " - " + veiculoModelo.modelo() + " - " + this.ano() + " - " + this.cor();
+        return veiculoModelo.getMarca() + " - " + veiculoModelo.getModelo() + " - " + this.getAno() + " - " + this.getCor();
     }
 }
