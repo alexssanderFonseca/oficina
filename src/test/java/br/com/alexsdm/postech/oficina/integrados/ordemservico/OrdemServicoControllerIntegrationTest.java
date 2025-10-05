@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.UUID;
+
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -38,7 +40,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .path("token");
     }
 
-    private Long criarOrdemServicoERetornarId(String jsonPayload) {
+    private String criarOrdemServicoERetornarId(String jsonPayload) {
         String location = RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
@@ -51,7 +53,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .extract()
                 .header("Location");
 
-        return Long.parseLong(location.substring(location.lastIndexOf("/") + 1));
+        return location.substring(location.lastIndexOf("/") + 1);
     }
 
     // POST /ordens-servicos - sucesso
@@ -65,7 +67,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .post("/ordens-servicos")
                 .then()
                 .statusCode(201)
-                .header("Location", matchesPattern(".*/ordens-servicos/\\d+"));
+                .header("Location", matchesPattern(".*/ordens-servicos/[0-9a-f-]{36}"));
     }
 
     // POST /ordens-servicos - sem autenticação
@@ -93,42 +95,11 @@ public class OrdemServicoControllerIntegrationTest {
                 .statusCode(400);
     }
 
-    // POST /ordens-servicos/{id}/diagnosticos - sucesso
-    @Test
-    public void deveIniciarDiagnosticoComSucesso() {
-        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
-
-        RestAssured.given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .post("/ordens-servicos/{id}/diagnosticos", id)
-                .then()
-                .statusCode(204);
-    }
-
-    // POST /ordens-servicos/{id}/diagnosticos - ordem não encontrada
-    @Test
-    public void naoDeveIniciarDiagnosticoOrdemInexistente() {
-        RestAssured.given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .post("/ordens-servicos/{id}/diagnosticos", 99999)
-                .then()
-                .statusCode(404);
-    }
 
     // POST /ordens-servicos/{id}/diagnosticos/finalizacoes - sucesso
     @Test
     public void deveFinalizarDiagnosticoComSucesso() {
         var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
-
-        // Iniciar diagnóstico primeiro
-        RestAssured.given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .post("/ordens-servicos/{id}/diagnosticos", id)
-                .then()
-                .statusCode(204);
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -145,14 +116,6 @@ public class OrdemServicoControllerIntegrationTest {
     public void naoDeveFinalizarDiagnosticoComDadosInvalidos() {
         var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
 
-        // Iniciar diagnóstico primeiro
-        RestAssured.given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .post("/ordens-servicos/{id}/diagnosticos", id)
-                .then()
-                .statusCode(204);
-
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
@@ -168,13 +131,6 @@ public class OrdemServicoControllerIntegrationTest {
     public void deveExecutarOrdemServicoComSucesso() {
         var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
 
-        // Iniciar e finalizar diagnóstico primeiro
-        RestAssured.given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .post("/ordens-servicos/{id}/diagnosticos", id)
-                .then()
-                .statusCode(204);
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -203,7 +159,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(JsonPayloadsOrdemServico.executarOrdemServicoValido())
                 .when()
-                .post("/ordens-servicos/{id}/execucoes", 99999)
+                .post("/ordens-servicos/{id}/execucoes", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }
@@ -212,14 +168,6 @@ public class OrdemServicoControllerIntegrationTest {
     @Test
     public void deveFinalizarOrdemServicoComSucesso() {
         var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida());
-
-        // Executar fluxo completo até execução
-        RestAssured.given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .post("/ordens-servicos/{id}/diagnosticos", id)
-                .then()
-                .statusCode(204);
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -253,7 +201,7 @@ public class OrdemServicoControllerIntegrationTest {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .when()
-                .post("/ordens-servicos/{id}/finalizacoes", 99999)
+                .post("/ordens-servicos/{id}/finalizacoes", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }
@@ -263,13 +211,6 @@ public class OrdemServicoControllerIntegrationTest {
     public void deveEntregarOrdemServicoComSucesso() {
         var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValida2());
 
-        // Executar fluxo completo até finalização
-        RestAssured.given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .post("/ordens-servicos/{id}/diagnosticos", id)
-                .then()
-                .statusCode(204);
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -310,7 +251,7 @@ public class OrdemServicoControllerIntegrationTest {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .when()
-                .post("/ordens-servicos/{id}/entregas", 99999)
+                .post("/ordens-servicos/{id}/entregas", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }
@@ -327,7 +268,7 @@ public class OrdemServicoControllerIntegrationTest {
                 .get("/ordens-servicos/{id}", id)
                 .then()
                 .statusCode(200)
-                .body("id", equalTo(id.intValue()))
+                .body("id", equalTo(id))
                 .body("dadosCliente", notNullValue())
                 .body("dadosVeiculo", notNullValue())
                 .body("status", notNullValue());
@@ -339,7 +280,7 @@ public class OrdemServicoControllerIntegrationTest {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .when()
-                .get("/ordens-servicos/{id}", 99999)
+                .get("/ordens-servicos/{id}", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }

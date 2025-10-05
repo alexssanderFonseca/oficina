@@ -1,10 +1,10 @@
 package br.com.alexsdm.postech.oficina.cliente.application.usecase.impl;
 
-import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteGateway;
-import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.BuscarClientePorIdInput;
-import br.com.alexsdm.postech.oficina.cliente.domain.entity.Cliente;
-import br.com.alexsdm.postech.oficina.cliente.domain.entity.Endereco;
-import br.com.alexsdm.postech.oficina.cliente.exception.ClienteNaoEncontradoException;
+import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteRepository;
+import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.impl.BuscarClientePorIdUseCaseImpl;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.entity.Cliente;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.entity.Endereco;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.exception.ClienteNaoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 class BuscarClientePorIdUseCaseImplTest {
 
     @Mock
-    private ClienteGateway clienteGateway;
+    private ClienteRepository clienteRepository;
 
     @InjectMocks
     private BuscarClientePorIdUseCaseImpl buscarClientePorIdUseCase;
@@ -63,11 +63,10 @@ class BuscarClientePorIdUseCaseImplTest {
     @DisplayName("Deve buscar e retornar cliente com sucesso quando o ID existe")
     void deveRetornarClienteComSucesso() {
         // Arrange
-        var input = new BuscarClientePorIdInput(clienteId);
-        when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
+        when(clienteRepository.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
 
         // Act
-        var output = buscarClientePorIdUseCase.executar(input);
+        var output = buscarClientePorIdUseCase.executar(clienteId);
 
         // Assert
         assertNotNull(output);
@@ -76,7 +75,7 @@ class BuscarClientePorIdUseCaseImplTest {
         assertEquals(cliente.getCpfCnpj(), output.cpfCnpj());
         assertEquals(cliente.getEndereco().rua(), output.endereco().rua());
         assertTrue(output.veiculos().isEmpty());
-        verify(clienteGateway).buscarPorId(clienteId);
+        verify(clienteRepository).buscarPorId(clienteId);
     }
 
     @Test
@@ -84,15 +83,15 @@ class BuscarClientePorIdUseCaseImplTest {
     void deveLancarExcecaoQuandoClienteNaoEncontrado() {
         // Arrange
         var idInexistente = UUID.randomUUID();
-        var input = new BuscarClientePorIdInput(idInexistente);
-        when(clienteGateway.buscarPorId(idInexistente)).thenReturn(Optional.empty());
+
+        when(clienteRepository.buscarPorId(idInexistente)).thenReturn(Optional.empty());
 
         // Act & Assert
         var exception = assertThrows(ClienteNaoEncontradoException.class, () -> {
-            buscarClientePorIdUseCase.executar(input);
+            buscarClientePorIdUseCase.executar(idInexistente);
         });
 
-        assertEquals("Cliente não encontrado com o ID: " + idInexistente, exception.getMessage());
-        verify(clienteGateway).buscarPorId(idInexistente);
+        assertEquals("Cliente não encontrado", exception.getMessage());
+        verify(clienteRepository).buscarPorId(idInexistente);
     }
 }

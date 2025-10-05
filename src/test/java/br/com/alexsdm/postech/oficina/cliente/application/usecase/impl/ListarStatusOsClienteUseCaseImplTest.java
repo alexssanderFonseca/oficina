@@ -1,11 +1,12 @@
 package br.com.alexsdm.postech.oficina.cliente.application.usecase.impl;
 
-import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteGateway;
-import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteOrdemServicoGateway;
-import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.ListarStatusOsClienteInput;
-import br.com.alexsdm.postech.oficina.cliente.domain.entity.Cliente;
-import br.com.alexsdm.postech.oficina.cliente.domain.entity.OrdemServicoStatus;
-import br.com.alexsdm.postech.oficina.cliente.exception.ClienteNaoEncontradoException;
+import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteRepository;
+import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteOrdemServicoPort;
+import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.impl.ListarStatusOsClienteUseCaseImpl;
+import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.input.ListarStatusOsClienteInput;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.entity.Cliente;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.entity.OrdemServicoStatus;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.exception.ClienteNaoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,10 +27,10 @@ import static org.mockito.Mockito.*;
 class ListarStatusOsClienteUseCaseImplTest {
 
     @Mock
-    private ClienteGateway clienteGateway;
+    private ClienteRepository clienteRepository;
 
     @Mock
-    private ClienteOrdemServicoGateway ordemServicoGateway;
+    private ClienteOrdemServicoPort ordemServicoGateway;
 
     private Cliente cliente;
 
@@ -46,9 +47,9 @@ class ListarStatusOsClienteUseCaseImplTest {
     void deveRetornarListaDeStatusQuandoClienteExiste() {
         var clienteId = UUID.randomUUID();
         var input = new ListarStatusOsClienteInput(clienteId);
-        var listaStatus = List.of(new OrdemServicoStatus(1L, "EM_DIAGNOSTICO"));
+        var listaStatus = List.of(new OrdemServicoStatus(UUID.randomUUID(), "EM_DIAGNOSTICO"));
 
-        when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
+        when(clienteRepository.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
         when(ordemServicoGateway.buscarStatusPorCliente(clienteId)).thenReturn(listaStatus);
 
         var resultado = listarStatusOsClienteUseCase.executar(input);
@@ -56,7 +57,7 @@ class ListarStatusOsClienteUseCaseImplTest {
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
         assertEquals("EM_DIAGNOSTICO", resultado.get(0).status());
-        verify(clienteGateway).buscarPorId(clienteId);
+        verify(clienteRepository).buscarPorId(clienteId);
         verify(ordemServicoGateway).buscarStatusPorCliente(clienteId);
     }
 
@@ -66,13 +67,13 @@ class ListarStatusOsClienteUseCaseImplTest {
         var clienteId = UUID.randomUUID();
         var input = new ListarStatusOsClienteInput(clienteId);
 
-        when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.empty());
+        when(clienteRepository.buscarPorId(clienteId)).thenReturn(Optional.empty());
 
         assertThrows(ClienteNaoEncontradoException.class, () -> {
             listarStatusOsClienteUseCase.executar(input);
         });
 
-        verify(clienteGateway).buscarPorId(clienteId);
+        verify(clienteRepository).buscarPorId(clienteId);
         verify(ordemServicoGateway, never()).buscarStatusPorCliente(any());
     }
 
@@ -82,14 +83,14 @@ class ListarStatusOsClienteUseCaseImplTest {
         var clienteId = UUID.randomUUID();
         var input = new ListarStatusOsClienteInput(clienteId);
 
-        when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
+        when(clienteRepository.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
         when(ordemServicoGateway.buscarStatusPorCliente(clienteId)).thenReturn(List.of());
 
         var resultado = listarStatusOsClienteUseCase.executar(input);
 
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
-        verify(clienteGateway).buscarPorId(clienteId);
+        verify(clienteRepository).buscarPorId(clienteId);
         verify(ordemServicoGateway).buscarStatusPorCliente(clienteId);
     }
 }

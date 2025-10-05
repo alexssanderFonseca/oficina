@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.UUID;
+
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -64,10 +66,10 @@ public class PecaInsumoControllerIntegrationTest {
                 .header("Authorization", "Bearer " + token)
                 .accept(ContentType.JSON)
                 .when()
-                .get("/pecas")
+                .get("/pecas?pagina=0&quantidade=1")
+
                 .then()
-                .statusCode(200)
-                .body("$", isA(java.util.List.class));
+                .statusCode(200);
     }
 
     // ================================
@@ -99,7 +101,7 @@ public class PecaInsumoControllerIntegrationTest {
                 .then()
                 .statusCode(201)
                 .header("Location", notNullValue())
-                .header("Location", matchesPattern(".*/pecas/\\d+"));
+                .header("Location", matchesPattern(".*/pecas/[0-9a-f-]{36}"));
     }
 
     // ================================
@@ -156,7 +158,7 @@ public class PecaInsumoControllerIntegrationTest {
                 .when()
                 .patch("/pecas/{id}", pecaId)
                 .then()
-                .statusCode(204);
+                .statusCode(200);
     }
 
     // ================================
@@ -178,14 +180,13 @@ public class PecaInsumoControllerIntegrationTest {
 
     @Test
     public void naoDeveAtualizarPecaInexistente() {
-        Long pecaIdInexistente = 99999L;
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
                 .body(JsonPayloadsPecaInsumo.atualizacaoCompleta())
                 .when()
-                .patch("/pecas/{id}", pecaIdInexistente)
+                .patch("/pecas/{id}", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }
@@ -237,12 +238,11 @@ public class PecaInsumoControllerIntegrationTest {
 
     @Test
     public void naoDeveDeletarPecaInexistente() {
-        Long pecaIdInexistente = 99999L;
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .when()
-                .delete("/pecas/{id}", pecaIdInexistente)
+                .delete("/pecas/{id}", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }
@@ -261,10 +261,10 @@ public class PecaInsumoControllerIntegrationTest {
                 .header("Authorization", "Bearer " + token)
                 .accept(ContentType.JSON)
                 .when()
-                .get("/pecas")
+                .get("/pecas?pagina=0")
                 .then()
                 .statusCode(200)
-                .body("$", hasSize(greaterThan(0)));
+                .body("data", hasSize(greaterThan(0)));
 
         // 3. Atualizar peça
         RestAssured.given()
@@ -274,7 +274,7 @@ public class PecaInsumoControllerIntegrationTest {
                 .when()
                 .patch("/pecas/{id}", pecaId)
                 .then()
-                .statusCode(204);
+                .statusCode(200);
 
         // 4. Deletar peça
         RestAssured.given()

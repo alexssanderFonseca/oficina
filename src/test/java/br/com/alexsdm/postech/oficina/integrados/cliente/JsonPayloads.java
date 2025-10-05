@@ -1,5 +1,7 @@
 package br.com.alexsdm.postech.oficina.integrados.cliente;
 
+import jakarta.validation.constraints.NotBlank;
+
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -284,22 +286,21 @@ public class JsonPayloads {
                 """.formatted(email);
     }
 
-    public static String veiculoValido(Long veiculoModeloId) {
-        String unique = getUniqueId();
+    public static String veiculoValido() {
         return """
                 {
-                    "veiculoModeloId": %d,
-                    "placa": "NET-5747",
-                    "cor": "Branco",
-                    "ano": "2022"
+                    "placa" : "NET-5747",
+                    "modelo":"Corsa",
+                    "marca" :"Chevrolet",
+                    "cor"   : "Branco",
+                    "ano"   : "2022"
                 }
-                """.formatted(veiculoModeloId, String.format("%01d", Long.parseLong(unique)));
+                """;
     }
 
     public static String veiculoComDadosInvalidos() {
         return """
                 {
-                    "veiculoModeloId": null,
                     "placa": "",
                     "cor": "",
                     "ano": "abc"
@@ -307,28 +308,18 @@ public class JsonPayloads {
                 """;
     }
 
-    public static String veiculoComPlaca(Long veiculoModeloId, String placa) {
+    public static String veiculoComPlaca(String placa) {
         return """
                 {
-                    "veiculoModeloId": %d,
                     "placa": "%s",
+                    "modelo" "Corsa",
+                    "marca" :"Chevrolet"
                     "cor": "Preto",
                     "ano": "2021"
                 }
-                """.formatted(veiculoModeloId, placa);
+                """;
     }
 
-    public static String veiculoComModeloInexistente() {
-        String unique = getUniqueId();
-        return """
-                {
-                    "veiculoModeloId": 99999,
-                    "placa": "INX3I3%s",
-                    "cor": "Verde",
-                    "ano": "2020"
-                }
-                """.formatted(String.format("%01d", Long.parseLong(unique)));
-    }
 
     public static String clienteParaCicloCompleto() {
         String unique = getUniqueId();

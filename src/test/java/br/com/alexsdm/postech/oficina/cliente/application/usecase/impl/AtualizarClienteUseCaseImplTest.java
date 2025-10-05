@@ -1,11 +1,12 @@
 package br.com.alexsdm.postech.oficina.cliente.application.usecase.impl;
 
-import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteGateway;
-import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.AtualizarClienteInput;
-import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.EnderecoInput;
-import br.com.alexsdm.postech.oficina.cliente.domain.entity.Cliente;
-import br.com.alexsdm.postech.oficina.cliente.exception.ClienteNaoEncontradoException;
-import br.com.alexsdm.postech.oficina.cliente.infrastructure.controller.mapper.ClienteDTOMapper;
+import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteRepository;
+import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.impl.AtualizarClienteUseCaseImpl;
+import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.input.AtualizarClienteInput;
+import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.input.EnderecoInput;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.entity.Cliente;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.exception.ClienteNaoEncontradoException;
+import br.com.alexsdm.postech.oficina.module.cliente.adapters.in.controller.mapper.ClienteDTOMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.*;
 class AtualizarClienteUseCaseImplTest {
 
     @Mock
-    private ClienteGateway clienteGateway;
+    private ClienteRepository clienteRepository;
 
     @Mock
     private ClienteDTOMapper clienteDTOMapper;
@@ -53,14 +54,14 @@ class AtualizarClienteUseCaseImplTest {
                 .telefone("987654321")
                 .build();
 
-        when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
-        when(clienteGateway.salvar(any(Cliente.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(clienteRepository.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
+        when(clienteRepository.salvar(any(Cliente.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
         atualizarClienteUseCase.executar(input);
 
         // Assert
-        verify(clienteGateway).salvar(any(Cliente.class));
+        verify(clienteRepository).salvar(any(Cliente.class));
         assertEquals("email.novo@teste.com", cliente.getEmail());
         assertEquals("987654321", cliente.getTelefone());
     }
@@ -74,18 +75,18 @@ class AtualizarClienteUseCaseImplTest {
                 .email("email.novo.parcial@teste.com")
                 .build();
 
-        when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
-        when(clienteGateway.salvar(any(Cliente.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(clienteRepository.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
+        when(clienteRepository.salvar(any(Cliente.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
         atualizarClienteUseCase.executar(input);
 
         // Assert
-        verify(clienteGateway).salvar(any(Cliente.class));
+        verify(clienteRepository).salvar(any(Cliente.class));
         assertEquals("email.novo.parcial@teste.com", cliente.getEmail());
         assertEquals("123456789", cliente.getTelefone()); // Telefone não deve mudar
     }
-    
+
     @Test
     @DisplayName("Deve atualizar o endereço do cliente com sucesso")
     void deveAtualizarEnderecoComSucesso() {
@@ -96,14 +97,14 @@ class AtualizarClienteUseCaseImplTest {
                 .endereco(enderecoInput)
                 .build();
 
-        when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
-        when(clienteGateway.salvar(any(Cliente.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(clienteRepository.buscarPorId(clienteId)).thenReturn(Optional.of(cliente));
+        when(clienteRepository.salvar(any(Cliente.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
         atualizarClienteUseCase.executar(input);
 
         // Assert
-        verify(clienteGateway).salvar(any(Cliente.class));
+        verify(clienteRepository).salvar(any(Cliente.class));
         assertNotNull(cliente.getEndereco());
         assertEquals("Rua Nova", cliente.getEndereco().rua());
     }
@@ -113,12 +114,12 @@ class AtualizarClienteUseCaseImplTest {
     void deveLancarExcecaoQuandoClienteNaoExiste() {
         // Arrange
         var input = AtualizarClienteInput.builder().clienteId(clienteId).build();
-        when(clienteGateway.buscarPorId(clienteId)).thenReturn(Optional.empty());
+        when(clienteRepository.buscarPorId(clienteId)).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(ClienteNaoEncontradoException.class, () -> {
             atualizarClienteUseCase.executar(input);
         });
-        verify(clienteGateway, never()).salvar(any());
+        verify(clienteRepository, never()).salvar(any());
     }
 }

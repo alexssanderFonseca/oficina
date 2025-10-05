@@ -41,22 +41,6 @@ public class ClienteControllerIntegrationTest {
                 .path("token");
     }
 
-    private Long criarVeiculoModeloERetornarId() {
-        String location = RestAssured.given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(JsonPayloads.veiculoModelo())
-                .when()
-                .post("/veiculos-modelos")
-                .then()
-                .statusCode(201)
-                .header("Location", notNullValue())
-                .extract()
-                .header("Location");
-
-        String idString = location.substring(location.lastIndexOf("/") + 1);
-        return Long.parseLong(idString);
-    }
 
     private String criarClienteERetornarId(String jsonPayload) {
         String location = RestAssured.given()
@@ -277,12 +261,11 @@ public class ClienteControllerIntegrationTest {
     @Test
     public void deveAdicionarVeiculoAoClienteComSucesso() {
         String clienteId = criarClienteERetornarId(JsonPayloads.clienteSemVeiculo());
-        var veiculoModeloId = criarVeiculoModeloERetornarId();
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .body(JsonPayloads.veiculoValido(veiculoModeloId))
+                .body(JsonPayloads.veiculoValido())
                 .when()
                 .post("/clientes/{id}/veiculos", clienteId)
                 .then()
@@ -304,7 +287,7 @@ public class ClienteControllerIntegrationTest {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .body(JsonPayloads.veiculoValido(veiculoModeloId))
+                .body(JsonPayloads.veiculoValido())
                 .when()
                 .post("/clientes/{id}/veiculos", clienteIdInexistente)
                 .then()
