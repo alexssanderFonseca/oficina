@@ -14,15 +14,15 @@ public class JsonPayloadsOrcamento {
     public static String criarOrcamentoValido() {
         return """
                 {
-                    "cpfCnpjCliente": "12345678901",
+                    "cpfCnpjCliente": "24906627080",
                     "veiculoId": "550e8400-e29b-41d4-a716-446655440001",
                     "pecas": [
                         {
-                            "pecaId": 100,
-                            "qtd": 2
+                            "pecaId": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+                            "quantidade": 2
                         }
                     ],
-                    "servicos": [100]
+                    "servicosIds": ["b2c3d4e5-f6a7-4b5c-9d0e-1f2a3b4c5d6e"]
                 }
                 """;
     }
@@ -30,15 +30,15 @@ public class JsonPayloadsOrcamento {
     public static String criarOrcamentoValido2() {
         return """
                 {
-                    "cpfCnpjCliente": "12345678901",
+                    "cpfCnpjCliente": "24906627080",
                     "veiculoId": "550e8400-e29b-41d4-a716-446655440002",
                     "pecas": [
                         {
-                            "pecaId": 100,
-                            "qtd": 1
+                            "pecaId": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
+                            "quantidade": 1
                         }
                     ],
-                    "servicos": [100]
+                    "servicosIds": ["b2c3d4e5-f6a7-4b5c-9d0e-1f2a3b4c5d6e"]
                 }
                 """;
     }
@@ -54,7 +54,7 @@ public class JsonPayloadsOrcamento {
                             "qtd": -1
                         }
                     ],
-                    "servicos": []
+                    "servicosIds": []
                 }
                 """;
     }
@@ -66,11 +66,11 @@ public class JsonPayloadsOrcamento {
                     "veiculoId": "550e8400-e29b-41d4-a716-446655440001",
                     "pecas": [
                         {
-                            "pecaId": 100,
+                            "pecaId": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
                             "qtd": 1
                         }
                     ],
-                    "servicos": [100]
+                    "servicosIds": ["b2c3d4e5-f6a7-4b5c-9d0e-1f2a3b4c5d6e"]
                 }
                 """;
     }
@@ -78,15 +78,15 @@ public class JsonPayloadsOrcamento {
     public static String criarOrcamentoVeiculoInexistente() {
         return """
                 {
-                    "cpfCnpjCliente": "12345678901",
+                    "cpfCnpjCliente": "24906627080",
                     "veiculoId": "550e8400-e29b-41d4-a716-446655440099",
                     "pecas": [
                         {
-                            "pecaId": 100,
+                            "pecaId": "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d",
                             "qtd": 1
                         }
                     ],
-                    "servicos": [100]
+                    "servicosIds": ["b2c3d4e5-f6a7-4b5c-9d0e-1f2a3b4c5d6e"]
                 }
                 """;
     }
@@ -94,15 +94,15 @@ public class JsonPayloadsOrcamento {
     public static String criarOrcamentoPecaInexistente() {
         return """
                 {
-                    "cpfCnpjCliente": "12345678901",
+                    "cpfCnpjCliente": "24906627080",
                     "veiculoId": "550e8400-e29b-41d4-a716-446655440001",
                     "pecas": [
                         {
-                            "pecaId": 99999,
+                            "pecaId": "99999999-9999-9999-9999-999999999999",
                             "qtd": 1
                         }
                     ],
-                    "servicos": [100]
+                    "servicosIds": ["b2c3d4e5-f6a7-4b5c-9d0e-1f2a3b4c5d6e"]
                 }
                 """;
     }

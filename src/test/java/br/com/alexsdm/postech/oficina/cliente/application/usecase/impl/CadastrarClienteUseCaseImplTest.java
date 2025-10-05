@@ -1,11 +1,12 @@
 package br.com.alexsdm.postech.oficina.cliente.application.usecase.impl;
 
-import br.com.alexsdm.postech.oficina.cliente.application.gateway.ClienteGateway;
-import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.CadastrarClienteInput;
-import br.com.alexsdm.postech.oficina.cliente.application.usecase.dto.EnderecoInput;
-import br.com.alexsdm.postech.oficina.cliente.domain.entity.Cliente;
-import br.com.alexsdm.postech.oficina.cliente.domain.entity.Endereco;
-import br.com.alexsdm.postech.oficina.cliente.exception.ClienteException;
+import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteRepository;
+import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.impl.CadastrarClienteUseCaseImpl;
+import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.input.CadastrarClienteInput;
+import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.input.EnderecoInput;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.entity.Cliente;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.entity.Endereco;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.exception.ClienteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.*;
 class CadastrarClienteUseCaseImplTest {
 
     @Mock
-    private ClienteGateway clienteGateway;
+    private ClienteRepository clienteRepository;
 
     @InjectMocks
     private CadastrarClienteUseCaseImpl cadastrarClienteUseCase;
@@ -80,8 +81,8 @@ class CadastrarClienteUseCaseImplTest {
     @DisplayName("Deve cadastrar cliente com sucesso quando não existir um com o mesmo documento")
     void deveCadastrarClienteComSucesso() {
         // Arrange
-        when(clienteGateway.buscarPorDocumento(cpfCnpj)).thenReturn(Optional.empty());
-        when(clienteGateway.salvar(any(Cliente.class))).thenReturn(clienteSalvo);
+        when(clienteRepository.buscarPorDocumento(cpfCnpj)).thenReturn(Optional.empty());
+        when(clienteRepository.salvar(any(Cliente.class))).thenReturn(clienteSalvo);
 
         // Act
         var output = cadastrarClienteUseCase.executar(cadastrarClienteInput);
@@ -89,15 +90,15 @@ class CadastrarClienteUseCaseImplTest {
         // Assert
         assertNotNull(output);
         assertEquals(clienteSalvo.getId(), output.id());
-        verify(clienteGateway).buscarPorDocumento(cpfCnpj);
-        verify(clienteGateway).salvar(any(Cliente.class));
+        verify(clienteRepository).buscarPorDocumento(cpfCnpj);
+        verify(clienteRepository).salvar(any(Cliente.class));
     }
 
     @Test
     @DisplayName("Deve lançar ClienteException ao tentar cadastrar cliente com documento que já existe")
     void deveLancarExcecaoAoCadastrarClienteComDocumentoExistente() {
         // Arrange
-        when(clienteGateway.buscarPorDocumento(cpfCnpj)).thenReturn(Optional.of(clienteSalvo));
+        when(clienteRepository.buscarPorDocumento(cpfCnpj)).thenReturn(Optional.of(clienteSalvo));
 
         // Act & Assert
         var exception = assertThrows(ClienteException.class, () -> {
@@ -105,7 +106,7 @@ class CadastrarClienteUseCaseImplTest {
         });
 
         assertEquals("Cliente já cadastrado!", exception.getMessage());
-        verify(clienteGateway).buscarPorDocumento(cpfCnpj);
-        verify(clienteGateway, never()).salvar(any(Cliente.class));
+        verify(clienteRepository).buscarPorDocumento(cpfCnpj);
+        verify(clienteRepository, never()).salvar(any(Cliente.class));
     }
 }
