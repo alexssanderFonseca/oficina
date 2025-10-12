@@ -1,5 +1,6 @@
 package br.com.alexsdm.postech.oficina.infrastucture.security.config;
 
+import br.com.alexsdm.postech.oficina.infrastucture.security.filter.CustomAccessDeniedHandler;
 import br.com.alexsdm.postech.oficina.infrastucture.security.filter.JwtAuthenticationEntryPoint;
 import br.com.alexsdm.postech.oficina.infrastucture.security.filter.JwtAuthenticationFilter;
 import br.com.alexsdm.postech.oficina.infrastucture.security.jwt.JwtUtil;
@@ -10,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,6 +22,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final JwtUtil jwtUtils;
 
     @Bean
@@ -31,10 +32,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/logins", "/usuarios", "clientes/*/ordensServicos", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/logins", "/usuarios", "clientes/*/ordensServicos" ,"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
-                .exceptionHandling(AbstractHttpConfigurer::disable)
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
