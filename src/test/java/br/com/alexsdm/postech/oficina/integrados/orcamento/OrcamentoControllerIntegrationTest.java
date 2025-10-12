@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.UUID;
+
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -65,7 +67,7 @@ public class OrcamentoControllerIntegrationTest {
                 .post("/orcamentos")
                 .then()
                 .statusCode(201)
-                .header("Location", matchesPattern(".*/orcamentos/\\d+"));
+                .header("Location", matchesPattern("/orcamentos/[0-9a-f-]{36}"));
     }
 
     // POST /orcamentos - sem autenticação
@@ -125,7 +127,7 @@ public class OrcamentoControllerIntegrationTest {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .when()
-                .post("/orcamentos/{id}/aceitos", 99999)
+                .post("/orcamentos/{id}/aceitos", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }
@@ -161,7 +163,7 @@ public class OrcamentoControllerIntegrationTest {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .when()
-                .post("/orcamentos/{id}/recusados", 99999)
+                .post("/orcamentos/{id}/recusados", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }
@@ -190,13 +192,13 @@ public class OrcamentoControllerIntegrationTest {
                 .get("/orcamentos/{id}", id)
                 .then()
                 .statusCode(200)
-                .body("id", equalTo(Integer.parseInt(id)))
+                .body("id", equalTo(id))
                 .body("valorTotal", notNullValue())
                 .body("valorTotalEmPecas", notNullValue())
                 .body("valorTotalEmServicos", notNullValue())
                 .body("status", notNullValue())
                 .body("cliente", notNullValue())
-                .body("veiculoResponse", notNullValue())
+                .body("veiculo", notNullValue())
                 .body("pecas", notNullValue())
                 .body("servicos", notNullValue());
     }
@@ -207,7 +209,7 @@ public class OrcamentoControllerIntegrationTest {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .when()
-                .get("/orcamentos/{id}", 99999)
+                .get("/orcamentos/{id}", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }
@@ -246,7 +248,7 @@ public class OrcamentoControllerIntegrationTest {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .when()
-                .get("/orcamentos/{id}/envios", 99999)
+                .get("/orcamentos/{id}/envios", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }

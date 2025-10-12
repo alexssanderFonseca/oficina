@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.UUID;
+
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -89,7 +91,7 @@ public class ServicoControllerIntegrationTest {
                 .post("/servicos")
                 .then()
                 .statusCode(201)
-                .header("Location", matchesPattern(".*/servicos/\\d+"));
+                .header("Location", matchesPattern(".*/servicos/[0-9a-f-]{36}"));
     }
 
     // POST /servicos - sem autenticação
@@ -116,7 +118,7 @@ public class ServicoControllerIntegrationTest {
                 .get("/servicos/{id}", id)
                 .then()
                 .statusCode(200)
-                .body("id", equalTo(Integer.parseInt(id)));
+                .body("id", equalTo(id));
     }
 
     // GET /servicos/{id} - não encontrado
@@ -126,7 +128,7 @@ public class ServicoControllerIntegrationTest {
                 .header("Authorization", "Bearer " + token)
                 .accept(ContentType.JSON)
                 .when()
-                .get("/servicos/{id}", 99999)
+                .get("/servicos/{id}", UUID.randomUUID())
                 .then()
                 .statusCode(404);
     }
