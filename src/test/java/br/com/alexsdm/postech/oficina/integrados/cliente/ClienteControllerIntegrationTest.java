@@ -19,8 +19,6 @@ public class ClienteControllerIntegrationTest {
     @LocalServerPort
     private int port;
 
-    private final Long veiculoModeloId = 100L;
-
 
     @BeforeEach
     public void setup() {
@@ -43,22 +41,6 @@ public class ClienteControllerIntegrationTest {
                 .path("token");
     }
 
-    private Long criarVeiculoModeloERetornarId() {
-        String location = RestAssured.given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(JsonPayloads.veiculoModelo())
-                .when()
-                .post("/veiculos")
-                .then()
-                .statusCode(201)
-                .header("Location", notNullValue())
-                .extract()
-                .header("Location");
-
-        String idString = location.substring(location.lastIndexOf("/") + 1);
-        return Long.parseLong(idString);
-    }
 
     private String criarClienteERetornarId(String jsonPayload) {
         String location = RestAssured.given()
@@ -283,13 +265,13 @@ public class ClienteControllerIntegrationTest {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .body(JsonPayloads.veiculoValido(veiculoModeloId))
+                .body(JsonPayloads.veiculoValido())
                 .when()
                 .post("/clientes/{id}/veiculos", clienteId)
                 .then()
                 .statusCode(200)
-                .body("veiculoID", notNullValue())
-                .body("veiculoID", matchesPattern("[a-f0-9-]{36}"));
+                .body("veiculoId", notNullValue())
+                .body("veiculoId", matchesPattern("[a-f0-9-]{36}"));
     }
 
     // ================================
@@ -301,10 +283,11 @@ public class ClienteControllerIntegrationTest {
     public void naoDeveAdicionarVeiculoAClienteInexistente() {
         String clienteIdInexistente = "550e8400-e29b-41d4-a716-446655440000";
 
+        var veiculoModeloId = 100L;
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
-                .body(JsonPayloads.veiculoValido(veiculoModeloId))
+                .body(JsonPayloads.veiculoValido())
                 .when()
                 .post("/clientes/{id}/veiculos", clienteIdInexistente)
                 .then()

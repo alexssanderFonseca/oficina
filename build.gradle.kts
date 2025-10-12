@@ -4,6 +4,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 	id ("org.sonarqube") version "6.2.0.5505"
 	id("jacoco")
+    id("io.freefair.lombok") version "8.4"
 }
 
 
@@ -30,18 +31,18 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9")
+    implementation("jakarta.inject:jakarta.inject-api:2.0.1")
 	implementation("org.mapstruct:mapstruct:1.6.3")
 	implementation("org.postgresql:postgresql:42.7.3")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	implementation("com.itextpdf:itextpdf:5.5.13.3")
+	implementation("org.slf4j:slf4j-api:2.0.7")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
-	annotationProcessor("org.projectlombok:lombok:1.18.30")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.rest-assured:rest-assured:5.5.5")
 	testImplementation("com.h2database:h2")
 	testImplementation("io.rest-assured:json-path:5.3.0")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-	compileOnly("org.projectlombok:lombok:1.18.30")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
