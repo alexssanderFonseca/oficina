@@ -1,3 +1,6 @@
+data "aws_caller_identity" "current" {}
+
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.8.4"
@@ -9,6 +12,10 @@ module "eks" {
   subnet_ids     = module.vpc.private_subnets
   create_kms_key = false
 
+  cluster_encryption_config = {
+    provider_key_arn = "arn:aws:kms:${var.region}:${data.aws_caller_identity.current.account_id}:key/f00b8176-1e52-49ce-858e-5a315979c3e1"
+    resources        = ["secrets"]
+  }
 
   eks_managed_node_groups = {
     academico_nodes = {
