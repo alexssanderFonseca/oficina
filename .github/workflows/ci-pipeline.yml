@@ -1,3 +1,4 @@
+
 name: CI Pipeline
 
 on:
@@ -11,6 +12,11 @@ jobs:
     uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
 
+  validate-terraform:
+    name: Validação Terraform
+    uses: ./.github/workflows/reusable-terraform.yml
+    secrets: inherit
+
   validate-docker:
     name: Validação Docker
     needs: build-and-test
@@ -19,7 +25,7 @@ jobs:
 
   create-pull-request:
     name: Criar Pull Request
-    needs: validate-docker
+    needs: [validate-docker, validate-terraform]
     permissions:
       contents: write
       pull-requests: write
