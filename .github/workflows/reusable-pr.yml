@@ -20,6 +20,7 @@ jobs:
         # O checkout é importante para ter o contexto do repositório
 
       - name: Criar Pull Request com a CLI do GitHub
+        continue-on-error: true
         run: |
           gh pr create \
             --base "main" \
