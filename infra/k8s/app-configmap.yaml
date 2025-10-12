@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: oficina-ns
+data:
+  POSTGRES_DB: "meubanco"
+  POSTGRES_USER: "meuusuario"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: oficina-ns
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-service:5432/meubanco"
+  SPRING_DATASOURCE_USERNAME: "meuusuario"

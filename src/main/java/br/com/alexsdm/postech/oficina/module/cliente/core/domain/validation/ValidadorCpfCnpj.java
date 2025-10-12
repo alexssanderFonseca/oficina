@@ -2,6 +2,9 @@ package br.com.alexsdm.postech.oficina.module.cliente.core.domain.validation;
 
 public class ValidadorCpfCnpj {
 
+    private ValidadorCpfCnpj() {
+    }
+
     public static boolean isValido(String cpfCnpj) {
         if (isNuloOuVazio(cpfCnpj)) {
             return false;

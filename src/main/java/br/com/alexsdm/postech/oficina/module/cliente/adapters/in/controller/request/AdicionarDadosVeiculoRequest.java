@@ -2,7 +2,6 @@ package br.com.alexsdm.postech.oficina.module.cliente.adapters.in.controller.req
 
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public record AdicionarDadosVeiculoRequest(
         @NotBlank String placa,

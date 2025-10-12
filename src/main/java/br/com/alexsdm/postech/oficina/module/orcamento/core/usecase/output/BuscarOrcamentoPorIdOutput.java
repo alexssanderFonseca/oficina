@@ -29,7 +29,7 @@ public record BuscarOrcamentoPorIdOutput(
                         itemPecaOrcamento.getDescricao(),
                         itemPecaOrcamento.getQuantidade(),
                         itemPecaOrcamento.getPreco()
-                )).collect(Collectors.toList());
+                )).toList();
 
         var servicos = orcamento.getServicos().stream()
                 .map(servico -> new OrcamentoServicoOutput(
@@ -37,7 +37,7 @@ public record BuscarOrcamentoPorIdOutput(
                         servico.getNome(),
                         servico.getDescricao(),
                         servico.getPreco()
-                )).collect(Collectors.toList());
+                )).toList();
 
         var orcamentoClienteOutput = new OrcamentoClienteOutput(
                 cliente.getId().toString(),

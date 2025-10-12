@@ -41,16 +41,16 @@ CREATE TABLE veiculo
 
 CREATE TABLE peca_insumo (
     id UUID PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    nome VARCHAR(200) NOT NULL,
     descricao TEXT,
-    codigo_fabricante VARCHAR(100),
-    sku VARCHAR(100) UNIQUE,
-    marca VARCHAR(100),
+    codigo_fabricante VARCHAR(200),
+    sku VARCHAR(200) UNIQUE,
+    marca VARCHAR(200),
     modelos_compativeis TEXT,
     quantidade_estoque INTEGER,
     preco_custo NUMERIC(12, 2),
     preco_venda NUMERIC(12, 2),
-    categoria VARCHAR(100),
+    categoria VARCHAR(200),
     ativo BOOLEAN DEFAULT TRUE,
     data_cadastro TIMESTAMP,
     data_atualizacao TIMESTAMP
@@ -58,7 +58,7 @@ CREATE TABLE peca_insumo (
 
 CREATE TABLE servico (
     id UUID PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    nome VARCHAR(200) NOT NULL,
     descricao TEXT,
     preco NUMERIC(10,2) NOT NULL,
     duracao_estimada INTEGER,
@@ -87,7 +87,7 @@ CREATE TABLE item_peca_orcamento (
     nome VARCHAR(50) NOT NULL,
     preco NUMERIC(12,2) NOT NULL,
     quantidade INTEGER NOT NULL CHECK (quantidade > 0),
-    descricao VARCHAR(100) NOT NULL,
+    descricao VARCHAR(200) NOT NULL,
 
     CONSTRAINT fk_item_orcamento
         FOREIGN KEY (orcamento_id)
@@ -106,6 +106,7 @@ CREATE TABLE orcamento_servico (
     id UUID PRIMARY KEY,
     orcamento_id UUID NOT NULL,
     servico_id UUID NOT NULL,
+    descricao VARCHAR(200) NOT NULL,
     nome VARCHAR(50) NOT NULL,
     preco NUMERIC(12,2) NOT NULL,
     CONSTRAINT fk_os_orcamento FOREIGN KEY (orcamento_id) REFERENCES orcamento(id) ON DELETE CASCADE,
@@ -140,7 +141,7 @@ CREATE TABLE item_peca_ordem_servico (
 CREATE TABLE item_servico_ordem_servico (
     id UUID PRIMARY KEY,
     nome varchar(50) NOT NULL,
-    descricao varchar(100) NOT NULL,
+    descricao varchar(200) NOT NULL,
     ordem_servico_id UUID NOT NULL,
     servico_id UUID NOT NULL,
     preco_unitario NUMERIC(12, 2) NOT NULL,

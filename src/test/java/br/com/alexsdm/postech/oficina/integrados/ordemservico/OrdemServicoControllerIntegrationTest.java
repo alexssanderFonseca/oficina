@@ -151,6 +151,28 @@ public class OrdemServicoControllerIntegrationTest {
                 .statusCode(204);
     }
 
+    // POST /ordens-servicos/{id}/execucoes - sucesso
+    @Test
+    public void deveExecutarOrdemServicoSemPassarPeloDiagnosticoComSucesso() {
+        var id = criarOrdemServicoERetornarId(JsonPayloadsOrdemServico.criarOrdemServicoValidaSemDiagnostico());
+
+
+        RestAssured.given()
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .post("/ordens-servicos/{id}/finalizacoes", id)
+                .then()
+                .statusCode(204);
+
+        RestAssured.given()
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .post("/ordens-servicos/{id}/entregas", id)
+                .then()
+                .statusCode(204);
+
+    }
+
     // POST /ordens-servicos/{id}/execucoes - ordem não encontrada
     @Test
     public void naoDeveExecutarOrdemServicoInexistente() {
