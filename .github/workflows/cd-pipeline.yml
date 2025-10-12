@@ -1,0 +1,19 @@
+
+name: CD Pipeline - Deploy
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  publish-image:
+    name: Publicar Imagem no Docker Hub
+    uses: ./.github/workflows/reusable-publish-docker.yml
+    secrets: inherit
+
+  deploy-infrastructure:
+    name: Deploy da Infraestrutura com Terraform
+    needs: publish-image
+    uses: ./.github/workflows/reusable-apply-terraform.yml
+    secrets: inherit
