@@ -16,16 +16,14 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: 'gradle'
+          # Desabilitando cache temporariamente para forçar download limpo
+          # cache: 'gradle'
 
       - name: Conceder permissão de execução ao Gradle
         run: chmod +x gradlew
 
-      - name: Executar build
-        run: ./gradlew build
-
-      - name: Executar testes
-        run: ./gradlew test
+      - name: Executar build completo
+        run: ./gradlew clean build --no-daemon --refresh-dependencies
 
       - name: Upload de artefatos
         uses: actions/upload-artifact@v4
