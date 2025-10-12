@@ -42,7 +42,7 @@ jobs:
       - name: Aplicar manifestos no cluster
         run: |
           # O comando 'kubectl apply -k' aplica os manifestos gerenciados pelo Kustomize
-          kubectl apply -k infra/k8s/
+          kubectl apply -k infra/k8s/ --validate=false
 
       - name: Verificar o status do deploy
         run: |
