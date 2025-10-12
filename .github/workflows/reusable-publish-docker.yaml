@@ -1,15 +1,12 @@
 
-name: Publish to Docker Hub
+name: Reusable - Publish Docker Image
 
 on:
-  push:
-    branches:
-      - 'main'
+  workflow_call:
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
       packages: write
@@ -33,9 +30,7 @@ jobs:
         with:
           images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}
           tags: |
-            # Gera a tag 'latest'
             type=raw,value=latest,enable={{is_default_branch}}
-            # Gera uma tag com o hash do commit (ex: my-image:a1b2c3d)
             type=sha,prefix=,format=short
 
       - name: Construir e enviar a imagem para o Docker Hub
