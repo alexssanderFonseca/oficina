@@ -7,6 +7,7 @@ module "eks" {
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
+  create_kms_key = false
 
 
   eks_managed_node_groups = {
