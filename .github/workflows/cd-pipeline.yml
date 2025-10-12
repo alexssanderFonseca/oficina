@@ -17,3 +17,12 @@ jobs:
     needs: publish-image
     uses: ./.github/workflows/reusable-apply-terraform.yml
     secrets: inherit
+
+
+  deploy-application:
+    name: Deploy da Aplicação no Kubernetes
+    needs: [publish-image, deploy-infrastructure]
+    uses: ./.github/workflows/reusable-deploy-k8s.yml
+    with:
+      image-tag: ${{ needs.publish-image.outputs.image-tag }}
+    secrets: inherit
