@@ -7,8 +7,7 @@ jobs:
   terraform-destroy:
     name: Terraform Destroy
     runs-on: ubuntu-latest
-    
-    # Define o diretório de trabalho do Terraform
+
     defaults:
       run:
         working-directory: ./infra/terraform
