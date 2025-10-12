@@ -5,6 +5,11 @@ on:
 
 jobs:
   apply-terraform:
+
+    defaults:
+      run:
+        working-directory: ./infra/terraform
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
