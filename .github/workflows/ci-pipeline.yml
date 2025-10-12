@@ -8,19 +8,19 @@ on:
 jobs:
   build-and-test:
     name: Build e Testes
-    uses: ./.github/workflows/build-phase.yml
+    uses: ./.github/workflows/reusable-build.yml
     secrets: inherit
 
   validate-docker:
     name: Validação Docker
     needs: build-and-test
-    uses: ./.github/workflows/docker-phase.yml
+    uses: ./.github/workflows/reusable-docker.yml
     secrets: inherit
 
   create-pull-request:
     name: Criar Pull Request
     needs: validate-docker
-    uses: ./.github/workflows/pr-phase.yml
+    uses: ./.github/workflows/reusable-pr.yml
     secrets: inherit
     with:
       branch-name: ${{ github.ref_name }}
