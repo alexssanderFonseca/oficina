@@ -38,4 +38,6 @@ module "eks" {
   tags = {
     "Environment" = "academico"
   }
+
+  enable_cluster_creator_admin_permissions = true
 }
