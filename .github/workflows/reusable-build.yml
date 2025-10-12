@@ -21,11 +21,11 @@ jobs:
       - name: Conceder permissão de execução ao Gradle
         run: chmod +x gradlew
 
-      - name: Executar testes
-        run: ./gradlew test
-
       - name: Executar build
         run: ./gradlew build
+
+      - name: Executar testes
+        run: ./gradlew test
 
       - name: Upload de artefatos
         uses: actions/upload-artifact@v4
