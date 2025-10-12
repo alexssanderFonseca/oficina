@@ -1,5 +1,3 @@
-# .github/workflows/reusable-terraform.yml
-
 name: Terraform Phase
 
 on:
