@@ -38,7 +38,6 @@ gradle-app.setting
 ##############################
 ## IntelliJ
 ##############################
-out/
 .idea/
 .idea_modules/
 *.iml
@@ -88,3 +87,6 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
+
+
+.terraform
