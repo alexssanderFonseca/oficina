@@ -12,7 +12,7 @@ module "eks" {
 
   eks_managed_node_groups = {
     academico_nodes = {
-      name           = "node"
+      name = "node"
 
       instance_types = ["t3.micro"]
 
