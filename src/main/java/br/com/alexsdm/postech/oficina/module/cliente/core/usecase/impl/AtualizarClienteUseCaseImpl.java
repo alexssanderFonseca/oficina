@@ -7,10 +7,10 @@ import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteReposi
 import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.input.AtualizarClienteInput;
 import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.output.BuscarClientePorIdOutput;
 import br.com.alexsdm.postech.oficina.module.cliente.adapters.in.controller.mapper.ClienteDTOMapper;
+import jakarta.inject.Named;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
+@Named
 @RequiredArgsConstructor
 public class AtualizarClienteUseCaseImpl implements AtualizarClienteUseCase {
 

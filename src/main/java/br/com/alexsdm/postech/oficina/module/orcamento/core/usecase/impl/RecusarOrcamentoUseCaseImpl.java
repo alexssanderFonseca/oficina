@@ -1,7 +1,6 @@
 package br.com.alexsdm.postech.oficina.module.orcamento.core.usecase.impl;
 
 import br.com.alexsdm.postech.oficina.module.orcamento.core.port.out.OrcamentoRepository;
-import br.com.alexsdm.postech.oficina.module.orcamento.core.port.in.BuscarOrcamentoPorIdUseCase;
 import br.com.alexsdm.postech.oficina.module.orcamento.core.port.in.RecusarOrcamentoUseCase;
 import br.com.alexsdm.postech.oficina.module.orcamento.core.exception.OrcamentoNaoEncontradaException;
 import jakarta.inject.Named;
@@ -13,7 +12,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RecusarOrcamentoUseCaseImpl implements RecusarOrcamentoUseCase {
 
-    private final BuscarOrcamentoPorIdUseCase buscarOrcamentoPorIdUseCase;
     private final OrcamentoRepository orcamentoRepository;
 
     @Override

@@ -1,0 +1,43 @@
+name: Pull Request Phase
+
+on:
+  workflow_call:
+    inputs:
+      branch-name:
+        required: true
+        type: string
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Criar Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'feat: Automação - build e testes OK'
+          title: 'PR automático: build e testes da branch ${{ inputs.branch-name }}'
+          body: |
+            ## 🤖 Pull Request Automático
+            
+            Este PR foi criado automaticamente após validações bem-sucedidas:
+            
+            ✅ Build concluído com sucesso
+            ✅ Testes passaram
+            ✅ Imagem Docker validada
+            
+            **Branch:** `${{ inputs.branch-name }}`
+            **Commit:** `${{ github.sha }}`
+            
+            Por favor, revise as mudanças antes de fazer o merge.
+          base: main
+          branch: ${{ inputs.branch-name }}

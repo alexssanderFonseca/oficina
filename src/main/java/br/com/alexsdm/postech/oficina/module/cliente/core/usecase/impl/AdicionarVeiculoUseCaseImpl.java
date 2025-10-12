@@ -1,11 +1,12 @@
 package br.com.alexsdm.postech.oficina.module.cliente.core.usecase.impl;
 
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.entity.Veiculo;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.exception.ClienteNaoEncontradoException;
+import br.com.alexsdm.postech.oficina.module.cliente.core.domain.exception.VeiculoJaCadastradoException;
 import br.com.alexsdm.postech.oficina.module.cliente.core.port.in.AdicionarVeiculoUseCase;
 import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteRepository;
 import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.input.AdicionarVeiculoInput;
 import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.output.AdicionarVeiculoOutput;
-import br.com.alexsdm.postech.oficina.module.cliente.core.domain.entity.Veiculo;
-import br.com.alexsdm.postech.oficina.module.cliente.core.domain.exception.ClienteNaoEncontradoException;
 import jakarta.inject.Named;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +34,18 @@ public class AdicionarVeiculoUseCaseImpl implements AdicionarVeiculoUseCase {
                 input.cor(),
                 input.ano()
         );
-
+        verificaSeVeiculoJaExiste(novoVeiculo.getPlaca());
         cliente.adicionarVeiculo(novoVeiculo);
         clienteRepository.salvar(cliente);
         log.info("Veículo {} adicionado com sucesso ao cliente {}", novoVeiculo.getId(), cliente.getId());
 
         return new AdicionarVeiculoOutput(novoVeiculo.getId());
+    }
+
+    private void verificaSeVeiculoJaExiste(String placa) {
+        var isVeiculoJaCadastrado = clienteRepository.isVeiculoJaExistente(placa);
+        if (isVeiculoJaCadastrado) {
+            throw new VeiculoJaCadastradoException();
+        }
     }
 }

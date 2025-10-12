@@ -2,6 +2,8 @@ package br.com.alexsdm.postech.oficina.module.cliente.core.domain.validation;
 
 public class ValidadorPlacaVeiculo {
 
+    private ValidadorPlacaVeiculo(){}
+
     private static final String PADRAO_ANTIGO = "^[A-Z]{3}-\\d{4}$";
     private static final String PADRAO_MERCOSUL = "^[A-Z]{3}\\d[A-Z]\\d{2}$";
 

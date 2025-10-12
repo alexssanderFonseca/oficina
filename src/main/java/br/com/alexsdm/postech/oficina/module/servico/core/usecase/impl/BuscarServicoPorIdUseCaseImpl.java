@@ -1,13 +1,11 @@
 package br.com.alexsdm.postech.oficina.module.servico.core.usecase.impl;
 
-import br.com.alexsdm.postech.oficina.module.servico.core.port.out.ServicoRepository;
-import br.com.alexsdm.postech.oficina.module.servico.core.port.in.BuscarServicoPorIdUseCase;
 import br.com.alexsdm.postech.oficina.module.servico.core.domain.entity.Servico;
 import br.com.alexsdm.postech.oficina.module.servico.core.domain.exception.ServicoNaoEncontradoException;
+import br.com.alexsdm.postech.oficina.module.servico.core.port.in.BuscarServicoPorIdUseCase;
+import br.com.alexsdm.postech.oficina.module.servico.core.port.out.ServicoRepository;
 import jakarta.inject.Named;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 

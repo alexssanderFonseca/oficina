@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: oficina-ns
+  labels:
+    name: oficina-ns
+    environment: production

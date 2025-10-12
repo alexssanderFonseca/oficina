@@ -41,7 +41,7 @@ public record BuscarClientePorDocumentoOutput(
                         .cor(veiculo.getCor())
                         .ano(veiculo.getAno())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
 
         return BuscarClientePorDocumentoOutput.builder()
                 .id(cliente.getId())

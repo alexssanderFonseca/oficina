@@ -41,8 +41,7 @@ public record BuscarClientePorIdOutput(UUID id,
                         .cor(veiculo.getCor())
                         .ano(veiculo.getAno())
                         .build())
-                .collect(Collectors.toList());
-
+                .toList();
         return BuscarClientePorIdOutput.builder()
                 .id(cliente.getId())
                 .nome(cliente.getNome())

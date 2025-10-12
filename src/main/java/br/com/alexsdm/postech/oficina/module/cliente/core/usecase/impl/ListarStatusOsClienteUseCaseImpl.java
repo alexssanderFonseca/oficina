@@ -6,23 +6,23 @@ import br.com.alexsdm.postech.oficina.module.cliente.core.port.in.ListarStatusOs
 import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteOrdemServicoPort;
 import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteRepository;
 import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.input.ListarStatusOsClienteInput;
+import jakarta.inject.Named;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Named
 @RequiredArgsConstructor
 public class ListarStatusOsClienteUseCaseImpl implements ListarStatusOsClienteUseCase {
 
     private final ClienteRepository clienteRepository;
-    private final ClienteOrdemServicoPort ordemServicoGateway;
+    private final ClienteOrdemServicoPort clienteOrdemServicoPort;
 
     @Override
     public List<OrdemServicoStatus> executar(ListarStatusOsClienteInput input) {
         clienteRepository.buscarPorId(input.clienteId())
                 .orElseThrow(ClienteNaoEncontradoException::new);
 
-        return ordemServicoGateway.buscarStatusPorCliente(input.clienteId());
+        return clienteOrdemServicoPort.buscarStatusPorCliente(input.clienteId());
     }
 }

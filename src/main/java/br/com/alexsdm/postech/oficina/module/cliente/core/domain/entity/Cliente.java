@@ -39,9 +39,6 @@ public class Cliente {
         this.veiculos = new ArrayList<>();
     }
 
-    public String getNomeCompleto() {
-        return nome + " " + sobrenome;
-    }
 
     public void adicionarVeiculo(Veiculo veiculo) {
         if (this.veiculos == null) {

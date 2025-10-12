@@ -4,10 +4,10 @@ import br.com.alexsdm.postech.oficina.module.cliente.core.port.in.DeletarCliente
 import br.com.alexsdm.postech.oficina.module.cliente.core.port.out.ClienteRepository;
 import br.com.alexsdm.postech.oficina.module.cliente.core.usecase.input.DeletarClienteInput;
 import br.com.alexsdm.postech.oficina.module.cliente.core.domain.exception.ClienteNaoEncontradoException;
+import jakarta.inject.Named;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
+@Named
 @RequiredArgsConstructor
 public class DeletarClienteUseCaseImpl implements DeletarClienteUseCase {
 
