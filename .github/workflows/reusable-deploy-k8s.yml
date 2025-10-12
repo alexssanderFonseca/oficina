@@ -36,13 +36,13 @@ jobs:
 
       - name: Atualizar a tag da imagem com Kustomize
         run: |
-          cd /infra/k8s/
+          cd infra/k8s/
           kustomize edit set image ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}=${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ inputs.image-tag }}
 
       - name: Aplicar manifestos no cluster
         run: |
           # O comando 'kubectl apply -k' aplica os manifestos gerenciados pelo Kustomize
-          kubectl apply -k /infra/k8s/
+          kubectl apply -k infra/k8s/
 
       - name: Verificar o status do deploy
         run: |
