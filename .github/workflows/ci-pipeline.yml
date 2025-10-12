@@ -20,6 +20,9 @@ jobs:
   create-pull-request:
     name: Criar Pull Request
     needs: validate-docker
+    permissions:
+      contents: write
+      pull-requests: write
     uses: ./.github/workflows/reusable-pr.yml
     secrets: inherit
     with:
