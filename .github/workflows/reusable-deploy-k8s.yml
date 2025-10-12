@@ -46,4 +46,4 @@ jobs:
 
       - name: Verificar o status do deploy
         run: |
-          kubectl rollout status deployment/oficina-app -n oficina
+          kubectl rollout status deployment/oficina-app -n oficina-ns
