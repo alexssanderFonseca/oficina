@@ -3,5 +3,5 @@ kind: Namespace
 metadata:
   name: oficina
   labels:
-    name: oficina
+    name: oficina-ns
     environment: production
