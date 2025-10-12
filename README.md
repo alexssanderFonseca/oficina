@@ -86,7 +86,6 @@ Cada módulo segue a arquitetura hexagonal, organizada da seguinte forma:
 -   **Adapters**: São a "ponte" entre o núcleo e o mundo exterior. Eles adaptam as tecnologias específicas (como HTTP, JPA, etc.) para as interfaces definidas nas portas.
 
 Essa estrutura garante que o núcleo da aplicação permaneça isolado e testável, independentemente das tecnologias utilizadas na camada de infraestrutura.
-
 ---
 
 ## 📜 Licença
