@@ -8,7 +8,6 @@ resources:
   - storage-class.yaml
   - postgres-secret.yaml
   - postgres-pvc.yaml
-  - postgres-init.yaml
   - postgres-configmap.yaml
   - postgres-deployment.yaml
   - postgres-service.yaml
@@ -17,10 +16,6 @@ resources:
   - app-service.yaml
   - service-loadbalancer.yaml
   - app-hpa.yaml
-
-commonLabels:
-  app: oficina
-  environment: academico
 
 patchesStrategicMerge:
   - |-
