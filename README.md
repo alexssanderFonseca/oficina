@@ -63,11 +63,11 @@ Esta é a forma mais rápida e simples de subir a aplicação e o banco de dados
     ```bash
     docker-compose up
     ```
-2.  A aplicação estará disponível em `http://localhost:8080`.
+2.  A aplicação estará disponível em `http://localhost:9090`.
 
 3.  Para acessar a documentação interativa e testar os endpoints, abra o Swagger UI no seu navegador:
     ```
-    http://localhost:8080/swagger-ui/index.html
+    http://localhost:9090/swagger-ui/index.html
     ```
 
 ### Opção 2: Ambiente Kubernetes Completo (com Minikube)
