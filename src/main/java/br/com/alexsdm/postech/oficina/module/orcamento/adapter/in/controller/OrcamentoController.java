@@ -5,6 +5,8 @@ import br.com.alexsdm.postech.oficina.module.orcamento.adapter.in.controller.req
 import br.com.alexsdm.postech.oficina.module.orcamento.core.port.in.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,10 @@ public class OrcamentoController {
     private final OrcamentoControllerMapper mapper;
 
     @Operation(summary = "Criar novo orçamento", description = "Cria um novo orçamento com peças e serviços")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Orçamento criado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida")
+    })
     @PostMapping
     public ResponseEntity<?> criarOrcamento(
             @Parameter(description = "Dados para criação do orçamento")
@@ -38,36 +44,52 @@ public class OrcamentoController {
     }
 
     @Operation(summary = "Aceitar orçamento", description = "Marca o orçamento como aceito")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Orçamento aceito com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Orçamento não encontrado")
+    })
     @PostMapping("/{id}/aceitos")
     public ResponseEntity<Void> aceitarOrcamento(
-            @Parameter(description = "ID do orçamento", example = "1")
+            @Parameter(description = "ID do orçamento")
             @PathVariable UUID id) {
         aprovarOrcamentoUseCase.executar(id);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Recusar orçamento", description = "Marca o orçamento como recusado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Orçamento recusado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Orçamento não encontrado")
+    })
     @PostMapping("/{id}/recusados")
     public ResponseEntity<Void> recusarOrcamento(
-            @Parameter(description = "ID do orçamento", example = "1")
+            @Parameter(description = "ID do orçamento")
             @PathVariable UUID id) {
         recusarOrcamentoUseCase.executar(id);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Buscar orçamento por ID", description = "Retorna os detalhes do orçamento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Orçamento encontrado"),
+            @ApiResponse(responseCode = "404", description = "Orçamento não encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarOrcamento(
-            @Parameter(description = "ID do orçamento", example = "1")
+            @Parameter(description = "ID do orçamento")
             @PathVariable UUID id) {
         var orcamento = buscarOrcamentoPorIdUseCase.executar(id);
         return ResponseEntity.ok(mapper.toResponse(orcamento));
     }
 
     @Operation(summary = "Enviar orçamento em PDF", description = "Gera e envia o orçamento em formato PDF para download")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "PDF do orçamento gerado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Orçamento não encontrado")
+    })
     @GetMapping("/{id}/envios")
     public ResponseEntity<?> enviarOrcamento(
-            @Parameter(description = "ID do orçamento", example = "1")
+            @Parameter(description = "ID do orçamento")
             @PathVariable UUID id) {
         var pdfBytes = enviarOrcamentoPdfUseCase.executar(id);
         var headers = new HttpHeaders();

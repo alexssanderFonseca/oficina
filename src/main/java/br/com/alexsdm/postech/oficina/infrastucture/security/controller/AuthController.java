@@ -6,6 +6,9 @@ import br.com.alexsdm.postech.oficina.infrastucture.security.controller.response
 import br.com.alexsdm.postech.oficina.infrastucture.security.jwt.JwtUtil;
 import br.com.alexsdm.postech.oficina.infrastucture.security.usuario.service.UsuarioService;
 import br.com.alexsdm.postech.oficina.infrastucture.security.usuario.service.input.UsuarioInput;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,11 @@ public class AuthController {
     private final UsuarioService usuarioService;
 
 
+    @Operation(summary = "Autentica um usuário e retorna um token JWT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Autenticação bem-sucedida"),
+            @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
+    })
     @PostMapping("/logins")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         try {
@@ -39,6 +47,11 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Cadastra um novo usuário no sistema")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso"),
+            @ApiResponse(responseCode = "409", description = "Usuário já existe")
+    })
     @PostMapping("/usuarios")
     public ResponseEntity<?> cadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest) {
         try {
