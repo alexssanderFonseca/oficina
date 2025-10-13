@@ -64,6 +64,7 @@ servico/
 
 ### Estrutura Interna de cada Módulo (Ports and Adapters)
 
+
 Cada módulo segue a arquitetura hexagonal, organizada da seguinte forma:
 
 ```text
