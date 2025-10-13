@@ -24,7 +24,7 @@ module "eks" {
     academico_nodes = {
       name = "node"
 
-      instance_types = ["t3.micro"]
+      instance_types = ["t3.small"]
 
 
       min_size     = 1
