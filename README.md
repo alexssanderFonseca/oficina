@@ -27,6 +27,9 @@ A aplicação foi desenvolvida com foco em **boas práticas**, **DDD**, e uma ar
 -   **PostgreSQL**
 -   **Gradle** (gerenciamento de dependências)
 -   **JUnit 5** (testes automatizados)
+-   **Terraform**
+-   **AWS** (deploy na cloud)
+
 
 ---
 
