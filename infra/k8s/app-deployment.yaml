@@ -23,7 +23,7 @@ spec:
       - name: oficina-app
         image: alexmarquesfa/oficina
         ports:
-        - containerPort: 8080
+        - containerPort: 9090
         env:
         - name: SPRING_DATASOURCE_URL
           valueFrom:

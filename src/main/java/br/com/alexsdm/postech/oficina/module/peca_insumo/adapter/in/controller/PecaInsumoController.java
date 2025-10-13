@@ -5,6 +5,8 @@ import br.com.alexsdm.postech.oficina.module.peca_insumo.core.usecase.input.List
 import br.com.alexsdm.postech.oficina.module.peca_insumo.adapter.in.controller.request.AtualizarPecaInsumoRequest;
 import br.com.alexsdm.postech.oficina.module.peca_insumo.adapter.in.controller.request.CadastrarPecaInsumoRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,9 @@ public class PecaInsumoController {
     private final PecaInsumoControllerMapper mapper;
 
     @Operation(summary = "Listar todas as peças e insumos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de peças e insumos retornada com sucesso")
+    })
     @GetMapping
     public ResponseEntity<?> listarTodas(@RequestParam(required = false, defaultValue = "0") Long pagina,
                                          @RequestParam(required = false, defaultValue = "10") Long quantidade) {
@@ -50,6 +55,10 @@ public class PecaInsumoController {
     }
 
     @Operation(summary = "Buscar peça/insumo por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Peça/insumo encontrado"),
+            @ApiResponse(responseCode = "404", description = "Peça/insumo não encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable UUID id) {
         var peca = buscarPecaInsumoPorIdUseCase.executar(id);
@@ -57,6 +66,10 @@ public class PecaInsumoController {
     }
 
     @Operation(summary = "Cadastrar nova peça ou insumo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Peça/insumo cadastrado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida")
+    })
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastrarPecaInsumoRequest request) {
         var dto = mapper.toInput(request);
@@ -65,6 +78,11 @@ public class PecaInsumoController {
     }
 
     @Operation(summary = "Atualizar peça ou insumo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Peça/insumo atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "404", description = "Peça/insumo não encontrado")
+    })
     @PatchMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable UUID id, @RequestBody @Valid AtualizarPecaInsumoRequest request) {
         var input = mapper.toInput(id, request);
@@ -73,6 +91,10 @@ public class PecaInsumoController {
     }
 
     @Operation(summary = "Deletar peça ou insumo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Peça/insumo deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Peça/insumo não encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable UUID id) {
         deletarPecaInsumoUseCase.executar(id);
