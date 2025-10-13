@@ -8,6 +8,9 @@ import br.com.alexsdm.postech.oficina.module.cliente.adapters.in.controller.requ
 import br.com.alexsdm.postech.oficina.module.cliente.adapters.in.controller.request.AtualizarClienteRequest;
 import br.com.alexsdm.postech.oficina.module.cliente.adapters.in.controller.request.CadastrarClienteRequest;
 import br.com.alexsdm.postech.oficina.module.cliente.adapters.in.controller.response.AdicionarVeiculoResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,11 @@ public class ClienteController {
     private final ListarStatusOsClienteUseCase listarStatusOsClienteUseCase;
     private final ClienteDTOMapper clienteDTOMapper;
 
+    @Operation(summary = "Cadastra um novo cliente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Cliente cadastrado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida")
+    })
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastrarClienteRequest request) {
         var input = clienteDTOMapper.toInput(request);
@@ -38,12 +46,22 @@ public class ClienteController {
         return ResponseEntity.created(URI.create("/clientes/" + output.id())).build();
     }
 
+    @Operation(summary = "Busca um cliente por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente encontrado"),
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> buscar(@PathVariable UUID id) {
         var output = buscarClientePorIdUseCase.executar(id);
         return ResponseEntity.ok(output);
     }
 
+    @Operation(summary = "Deleta um cliente por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Cliente deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable UUID id) {
         var input = new DeletarClienteInput(id);
@@ -51,6 +69,12 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Atualiza os dados de um cliente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cliente atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
+    })
     @PatchMapping("/{id}")
     public ResponseEntity<?> atualizar(@PathVariable UUID id, @RequestBody @Valid AtualizarClienteRequest request) {
         var input = clienteDTOMapper.toAtualizarClienteInput(id, request);
@@ -58,6 +82,12 @@ public class ClienteController {
         return ResponseEntity.ok(output);
     }
 
+    @Operation(summary = "Adiciona um veículo a um cliente existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Veículo adicionado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida"),
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
+    })
     @PostMapping("/{id}/veiculos")
     public ResponseEntity<?> adicionarVeiculo(@PathVariable UUID id, @RequestBody @Valid AdicionarDadosVeiculoRequest request) {
         var input = clienteDTOMapper.toAdicionarVeiculoInput(id, request);
@@ -65,6 +95,11 @@ public class ClienteController {
         return ResponseEntity.ok(new AdicionarVeiculoResponse(output.veiculoId()));
     }
 
+    @Operation(summary = "Lista o status de todas as ordens de serviço de um cliente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Status das ordens de serviço retornado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
+    })
     @GetMapping("/{id}/ordensServicos")
     public ResponseEntity<?> statusByCliente(@PathVariable UUID id) {
         var input = new ListarStatusOsClienteInput(id);

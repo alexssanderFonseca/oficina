@@ -6,6 +6,9 @@ import br.com.alexsdm.postech.oficina.module.ordem_servico.core.usecase.input.Fi
 import br.com.alexsdm.postech.oficina.module.ordem_servico.adapter.in.controller.request.CriarOrdemDeServicoRequest;
 import br.com.alexsdm.postech.oficina.module.ordem_servico.adapter.in.controller.request.ExecutarOrdemServicoRequest;
 import br.com.alexsdm.postech.oficina.module.ordem_servico.adapter.in.controller.request.FinalizarDiagnosticoRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +36,22 @@ public class OrdemServicoController {
     private final OrdemServicoControllerMapper mapper;
 
 
+    @Operation(summary = "Abre uma nova ordem de serviço")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Ordem de serviço aberta com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida")
+    })
     @PostMapping
     public ResponseEntity<?> criar(@RequestBody @Valid CriarOrdemDeServicoRequest request) {
         var id = abrirOrdemServicoUseCase.executar(mapper.toInput(request));
         return ResponseEntity.created(URI.create("/ordens-servicos/" + id)).build();
     }
 
+    @Operation(summary = "Finaliza o diagnóstico de uma OS, informando peças e serviços necessários")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Diagnóstico finalizado e orçamento gerado"),
+            @ApiResponse(responseCode = "404", description = "Ordem de serviço não encontrada")
+    })
     @PostMapping("/{id}/diagnosticos/finalizacoes")
     public ResponseEntity<?> finalizarDiagnostico(@PathVariable UUID id,
                                                   @RequestBody FinalizarDiagnosticoRequest request) {
@@ -54,30 +67,55 @@ public class OrdemServicoController {
         return ResponseEntity.ok(orcamentoId);
     }
 
+    @Operation(summary = "Inicia a execução de uma ordem de serviço após aprovação do orçamento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Execução da OS iniciada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Ordem de serviço não encontrada"),
+            @ApiResponse(responseCode = "409", description = "Orçamento não aprovado ou OS em estado incorreto")
+    })
     @PostMapping("/{id}/execucoes")
     public ResponseEntity<?> executar(@PathVariable UUID id, @RequestBody ExecutarOrdemServicoRequest request) {
         executarOrdemServicoUseCase.executar(id, request.orcamentoId());
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Finaliza a execução de uma ordem de serviço")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "OS finalizada com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Ordem de serviço não encontrada")
+    })
     @PostMapping("/{id}/finalizacoes")
     public ResponseEntity<Void> finalizar(@PathVariable UUID id) {
         finalizarOrdemServicoUseCase.executar(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Registra a entrega do veículo ao cliente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Veículo entregue com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Ordem de serviço não encontrada")
+    })
     @PostMapping("/{id}/entregas")
     public ResponseEntity<?> entregar(@PathVariable UUID id) {
         entregarOrdemServicoUseCase.executar(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Busca uma ordem de serviço por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ordem de serviço encontrada"),
+            @ApiResponse(responseCode = "404", description = "Ordem de serviço não encontrada")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> buscar(@PathVariable UUID id) {
         var os = buscarOrdemServicoPorIdUseCase.executar(id);
         return ResponseEntity.ok(os);
     }
 
+    @Operation(summary = "Lista todas as ordens de serviço de forma paginada")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de ordens de serviço retornada com sucesso")
+    })
     @GetMapping
     public ResponseEntity<?> listar(@RequestParam(defaultValue = "0") Long pagina,
                                     @RequestParam(defaultValue = "10") Long quantidade) {
@@ -90,4 +128,3 @@ public class OrdemServicoController {
     }
 
 }
-
