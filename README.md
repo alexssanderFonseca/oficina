@@ -129,7 +129,7 @@ minikube service oficina-app-service -n oficina
 
 ## 🏗️ Infraestrutura como Código (Terraform)
 
-![Desenho da Arquitetura EKS](docs/eks.png)
+![Desenho da Arquitetura EKS](docs/arquitetura/eks.png)
 
 Toda a infraestrutura na AWS necessária para rodar esta aplicação é gerenciada como código usando o Terraform. Os arquivos de configuração se encontram no diretório `infra/terraform`.
 
