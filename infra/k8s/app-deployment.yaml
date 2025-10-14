@@ -22,6 +22,7 @@ spec:
       containers:
         - name: oficina-app
           image: alexmarquesfa/oficina
+          imagePullPolicy: Always
           ports:
             - containerPort: 9090
           env:

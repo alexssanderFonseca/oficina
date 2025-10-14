@@ -79,7 +79,7 @@ Esta abordagem simula um ambiente Kubernetes real na sua máquina, sendo ideal p
 - **Docker:** [Instruções de instalação](https://docs.docker.com/engine/install/)
 - **kubectl:** [Instruções de instalação](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - **Minikube:** Siga o guia de instalação oficial para o seu sistema operacional.
-  - **Link Oficial:** https://minikube.sigs.k8s.io/docs/start/
+- **Link Oficial:** https://minikube.sigs.k8s.io/docs/start/
 
 #### 2. Inicie o Cluster Minikube
 
@@ -88,7 +88,7 @@ Abra seu terminal e execute o comando para iniciar o cluster:
 minikube start
 ```
 
-Opcional: Habiltiar metrics-server
+Habilitar metrics-server:
 
 ```bash
 minikube addons enable metrics-server

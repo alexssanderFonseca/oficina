@@ -1,2 +1,849 @@
-# Este é um placeholder para a collection do Insomnia.
-# Exporte sua collection do Insomnia como YAML e cole o conteúdo aqui.
+type: collection.insomnia.rest/5.0
+name: Oficina Pós TECH
+meta:
+  id: wrk_77b4a457c153423590829ff284677ad7
+  created: 1753358309016
+  modified: 1753358319011
+collection:
+  - name: clientes
+    meta:
+      id: fld_4f6b574c6b864a328e22598bb9fe766d
+      created: 1753701518457
+      modified: 1753701559315
+      sortKey: -1753701518457
+    children:
+      - url: "{{url}}/clientes"
+        name: Cadastrar
+        meta:
+          id: req_f3a93b6ba14c4b9b94e01ef95ddb3791
+          created: 1753358324121
+          modified: 1760218411341
+          isPrivate: false
+          sortKey: -1753701526836
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nome": "João",
+            	"sobrenome": "Silva",
+            	"cpfCnpj": "10389693014",
+            	"email": "joao.silva@example.com",
+            	"telefone": "(11) 91234-5678",
+            	"endereco": {
+            		"rua": "Rua das Flores",
+            		"numero": "123",
+            		"bairro": "Jardim Primavera",
+            		"cep": "12345-678",
+            		"cidade": "São Paulo",
+            		"uf": "SP"
+            	}
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/clientes/880acb31-c1b1-4336-bfb1-853ea71c113f"
+        name: Buscar
+        meta:
+          id: req_23fc40e7588447438674b5b79e4a862a
+          created: 1753444083957
+          modified: 1760373906813
+          isPrivate: false
+          sortKey: -1753701526736
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_caa72b2ec0384ed39046b7df62bd2e4b
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/clientes/29a453d5-cc15-4b9a-803c-2e0070abeaac"
+        name: Deletar
+        meta:
+          id: req_4962c358e5e142779c613859bd364761
+          created: 1753444145654
+          modified: 1760397870465
+          isPrivate: false
+          sortKey: -1753701526636
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/clientes/80330d5c-07ea-416c-b431-4e2786e21b50/veiculos"
+        name: Adicionar veiculo
+        meta:
+          id: req_e8a04aaf9bd54e2cb61e8f62a468b1bb
+          created: 1754175831951
+          modified: 1760219174725
+          isPrivate: false
+          sortKey: -1754079158677
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"ano": "2022",
+            	"placa": "FFA3I31",
+            	"cor": "Branca",
+            	"marca" : "Toyota",
+            	"modelo": "Corrola"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/clientes/80330d5c-07ea-416c-b431-4e2786e21b50/ordensServicos"
+        name: Acompanhar ordens
+        meta:
+          id: req_989d689e7efa4f3cb2cf5924fcdca63a
+          created: 1755016767036
+          modified: 1760266396224
+          isPrivate: false
+          sortKey: -1753982485403
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: true
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: peças
+    meta:
+      id: fld_96723f9b662e40049deade93220d5637
+      created: 1753701563852
+      modified: 1753701563852
+      sortKey: -1753701563852
+    children:
+      - url: "{{url}}/pecas"
+        name: Cadastrar
+        meta:
+          id: req_6a29a50e21b44e99a53c80549ead2e8a
+          created: 1753701569675
+          modified: 1760221222904
+          isPrivate: false
+          sortKey: -1753701569675
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+            	"nome": "Filtro de oleo",
+            	"descricao": "Filtro de óleo para motor 1.6 - compatível com modelos Fiat e Volkswagen.",
+            	"codigoFabricante": "FILT123456",
+            	"marca": "Bosch",
+            	"quantidadeEstoque": 25,
+            	"precoCusto": 18.50,
+            	"precoVenda": 35.90,
+            	"categoria": "Motor",
+            	"ativo": true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/pecas/55a9c488-e850-42b8-8142-6f0d579595ff"
+        name: Listar
+        meta:
+          id: req_8cd6befa28594c41bf59035fb13c16f2
+          created: 1753789138855
+          modified: 1760213019820
+          isPrivate: false
+          sortKey: -1753789138855
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: serviços
+    meta:
+      id: fld_9fec1c5895bf45b19d3b6a11775ac20b
+      created: 1753702426295
+      modified: 1753702426295
+      sortKey: -1753702426295
+    children:
+      - url: "{{url}}/servicos"
+        name: Cadastrar
+        meta:
+          id: req_ce75f5ab9fd14907aa3ac02d4294dcbd
+          created: 1753702429810
+          modified: 1760213034490
+          isPrivate: false
+          sortKey: -1753702429810
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+              "nome": "Troca de óleo",
+              "descricao": "Substituição do óleo do motor e verificação do filtro.",
+              "preco": 149.90,
+              "duracaoEstimada": "30",
+              "categoria": "Motor",
+              "ativo": true,
+              "dataCadastro": "2025-07-24T09:00:00",
+              "dataAtualizacao": "2025-07-24T09:00:00"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/servicos/61aec8da-b92e-4830-a75e-c4385bdd4dbd"
+        name: Listar
+        meta:
+          id: req_32fb1ecb69084650bdc1513fea118d19
+          created: 1753788993756
+          modified: 1760218607074
+          isPrivate: false
+          sortKey: -1753788993756
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: OS
+    meta:
+      id: fld_c6425f2511b5492fb885fe3d0d9ea272
+      created: 1754177013325
+      modified: 1754391947090
+      sortKey: -1754177013325
+    children:
+      - url: "{{url}}/ordens-servicos"
+        name: Abrir
+        meta:
+          id: req_48d8975f7fcb453bbaefa1e0af1374c3
+          created: 1754177017422
+          modified: 1760266325738
+          isPrivate: false
+          sortKey: -1754177017422
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"clienteId": "80330d5c-07ea-416c-b431-4e2786e21b50",
+            	"veiculoId": "68f025fb-72f4-4405-931b-95c39ccdf252",
+            	"pecasInsumos": [
+            		{
+            			"idPecaInsumo": "699c722b-2ec8-4010-822a-b9f96013b3d1",
+            			"qtd": "2"
+            		}
+            	],
+            	"servicos": [
+            		"363beb76-5e1d-4ab9-8eb2-20134fbefb7d"
+            	]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}ordens-servicos/1/diagnosticos"
+        name: Iniciar diagnostico
+        meta:
+          id: req_db757271343547f2a28250c1746d7048
+          created: 1754177288122
+          modified: 1760266472679
+          isPrivate: false
+          sortKey: -1754177288122
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/ordens-servicos/9aafd925-1065-42ac-9068-c28d7b77f1e1/diagnosticos\
+          /finalizacoes"
+        name: Finalizar diagnostico
+        meta:
+          id: req_25a9a78a70a64ea98e90c780a604ed53
+          created: 1754177473644
+          modified: 1760266488109
+          isPrivate: false
+          sortKey: -1754177152772
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"idPecasNecessarias": [
+            		{
+            			"idPeca": 1,
+            			"qtd": 4
+            		}
+            	],
+            	"idServicosNecessarios": [
+            		1
+            	]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/ordens-servicos/9aafd925-1065-42ac-9068-c28d7b77f1e1/finalizacoes"
+        name: Finalizar
+        meta:
+          id: req_4adbb1967ca24a60bf5e2058edc3f267
+          created: 1754223973162
+          modified: 1760266427178
+          isPrivate: false
+          sortKey: -1754177220447
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/ordens-servicos/9aafd925-1065-42ac-9068-c28d7b77f1e1/entregas"
+        name: Entregar
+        meta:
+          id: req_3b8e131c9fd940bc9902dc2b32a6d362
+          created: 1754224063848
+          modified: 1760266460466
+          isPrivate: false
+          sortKey: -1754177254284.5
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/ordens-servicos/1/execucoes"
+        name: Executar
+        meta:
+          id: req_718f5ecdf38d4c8ebc5305971f3f6a70
+          created: 1754229449808
+          modified: 1760397909668
+          isPrivate: false
+          sortKey: -1754177271203.25
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"orcamentoId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/ordens-servicos/9324923e-8548-44bb-abc7-9521fdc786f2"
+        name: Visualizar
+        meta:
+          id: req_b5c8b967566a4bec999e312c3fbe28ce
+          created: 1754229558734
+          modified: 1760215330998
+          isPrivate: false
+          sortKey: -1754177283892.3125
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/ordens-servicos"
+        name: Listar os ordenadas
+        meta:
+          id: req_ed87369bd2154ac0a2e1aa75fad90a50
+          created: 1760094672107
+          modified: 1760439904909
+          isPrivate: false
+          sortKey: -1760094672108
+        method: GET
+        parameters:
+          - id: pair_aa7e3876f3ee4ad681d57a033e56b2ab
+            name: pagina
+            value: "0"
+            disabled: false
+          - id: pair_bfd2bea9314744898e030965a9ce7c6b
+            name: quantidade
+            value: "10"
+            disabled: false
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: orcamento
+    meta:
+      id: fld_40d9adfd04c9432aa152bc5014be487a
+      created: 1754229554484
+      modified: 1754478753815
+      sortKey: -1754229554484
+    children:
+      - url: http://localhost:8080/orcamentos/
+        name: Visualizar
+        meta:
+          id: req_a97796ecec0049ceb949a1c120a89d63
+          created: 1754478779051
+          modified: 1760266516889
+          isPrivate: false
+          sortKey: -1754478779051
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_7b24a388f6bf4e6bace47ee0c58c6531
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/orcamentos/1/aceitos"
+        name: Aprovar
+        meta:
+          id: req_3fece6869f254ac3a84ee556d9b972ed
+          created: 1754566000377
+          modified: 1760397922116
+          isPrivate: false
+          sortKey: -1754328033586.5
+        method: POST
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}orcamentos/1/envios"
+        name: Enviar
+        meta:
+          id: req_eda415b40fb242809225c932c859e169
+          created: 1754833028551
+          modified: 1760397937222
+          isPrivate: false
+          sortKey: -1754403406318.75
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+            id: pair_7b24a388f6bf4e6bace47ee0c58c6531
+        authentication:
+          type: bearer
+          token: "{{token}}"
+          disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/orcamentos"
+        name: Criar orcamento
+        meta:
+          id: req_188f6167962447eea4df5f34aa306b73
+          created: 1758111303367
+          modified: 1760266617502
+          isPrivate: false
+          sortKey: -1758111303367
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+            	"cpfCnpjCliente": "12345678901",
+            	"veiculoId": "68f025fb-72f4-4405-931b-95c39ccdf252",
+            	"pecas": [
+            		{
+            			"pecaId": "699c722b-2ec8-4010-822a-b9f96013b3d1",
+            			"quantidade": 2
+            		}
+            	],
+            	"servicos": [
+            		"363beb76-5e1d-4ab9-8eb2-20134fbefb7d"
+            	]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: monitoramento
+    meta:
+      id: fld_86cf324baeaa49f299dd76d52e872e12
+      created: 1754742923539
+      modified: 1754742923539
+      sortKey: -1754742923539
+    children:
+      - url: "{{url}}/monitoramentos/execucoes"
+        name: Tempo medio execucao
+        meta:
+          id: req_deaab3e71aa24d0190a13f41fee85948
+          created: 1754742934997
+          modified: 1760267107197
+          isPrivate: false
+          sortKey: -1754747663845
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.1.0
+        authentication:
+          type: bearer
+          token: "{{token}}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Login
+    meta:
+      id: fld_c598a667c51e4441b7bac1660940f66b
+      created: 1754747687942
+      modified: 1754747687942
+      sortKey: -1754747687942
+    children:
+      - url: "{{url}}/usuarios"
+        name: Cadastrar user
+        meta:
+          id: req_e3d4d124d165407caca5d93b0d6e638b
+          created: 1754747693916
+          modified: 1760441701539
+          isPrivate: false
+          sortKey: -1754747693916
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"username": "admin",
+            	"password": "admin"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{url}}/logins"
+        name: Login
+        meta:
+          id: req_7d7b80e79b1c4f88a7c3e247613eea36
+          created: 1754748361743
+          modified: 1760441966646
+          isPrivate: false
+          sortKey: -1754747678880.5
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"username": "admin",
+            	"password": "admin"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.1.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_2c033690872b20cf73bdaa70cc951cc70cf5e770
+    created: 1753358309023
+    modified: 1760439895658
+  cookies:
+    - key: JSESSIONID
+      value: 5EB37ADC245DA692C2A003E1938F59E0
+      domain: localhost
+      path: /
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-08-09T13:47:33.214Z
+      lastAccessed: 2025-10-12T11:58:02.500Z
+      id: 8ceb0dd3-05e6-4772-b907-22ec6cc26502
+    - key: JSESSIONID
+      value: 0B6AAC98257D8B8440B68548080864FA
+      domain: 192.168.49.2
+      path: /
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-10-11T19:35:37.410Z
+      lastAccessed: 2025-10-14T11:04:55.657Z
+      id: aa223fdc-bc2b-473e-b8cd-dab89b912df8
+    - key: JSESSIONID
+      value: 0761D45B44D3F33B90F0E0EF5D952187
+      domain: ad9a010ab7ef64907978ebf85ec04734-1991679699.us-east-1.elb.amazonaws.com
+      path: /
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-10-13T12:03:38.172Z
+      lastAccessed: 2025-10-13T12:03:38.172Z
+      id: 3cba8cae-303b-45f3-9cc5-201fd92b4d4f
+    - key: JSESSIONID
+      value: FBEDA3DA22B9CEEE95D4CE6FE9B51DB8
+      domain: ac8cd9e2b28d74268b3f973dc1c83509-1077596687.us-east-1.elb.amazonaws.com
+      path: /
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-10-13T16:38:50.972Z
+      lastAccessed: 2025-10-13T16:38:50.972Z
+      id: f2f6a956-c65f-4cab-ad98-25535656ce43
+environments:
+  name: Env
+  meta:
+    id: env_2c033690872b20cf73bdaa70cc951cc70cf5e770
+    created: 1753358309020
+    modified: 1760218301591
+    isPrivate: false
+  data:
+    token: "{% response 'body', 'req_7d7b80e79b1c4f88a7c3e247613eea36',
+      'b64::JC50b2tlbg==::46b', 'always', 60 %}"
+    url: http://localhost
+  subEnvironments:
+    - name: k8s
+      meta:
+        id: env_db8061152a894bceba2642ac2d8e2bb3
+        created: 1760218252304
+        modified: 1760218443883
+        isPrivate: false
+        sortKey: 1760218252304
+      data:
+        url: http://192.168.49.2:30080
+    - name: local
+      meta:
+        id: env_156316e6fd27404190aa19e2fdbe8e1d
+        created: 1760218282301
+        modified: 1760218493192
+        isPrivate: false
+        sortKey: 1760218282301
+      data:
+        url: http://localhost:9090
+    - name: aws
+      meta:
+        id: env_b7193c24a8e74a43b05fa653403e5cbb
+        created: 1760356999941
+        modified: 1760373856207
+        isPrivate: false
+        sortKey: 1760356999941
+      data:
+        url: http://ac8cd9e2b28d74268b3f973dc1c83509-1077596687.us-east-1.elb.amazonaws.com
