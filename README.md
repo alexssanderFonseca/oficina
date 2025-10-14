@@ -88,40 +88,42 @@ Abra seu terminal e execute o comando para iniciar o cluster:
 minikube start
 ```
 
+Opcional: Habiltiar metrics-server
+
+```bash
+minikube addons enable metrics-server
+```
+
 #### 3. Configure o Ambiente Docker
 
 Este é o passo mais importante. Você precisa configurar seu terminal para usar o ambiente Docker de dentro do Minikube. Isso garante que a imagem que você construir estará visível para o Kubernetes.
 ```bash
 eval $(minikube -p minikube docker-env)
 ```
+
 **Dica:** Você precisará rodar este comando em cada novo terminal que abrir para interagir com o Minikube.
 
-#### 4. Construa a Imagem da Aplicação
 
-Com o ambiente configurado, navegue até a raiz do projeto e construa a imagem Docker.
-```bash
-docker build -t alexmarquesfa/oficina:latest .
-```
-**Importante:** O nome da imagem (`alexmarquesfa/oficina`) deve ser o mesmo que está definido no arquivo `app-deployment.yaml`. O uso da tag `:latest` faz com que o Kubernetes não tente buscar a imagem de um repositório remoto (`imagePullPolicy: IfNotPresent`).
-
-#### 5. Aplique os Manifestos Kubernetes
+#### 4. Aplique os Manifestos Kubernetes
 
 Execute o script que aplica os manifestos na ordem correta, excluindo recursos específicos da nuvem:
 ```bash
 bash scripts/apply-local-k8s.sh
 ```
+**Dica:** Você precisará rodar este comando na raiz do projeto, caso contrario pode acontecer algum erro referente a não encontrar os manifestos
+
 Após alguns instantes, todos os recursos (Pods, Services, Deployments, etc.) estarão sendo criados.
 
-#### 6. Acesse a Aplicação
+#### 5. Acesse a Aplicação
 
-Para acessar o serviço, que foi exposto como `NodePort`, use o seguinte comando do Minikube. Ele abrirá a URL diretamente no seu navegador:
+Para obter a url de acesso ao serviço, que foi exposto como `NodePort`, use o seguinte comando do Minikube. Ele abrirá a URL diretamente no seu navegador:
 ```bash
-minikube service oficina-app-service -n oficina
+minikube service oficina-app-service -n oficina-ns
 ```
 
 #### 7. (Opcional) Monitoramento e Limpeza
 
-- **Verificar status dos Pods:** `kubectl get pods -n oficina`
+- **Verificar status dos Pods:** `kubectl get pods -n oficina-ns`
 - **Parar o cluster:** `minikube stop`
 - **Deletar o cluster:** `minikube delete`
 

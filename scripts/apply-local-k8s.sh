@@ -12,7 +12,7 @@ echo "
 Aplicando segredos e configurações..."
 kubectl apply -f "$BASE_DIR/postgres-secret.yaml"
 kubectl apply -f "$BASE_DIR/app-configmap.yaml"
-kubectl apply -f "$BASE_DIR/postgres-init.yaml"
+kubectl apply -f "$BASE_DIR/postgres-configmap.yaml"
 
 echo "
 Aplicando recursos do PostgreSQL..."
