@@ -23,6 +23,12 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":cliente"))
+    implementation(project(":orcamento"))
+    implementation(project(":peca_insumo"))
+    implementation(project(":ordem_servico"))
+    implementation(project(":servico"))
+    implementation(project(":monitoramento"))
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -51,14 +57,18 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 }
 
-
-tasks.withType<JavaCompile> {
-    options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+allprojects {
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+        options.compilerArgs.add("-parameters")
+    }
 }
 
+
 tasks.withType<Test> {
+    maxParallelForks = 1
     useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport)
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
 
 tasks.jacocoTestReport {
