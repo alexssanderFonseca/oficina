@@ -40,7 +40,7 @@ public class OrcamentoMapper {
         entity.setValorTotalEmServicos(domain.getValorTotalEmServicos());
         entity.setServicos(domain.getServicos().stream()
                 .map((itemServicoOrcamento -> this.toEntity(itemServicoOrcamento, entity)))
-                .toList();
+                .toList());
         entity.setItensPeca(domain.getItensPeca().stream().map(item->
                 this.toEntity(item, entity)).toList());
         return entity;
