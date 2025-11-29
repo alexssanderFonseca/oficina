@@ -41,11 +41,10 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("com.itextpdf:itextpdf:5.5.13.3")
     implementation("org.slf4j:slf4j-api:2.0.7")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
 
-    // MapStruct processor
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 
-    // CRÍTICO: Adicione esta dependência para Lombok + MapStruct funcionarem juntos
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")

@@ -1,10 +1,8 @@
 package br.com.alexsdm.postech.oficina.ordem_servico.adapter.out.persistence.mapper;
 
-import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.entity.OrdemServico;
 import br.com.alexsdm.postech.oficina.ordem_servico.adapter.out.persistence.entity.OrdemServicoEntity;
+import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.entity.OrdemServico;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class OrdemServicoMapper {
@@ -42,13 +40,12 @@ public class OrdemServicoMapper {
         entity.setItensPecaOrdemServico(
                 domain.getItensPecaOrdemServico().stream()
                         .map(ItemPecaOrdemServicoMapper::toEntity)
-                        .toList();
-        );
+                        .toList());
         entity.setItensServico(
                 domain.getServicos().stream()
                         .map(ServicoOSMapper::toEntity)
-                        .toList();
-        );
+                        .toList());
+
         entity.getItensServico().
                 forEach(itemServicoOrdemServico -> itemServicoOrdemServico.setOrdemServico(entity));
 
