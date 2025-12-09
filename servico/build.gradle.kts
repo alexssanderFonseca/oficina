@@ -1,19 +1,3 @@
-plugins {
-    `java-library`
-    id("io.spring.dependency-management") version "1.1.7"
-    id("io.freefair.lombok") version "8.4"
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencyManagement {
-    imports {
-        mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-    }
-}
-
 dependencies {
     implementation(project(":ordem_servico"))
     implementation(project(":orcamento"))
