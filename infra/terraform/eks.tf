@@ -3,9 +3,11 @@ data "aws_caller_identity" "current" {}
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.8.4"
-
+  #cluster_iam_role_arn = "arn:aws:iam::654654620628:role/c184636a4783078l13041262t1w654654-LabEksClusterRole-a7X7fEj68WuT"
   cluster_name    = var.cluster_name
   cluster_version = "1.29"
+
+  authentication_mode = "API_AND_CONFIG_MAP"
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
@@ -19,7 +21,6 @@ module "eks" {
     resources        = ["secrets"]
   }
 
-  # ADICIONE ISSO: Addons do cluster
   cluster_addons = {
     coredns = {
       most_recent = true
