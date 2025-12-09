@@ -57,12 +57,43 @@ dependencies {
 }
 
 allprojects {
+    group = "br.com.alexsdm.postech"
+    version = "0.0.1-SNAPSHOT"
+
+    repositories {
+        mavenCentral()
+    }
+
     tasks.withType<JavaCompile> {
         options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
         options.compilerArgs.add("-parameters")
     }
 }
 
+subprojects {
+    apply(plugin = "java-library")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "io.freefair.lombok")
+
+    configure<JavaPluginExtension> {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
+        imports {
+            mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+        }
+    }
+
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+        options.compilerArgs.add("-parameters")
+    }
+}
 
 tasks.withType<Test> {
     maxParallelForks = 1
