@@ -1,9 +1,8 @@
 terraform {
   backend "s3" {
-    bucket         = "tfstate-fiap-alex"
-    key            = "tfstate-fiap-alex-academy"
+    bucket         = "tfstate-fiap-alex-academy"
+    key            = "tfstate"
     region         = "us-east-1"
-    dynamodb_table = "terraform-lock"
-    encrypt        = true
+    encrypt        = false
   }
 }
