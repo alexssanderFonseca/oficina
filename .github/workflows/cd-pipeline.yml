@@ -12,16 +12,10 @@ jobs:
     uses: ./.github/workflows/reusable-publish-docker.yml
     secrets: inherit
 
-  deploy-infrastructure:
-    name: Deploy da Infraestrutura com Terraform
-    needs: publish-image
-    uses: ./.github/workflows/reusable-apply-terraform.yml
-    secrets: inherit
-
 
   deploy-application:
     name: Deploy da Aplicação no Kubernetes
-    needs: [publish-image, deploy-infrastructure]
+    needs: [publish-image]
     uses: ./.github/workflows/reusable-deploy-k8s.yml
     with:
       image-tag: ${{ needs.publish-image.outputs.image-tag }}

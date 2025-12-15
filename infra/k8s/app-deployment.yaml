@@ -21,7 +21,7 @@ spec:
           command: ['sh', '-c', 'until nc -z postgres-service 5432; do echo waiting for postgres; sleep 2; done;']
       containers:
         - name: oficina-app
-          image: alexmarquesfa/oficina
+          image: alexmarquesfa/oficina:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 9090
