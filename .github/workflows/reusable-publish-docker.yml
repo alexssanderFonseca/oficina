@@ -1,8 +1,11 @@
-
 name: Reusable - Publish Docker Image
 
 on:
   workflow_call:
+    outputs:
+      image-tag:
+        description: "Tag da imagem Docker publicada"
+        value: ${{ jobs.build-and-push.outputs.image-tag }}
 
 jobs:
   build-and-push:
@@ -10,6 +13,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      image-tag: ${{ steps.meta.outputs.version }}
 
     steps:
       - name: Checkout do código
