@@ -4,8 +4,8 @@ metadata:
   name: postgres-config
   namespace: oficina-ns
 data:
-  POSTGRES_DB: "meubanco"
-  POSTGRES_USER: "meuusuario"
+  POSTGRES_DB: "oficinadb"
+  POSTGRES_USER: "userOficinaDb"
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -13,5 +13,5 @@ metadata:
   name: app-config
   namespace: oficina-ns
 data:
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres-service:5432/meubanco"
-  SPRING_DATASOURCE_USERNAME: "meuusuario"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://academico-rds.cvk0ag8g8cx0.us-east-1.rds.amazonaws.com:5432/oficinadb"
+  SPRING_DATASOURCE_USERNAME: "userOficinaDb"
