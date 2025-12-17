@@ -23,6 +23,12 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":cliente"))
+    implementation(project(":orcamento"))
+    implementation(project(":peca_insumo"))
+    implementation(project(":ordem_servico"))
+    implementation(project(":servico"))
+    implementation(project(":monitoramento"))
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -35,11 +41,10 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("com.itextpdf:itextpdf:5.5.13.3")
     implementation("org.slf4j:slf4j-api:2.0.7")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
 
-    // MapStruct processor
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 
-    // CRÍTICO: Adicione esta dependência para Lombok + MapStruct funcionarem juntos
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -51,14 +56,49 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 }
 
+allprojects {
+    group = "br.com.alexsdm.postech"
+    version = "0.0.1-SNAPSHOT"
 
-tasks.withType<JavaCompile> {
-    options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+        options.compilerArgs.add("-parameters")
+    }
+}
+
+subprojects {
+    apply(plugin = "java-library")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "io.freefair.lombok")
+
+    configure<JavaPluginExtension> {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
+        imports {
+            mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+        }
+    }
+
+    tasks.withType<JavaCompile> {
+        options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+        options.compilerArgs.add("-parameters")
+    }
 }
 
 tasks.withType<Test> {
+    maxParallelForks = 1
     useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport)
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
 }
 
 tasks.jacocoTestReport {

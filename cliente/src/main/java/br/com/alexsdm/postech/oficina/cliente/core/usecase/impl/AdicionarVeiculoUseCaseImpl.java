@@ -1,0 +1,51 @@
+package br.com.alexsdm.postech.oficina.cliente.core.usecase.impl;
+
+import br.com.alexsdm.postech.oficina.cliente.core.domain.entity.Veiculo;
+import br.com.alexsdm.postech.oficina.cliente.core.domain.exception.ClienteNaoEncontradoException;
+import br.com.alexsdm.postech.oficina.cliente.core.domain.exception.VeiculoJaCadastradoException;
+import br.com.alexsdm.postech.oficina.cliente.core.port.in.AdicionarVeiculoUseCase;
+import br.com.alexsdm.postech.oficina.cliente.core.port.out.ClienteRepository;
+import br.com.alexsdm.postech.oficina.cliente.core.usecase.input.AdicionarVeiculoInput;
+import br.com.alexsdm.postech.oficina.cliente.core.usecase.output.AdicionarVeiculoOutput;
+import jakarta.inject.Named;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.UUID;
+
+@Named
+@RequiredArgsConstructor
+@Slf4j
+public class AdicionarVeiculoUseCaseImpl implements AdicionarVeiculoUseCase {
+
+    private final ClienteRepository clienteRepository;
+
+    @Override
+    public AdicionarVeiculoOutput executar(AdicionarVeiculoInput input) {
+        log.info("Iniciando adição de veículo para o cliente {}", input.clienteId());
+        var cliente = clienteRepository.buscarPorId(input.clienteId())
+                .orElseThrow(ClienteNaoEncontradoException::new);
+
+        var novoVeiculo = new Veiculo(
+                UUID.randomUUID(),
+                input.placa(),
+                input.marca(),
+                input.modelo(),
+                input.cor(),
+                input.ano()
+        );
+        verificaSeVeiculoJaExiste(novoVeiculo.getPlaca());
+        cliente.adicionarVeiculo(novoVeiculo);
+        clienteRepository.salvar(cliente);
+        log.info("Veículo {} adicionado com sucesso ao cliente {}", novoVeiculo.getId(), cliente.getId());
+
+        return new AdicionarVeiculoOutput(novoVeiculo.getId());
+    }
+
+    private void verificaSeVeiculoJaExiste(String placa) {
+        var isVeiculoJaCadastrado = clienteRepository.isVeiculoJaExistente(placa);
+        if (isVeiculoJaCadastrado) {
+            throw new VeiculoJaCadastradoException();
+        }
+    }
+}

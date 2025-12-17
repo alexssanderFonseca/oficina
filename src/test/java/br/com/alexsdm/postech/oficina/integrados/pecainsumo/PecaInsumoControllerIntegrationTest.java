@@ -14,15 +14,16 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class PecaInsumoControllerIntegrationTest {
+ class PecaInsumoControllerIntegrationTest {
 
     private String token;
+
 
     @LocalServerPort
     private int port;
 
     @BeforeEach
-    public void setup() {
+     void setup() {
         RestAssured.port = port;
         token = authenticateAndGetToken();
     }
@@ -61,7 +62,7 @@ public class PecaInsumoControllerIntegrationTest {
     // ================================
 
     @Test
-    public void deveListarTodasAsPecasComSucesso() {
+     void deveListarTodasAsPecasComSucesso() {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .accept(ContentType.JSON)
@@ -77,7 +78,7 @@ public class PecaInsumoControllerIntegrationTest {
     // ================================
 
     @Test
-    public void naoDeveListarPecasSemAutenticacao() {
+     void naoDeveListarPecasSemAutenticacao() {
         RestAssured.given()
                 .accept(ContentType.JSON)
                 .when()
@@ -91,7 +92,7 @@ public class PecaInsumoControllerIntegrationTest {
     // ================================
 
     @Test
-    public void deveCadastrarPecaComSucesso() {
+     void deveCadastrarPecaComSucesso() {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
@@ -109,7 +110,7 @@ public class PecaInsumoControllerIntegrationTest {
     // ================================
 
     @Test
-    public void naoDeveCadastrarPecaSemAutenticacao() {
+     void naoDeveCadastrarPecaSemAutenticacao() {
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body(JsonPayloadsPecaInsumo.pecaValida())
@@ -120,7 +121,7 @@ public class PecaInsumoControllerIntegrationTest {
     }
 
     @Test
-    public void naoDeveCadastrarPecaComDadosInvalidos() {
+     void naoDeveCadastrarPecaComDadosInvalidos() {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
@@ -132,7 +133,7 @@ public class PecaInsumoControllerIntegrationTest {
     }
 
     @Test
-    public void naoDeveCadastrarPecaComCamposVazios() {
+     void naoDeveCadastrarPecaComCamposVazios() {
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
                 .contentType(ContentType.JSON)
@@ -148,7 +149,7 @@ public class PecaInsumoControllerIntegrationTest {
     // ================================
 
     @Test
-    public void deveAtualizarPecaComSucesso() {
+     void deveAtualizarPecaComSucesso() {
         String pecaId = criarPecaERetornarId(JsonPayloadsPecaInsumo.pecaParaAtualizar());
 
         RestAssured.given()
@@ -166,7 +167,7 @@ public class PecaInsumoControllerIntegrationTest {
     // ================================
 
     @Test
-    public void naoDeveAtualizarPecaSemAutenticacao() {
+     void naoDeveAtualizarPecaSemAutenticacao() {
         String pecaId = criarPecaERetornarId(JsonPayloadsPecaInsumo.pecaParaAtualizar());
 
         RestAssured.given()
@@ -179,7 +180,7 @@ public class PecaInsumoControllerIntegrationTest {
     }
 
     @Test
-    public void naoDeveAtualizarPecaInexistente() {
+     void naoDeveAtualizarPecaInexistente() {
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -192,7 +193,7 @@ public class PecaInsumoControllerIntegrationTest {
     }
 
     @Test
-    public void naoDeveAtualizarPecaComDadosInvalidos() {
+     void naoDeveAtualizarPecaComDadosInvalidos() {
         String pecaId = criarPecaERetornarId(JsonPayloadsPecaInsumo.pecaParaAtualizar());
 
         RestAssured.given()
@@ -210,7 +211,7 @@ public class PecaInsumoControllerIntegrationTest {
     // ================================
 
     @Test
-    public void deveDeletarPecaExistenteComSucesso() {
+     void deveDeletarPecaExistenteComSucesso() {
         String pecaId = criarPecaERetornarId(JsonPayloadsPecaInsumo.pecaParaDeletar());
 
         RestAssured.given()
@@ -226,7 +227,7 @@ public class PecaInsumoControllerIntegrationTest {
     // ================================
 
     @Test
-    public void naoDeveDeletarPecaSemAutenticacao() {
+     void naoDeveDeletarPecaSemAutenticacao() {
         String pecaId = criarPecaERetornarId(JsonPayloadsPecaInsumo.pecaParaDeletar());
 
         RestAssured.given()
@@ -237,7 +238,7 @@ public class PecaInsumoControllerIntegrationTest {
     }
 
     @Test
-    public void naoDeveDeletarPecaInexistente() {
+     void naoDeveDeletarPecaInexistente() {
 
         RestAssured.given()
                 .header("Authorization", "Bearer " + token)
@@ -252,7 +253,7 @@ public class PecaInsumoControllerIntegrationTest {
     // ================================
 
     @Test
-    public void devePermitirCicloCompletoDeOperacoes() {
+     void devePermitirCicloCompletoDeOperacoes() {
         // 1. Cadastrar peça
         String pecaId = criarPecaERetornarId(JsonPayloadsPecaInsumo.pecaParaCicloCompleto());
 
