@@ -13,5 +13,5 @@ metadata:
   name: app-config
   namespace: oficina-ns
 data:
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://academico-rds.cvk0ag8g8cx0.us-east-1.rds.amazonaws.com:5432/oficinadb"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://academico-rds.cpu6wek2azm8.us-east-1.rds.amazonaws.com:5432:oficinadb"
   SPRING_DATASOURCE_USERNAME: "userOficinaDb"
