@@ -16,20 +16,34 @@ services:
     networks:
       - app-network
 
-  app:
-    image: alexmarquesfa/oficina:latest
-    container_name: postech-oficina-app
-    restart: always
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol/config.yaml
     ports:
-      - "9090:9090"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/meubanco
-      SPRING_DATASOURCE_USERNAME: meuusuario
-      SPRING_DATASOURCE_PASSWORD: senhasecreta
-    depends_on:
-      - db
-    networks:
-      - app-network
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the Collector
+      - 8889:8889 # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+      - 55679:55679 # zpages extension
+
+
+#  app:
+#    image: alexmarquesfa/oficina:latest
+#    container_name: postech-oficina-app
+#    restart: always
+#    ports:
+#      - "9090:9090"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/meubanco
+#      SPRING_DATASOURCE_USERNAME: meuusuario
+#      SPRING_DATASOURCE_PASSWORD: senhasecreta
+#    depends_on:
+#      - db
+#    networks:
+#      - app-network
 
 volumes:
   postgres_data:

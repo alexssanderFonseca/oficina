@@ -1,9 +1,9 @@
 server.port: 9091
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/meubanco
-    username: meuusuario
-    password: senhasecreta
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: none
@@ -12,6 +12,10 @@ spring:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 
 management:
+  oltp:
+    metrics:
+      export:
+        url:
   endpoints:
     web:
       exposure:
@@ -23,3 +27,7 @@ management:
         enabled: true
 jwt:
   key: 1kGCW3CtZfT/pSBWIMDWY7//RJk0As4VfEybjgbuOW4=
+
+otel:
+  service.name: oficina
+  oltp.endpoint: ${OTEL_ENDPOINT}
