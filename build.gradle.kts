@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
     java
     id("org.springframework.boot") version "3.5.3"
@@ -5,6 +7,12 @@ plugins {
     id("org.sonarqube") version "6.2.0.5505"
     id("jacoco")
     id("io.freefair.lombok") version "8.4"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.23.0")
+    }
 }
 
 group = "br.com.alexsdm.postech"
@@ -42,7 +50,7 @@ dependencies {
     implementation("com.itextpdf:itextpdf:5.5.13.3")
     implementation("org.slf4j:slf4j-api:2.0.7")
     implementation("org.springframework.boot:spring-boot-starter-aop")
-
+    implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
