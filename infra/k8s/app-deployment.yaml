@@ -15,10 +15,6 @@ spec:
       labels:
         app: oficina-app
     spec:
-      initContainers:
-        - name: wait-for-db
-          image: busybox:1.35
-          command: ['sh', '-c', 'until nc -z postgres-service 5432; do echo waiting for postgres; sleep 2; done;']
       containers:
         - name: oficina-app
           image: alexmarquesfa/oficina:latest
