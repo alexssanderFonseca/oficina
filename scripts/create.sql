@@ -120,6 +120,8 @@ CREATE TABLE ordem_servico (
     status VARCHAR(50),
     data_criacao TIMESTAMP WITHOUT TIME ZONE,
     data_inicio_da_execucao TIMESTAMP WITHOUT TIME ZONE,
+    data_inicio_diagnostico TIMESTAMP WITHOUT TIME ZONE,
+    data_fim_diagnostico TIMESTAMP WITHOUT TIME ZONE,
     data_finalizacao TIMESTAMP WITHOUT TIME ZONE,
     data_entrega TIMESTAMP WITHOUT TIME ZONE,
     CONSTRAINT fk_os_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id),

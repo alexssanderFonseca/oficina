@@ -35,7 +35,7 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-secret
+                  name: oficina-db-secret # New Secret managed by ESO
                   key: SPRING_DATASOURCE_PASSWORD
           resources:
             requests:
@@ -44,6 +44,8 @@ spec:
             limits:
               memory: "700Mi"
               cpu: "800m"
+
+
 
           livenessProbe:
             httpGet:

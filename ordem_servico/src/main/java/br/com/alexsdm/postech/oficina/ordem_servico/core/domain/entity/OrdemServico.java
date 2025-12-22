@@ -18,6 +18,8 @@ public class OrdemServico {
     private List<ItemServicoOrdemServico> servicos = new ArrayList<>();
     private Status status;
     private LocalDateTime dataCriacao;
+    private LocalDateTime dataInicioDiagnostico;
+    private LocalDateTime dataFimDiagnostico;
     private LocalDateTime dataInicioDaExecucao;
     private LocalDateTime dataEntrega;
     private LocalDateTime dataFinalizacao;
@@ -29,6 +31,8 @@ public class OrdemServico {
                          List<ItemServicoOrdemServico> servicos,
                          Status status,
                          LocalDateTime dataCriacao,
+                         LocalDateTime dataInicioDiagnostico,
+                         LocalDateTime dataFimDiagnostico,
                          LocalDateTime dataInicioDaExecucao,
                          LocalDateTime dataEntrega,
                          LocalDateTime dataFinalizacao) {
@@ -44,6 +48,8 @@ public class OrdemServico {
         this.status = status;
         this.dataCriacao = dataCriacao;
         this.dataInicioDaExecucao = dataInicioDaExecucao;
+        this.dataInicioDiagnostico = dataInicioDiagnostico;
+        this.dataFimDiagnostico = dataFimDiagnostico;
         this.dataEntrega = dataEntrega;
         this.dataFinalizacao = dataFinalizacao;
     }
@@ -59,6 +65,8 @@ public class OrdemServico {
                 Collections.emptyList(),
                 Status.EM_DIAGNOSTICO,
                 LocalDateTime.now(),
+                LocalDateTime.now(),
+                null,
                 null,
                 null,
                 null
@@ -78,6 +86,8 @@ public class OrdemServico {
                 servicos,
                 Status.EM_EXECUCAO,
                 LocalDateTime.now(),
+                null,
+                null,
                 LocalDateTime.now(),
                 null,
                 null
@@ -92,15 +102,20 @@ public class OrdemServico {
                                     Status status,
                                     LocalDateTime dataCriacao,
                                     LocalDateTime dataInicioDaExecucao,
+                                    LocalDateTime dataInicioDiagnostico,
+                                    LocalDateTime dataFimDiagnostico,
                                     LocalDateTime dataEntrega,
                                     LocalDateTime dataFinalizacao) {
-        return new OrdemServico(id,
+        return new OrdemServico(
+                id,
                 clienteId,
                 veiculoId,
                 itensPecaOrdemServico,
                 servicos,
                 status,
                 dataCriacao,
+                dataInicioDiagnostico,
+                dataFimDiagnostico,
                 dataInicioDaExecucao,
                 dataEntrega,
                 dataFinalizacao);
@@ -112,16 +127,8 @@ public class OrdemServico {
         this.itensPecaOrdemServico.addAll(itens);
     }
 
-    public void adicionarPecaInsumo(ItemPecaOrdemServico item) {
-        this.itensPecaOrdemServico.add(item);
-    }
-
     public void adicionarServicos(List<ItemServicoOrdemServico> itens) {
         this.servicos.addAll(itens);
-    }
-
-    public void adicionarServico(ItemServicoOrdemServico servico) {
-        this.servicos.add(servico);
     }
 
     public void executar(List<ItemPecaOrdemServico> itens,
@@ -134,6 +141,7 @@ public class OrdemServico {
 
     public void finalizarDiagnostico() {
         this.status = Status.AGUARDANDO_APROVACAO;
+        this.dataFimDiagnostico = LocalDateTime.now();
     }
 
     public void finalizar() {

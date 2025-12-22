@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   name: oficina-ns
   labels:
-    name: oficina-ns
+    name: oficina-nsconsi

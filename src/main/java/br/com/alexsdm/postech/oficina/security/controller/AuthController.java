@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+
+import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -57,7 +59,7 @@ public class AuthController {
         try {
             var input = new UsuarioInput(usuarioRequest.username(), usuarioRequest.password());
             var output = usuarioService.cadastrar(input);
-            return ResponseEntity.status(HttpStatus.CREATED).body(output);
+            return ResponseEntity.created(URI.create("/usuarios/" + output.id())).body(output);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }

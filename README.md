@@ -37,7 +37,7 @@ A aplicação foi desenvolvida com foco em **boas práticas**, **DDD**, e uma ar
 
 A documentação da API está disponível via Swagger UI. Para acessá-la, inicie a aplicação e entre em:
 ```
-http://localhost:8080/swagger-ui/index.html
+http://localhost:9090/swagger-ui/index.html
 ```
 
 ---

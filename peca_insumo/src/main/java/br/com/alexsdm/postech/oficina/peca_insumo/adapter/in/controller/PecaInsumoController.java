@@ -74,7 +74,8 @@ public class PecaInsumoController {
     public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastrarPecaInsumoRequest request) {
         var dto = mapper.toInput(request);
         var peca = cadastrarPecaInsumoUseCase.executar(dto);
-        return ResponseEntity.created(URI.create("/pecas/" + peca.getId())).build();
+        var id = peca.getId();
+        return ResponseEntity.created(URI.create("/pecas/" + id)).body(new IdResponse(id));
     }
 
     @Operation(summary = "Atualizar peça ou insumo")

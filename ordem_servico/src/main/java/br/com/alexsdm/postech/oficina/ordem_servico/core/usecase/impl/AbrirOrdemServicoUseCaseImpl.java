@@ -4,6 +4,7 @@ import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.entity.*;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.exception.OrdemServicoItemNaoEncontradoException;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.exception.OrdemServicoServicoNaoEncontradoException;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.port.in.AbrirOrdemServicoUseCase;
+import br.com.alexsdm.postech.oficina.ordem_servico.core.port.out.OrdemServicoMetricPort;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.port.out.OrdemServicoPecaInsumoPort;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.port.out.OrdemServicoRepository;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.port.out.OrdemServicoServicoPort;
@@ -22,11 +23,13 @@ public class AbrirOrdemServicoUseCaseImpl implements AbrirOrdemServicoUseCase {
     private final OrdemServicoRepository ordemServicoRepository;
     private final OrdemServicoPecaInsumoPort ordemServicoPecaPort;
     private final OrdemServicoServicoPort ordemServicoServicoPort;
+    private final OrdemServicoMetricPort ordemServicoMetricPort;
 
     @Override
     public UUID executar(CriarOrdemServicoInput input) {
         var ordemServico = abrirOrdemServico(input);
         ordemServicoRepository.salvar(ordemServico);
+        ordemServicoMetricPort.incrementaNumeroOrdensCriadas();
         return ordemServico.getId();
     }
 

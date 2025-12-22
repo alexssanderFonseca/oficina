@@ -22,6 +22,8 @@ public class OrdemServicoMapper {
                 StatusMapper.toDomain(entity.getStatus()),
                 entity.getDataCriacao(),
                 entity.getDataInicioDaExecucao(),
+                entity.getDataInicioDiagnostico(),
+                entity.getDataFimDiagnostico(),
                 entity.getDataEntrega(),
                 entity.getDataFinalizacao()
         );
@@ -34,6 +36,8 @@ public class OrdemServicoMapper {
         entity.setVeiculoId(domain.getVeiculoId());
         entity.setStatus(StatusMapper.toEntity(domain.getStatus()));
         entity.setDataCriacao(domain.getDataCriacao());
+        entity.setDataInicioDiagnostico(domain.getDataInicioDiagnostico());
+        entity.setDataFimDiagnostico(domain.getDataFimDiagnostico());
         entity.setDataInicioDaExecucao(domain.getDataInicioDaExecucao());
         entity.setDataEntrega(domain.getDataEntrega());
         entity.setDataFinalizacao(domain.getDataFinalizacao());

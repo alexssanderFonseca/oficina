@@ -1,13 +1,12 @@
 package br.com.alexsdm.postech.oficina.cliente.adapters.in.controller;
 
-import br.com.alexsdm.postech.oficina.cliente.core.port.in.*;
-import br.com.alexsdm.postech.oficina.cliente.core.usecase.input.DeletarClienteInput;
-import br.com.alexsdm.postech.oficina.cliente.core.usecase.input.ListarStatusOsClienteInput;
 import br.com.alexsdm.postech.oficina.cliente.adapters.in.controller.mapper.ClienteDTOMapper;
 import br.com.alexsdm.postech.oficina.cliente.adapters.in.controller.request.AdicionarDadosVeiculoRequest;
 import br.com.alexsdm.postech.oficina.cliente.adapters.in.controller.request.AtualizarClienteRequest;
 import br.com.alexsdm.postech.oficina.cliente.adapters.in.controller.request.CadastrarClienteRequest;
-import br.com.alexsdm.postech.oficina.cliente.adapters.in.controller.response.AdicionarVeiculoResponse;
+import br.com.alexsdm.postech.oficina.cliente.core.port.in.*;
+import br.com.alexsdm.postech.oficina.cliente.core.usecase.input.DeletarClienteInput;
+import br.com.alexsdm.postech.oficina.cliente.core.usecase.input.ListarStatusOsClienteInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -43,7 +42,8 @@ public class ClienteController {
     public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastrarClienteRequest request) {
         var input = clienteDTOMapper.toInput(request);
         var output = cadastrarClienteUseCase.executar(input);
-        return ResponseEntity.created(URI.create("/clientes/" + output.id())).build();
+        var id = output.id();
+        return ResponseEntity.created(URI.create("/clientes/" + id)).body(new IdResponse(id));
     }
 
     @Operation(summary = "Busca um cliente por ID")
@@ -84,7 +84,7 @@ public class ClienteController {
 
     @Operation(summary = "Adiciona um veículo a um cliente existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Veículo adicionado com sucesso"),
+            @ApiResponse(responseCode = "201", description = "Veículo adicionado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Requisição inválida"),
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
     })
@@ -92,7 +92,8 @@ public class ClienteController {
     public ResponseEntity<?> adicionarVeiculo(@PathVariable UUID id, @RequestBody @Valid AdicionarDadosVeiculoRequest request) {
         var input = clienteDTOMapper.toAdicionarVeiculoInput(id, request);
         var output = adicionarVeiculoUseCase.executar(input);
-        return ResponseEntity.ok(new AdicionarVeiculoResponse(output.veiculoId()));
+        var veiculoId = output.veiculoId();
+        return ResponseEntity.created(URI.create("/clientes/" + id + "/veiculos/" + veiculoId)).body(output);
     }
 
     @Operation(summary = "Lista o status de todas as ordens de serviço de um cliente")
