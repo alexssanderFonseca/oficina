@@ -269,7 +269,7 @@ public class ClienteControllerIntegrationTest {
                 .when()
                 .post("/clientes/{id}/veiculos", clienteId)
                 .then()
-                .statusCode(200)
+                .statusCode(201)
                 .body("veiculoId", notNullValue())
                 .body("veiculoId", matchesPattern("[a-f0-9-]{36}"));
     }

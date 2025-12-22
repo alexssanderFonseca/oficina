@@ -40,7 +40,7 @@ public class ServicoController {
             @Parameter(description = "Dados para cadastro do serviço")
             @RequestBody @Valid CadastrarServicoRequest request) {
         var id = cadastrarServicoUseCase.executar(servicoRequestMapper.toInput(request));
-        return ResponseEntity.created(URI.create("/servicos/" + id)).build();
+        return ResponseEntity.created(URI.create("/servicos/" + id)).body(new IdResponse(id));
     }
 
     @Operation(summary = "Buscar serviço por ID", description = "Retorna os detalhes de um serviço específico")

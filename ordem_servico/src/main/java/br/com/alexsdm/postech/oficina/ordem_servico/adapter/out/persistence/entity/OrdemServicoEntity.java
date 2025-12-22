@@ -34,4 +34,6 @@ public class OrdemServicoEntity {
     private LocalDateTime dataInicioDaExecucao;
     private LocalDateTime dataEntrega;
     private LocalDateTime dataFinalizacao;
+    private LocalDateTime dataInicioDiagnostico;
+    private LocalDateTime dataFimDiagnostico;
 }

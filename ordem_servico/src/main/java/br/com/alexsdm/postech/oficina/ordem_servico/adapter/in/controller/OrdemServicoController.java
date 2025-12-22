@@ -1,11 +1,11 @@
 package br.com.alexsdm.postech.oficina.ordem_servico.adapter.in.controller;
 
 import br.com.alexsdm.postech.oficina.ordem_servico.adapter.in.controller.mapper.OrdemServicoControllerMapper;
-import br.com.alexsdm.postech.oficina.ordem_servico.core.port.in.*;
-import br.com.alexsdm.postech.oficina.ordem_servico.core.usecase.input.FinalizarDiagnosticoInput;
 import br.com.alexsdm.postech.oficina.ordem_servico.adapter.in.controller.request.CriarOrdemDeServicoRequest;
 import br.com.alexsdm.postech.oficina.ordem_servico.adapter.in.controller.request.ExecutarOrdemServicoRequest;
 import br.com.alexsdm.postech.oficina.ordem_servico.adapter.in.controller.request.FinalizarDiagnosticoRequest;
+import br.com.alexsdm.postech.oficina.ordem_servico.core.port.in.*;
+import br.com.alexsdm.postech.oficina.ordem_servico.core.usecase.input.FinalizarDiagnosticoInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/ordens-servicos")

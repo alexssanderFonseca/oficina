@@ -40,7 +40,7 @@ public class OrcamentoController {
             @RequestBody @Valid CriarOrcamentoRequest request) {
         var input = mapper.toInput(request);
         var orcamentoId = criarOrcamentoUseCase.executar(input);
-        return ResponseEntity.created(URI.create("/orcamentos/" + orcamentoId)).build();
+        return ResponseEntity.created(URI.create("/orcamentos/" + orcamentoId)).body(new IdResponse(orcamentoId));
     }
 
     @Operation(summary = "Aceitar orçamento", description = "Marca o orçamento como aceito")
