@@ -22,7 +22,8 @@ public class UsuarioService {
 
         Usuario usuario = new Usuario(
                 input.username(),
-                new BCryptPasswordEncoder().encode(input.password())
+                new BCryptPasswordEncoder().encode(input.password()),
+                input.role()
         );
 
         usuario = usuarioRepository.save(usuario);
