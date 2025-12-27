@@ -40,9 +40,9 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         try {
             var authToken = new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password());
-            authenticationManager.authenticate(authToken);
-
-            var token = jwtUtil.gerarToken(authRequest.username());
+            var authentication = authenticationManager.authenticate(authToken);
+            var role = authentication.getAuthorities().stream().findFirst().orElseThrow().getAuthority();
+            var token = jwtUtil.gerarToken(authRequest.username(), role);
             return ResponseEntity.ok(new AuthResponse(token));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -57,7 +57,7 @@ public class AuthController {
     @PostMapping("/usuarios")
     public ResponseEntity<?> cadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest) {
         try {
-            var input = new UsuarioInput(usuarioRequest.username(), usuarioRequest.password());
+            var input = new UsuarioInput(usuarioRequest.username(), usuarioRequest.password(), usuarioRequest.role());
             var output = usuarioService.cadastrar(input);
             return ResponseEntity.created(URI.create("/usuarios/" + output.id())).body(output);
         } catch (RuntimeException e) {

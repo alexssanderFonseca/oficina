@@ -1,5 +1,6 @@
 package br.com.alexsdm.postech.oficina.security.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -15,21 +16,30 @@ public class JwtUtil {
     private String key;
     private final long expirationMillis = 3600000;
 
-    public String gerarToken(String username) {
+    public String gerarToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
+                .claim("role", role)
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
                 .signWith(Keys.hmacShaKeyFor(key.getBytes()))
                 .compact();
     }
 
-    public String extrairUsername(String token) {
+    private Claims extrairClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(key.getBytes()))
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
+    }
+
+
+    public String extrairUsername(String token) {
+        return extrairClaims(token).getSubject();
+    }
+
+    public String extrairRole(String token) {
+        return extrairClaims(token).get("role", String.class);
     }
 
     public boolean validarToken(String token) {

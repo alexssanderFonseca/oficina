@@ -1,6 +1,6 @@
 -- Inserir usuários
-INSERT INTO usuarios(id, username, password)
-VALUES ('6d0ff74a-d338-4880-9fdf-94a55881e6c9', 'admin', '$2a$10$r.i31qRacNVGkDfdZ31l6ejI8Po3QuXwrZJC1FT2kqYLGIQJcVS16');
+INSERT INTO usuarios(id, username, password, role)
+VALUES ('6d0ff74a-d338-4880-9fdf-94a55881e6c9', 'admin', '$2a$10$r.i31qRacNVGkDfdZ31l6ejI8Po3QuXwrZJC1FT2kqYLGIQJcVS16', 'FUNCIONARIO');
 
 -- Inserir endereço
 INSERT INTO endereco (id, rua, numero, bairro, cep, cidade, uf)

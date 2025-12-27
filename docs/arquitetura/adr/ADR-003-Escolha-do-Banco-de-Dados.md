@@ -33,4 +33,4 @@ A escolha por um SGBD relacional tradicional simplifica a arquitetura e o desenv
 
 O modelo de dados relacional detalhado, incluindo o diagrama ER e a explicação dos relacionamentos, é mantido como um documento vivo separado para refletir o estado atual do esquema.
 
-Para detalhes, consulte o documento: [Modelo de Dados](./MODELO_DE_DADOS.md)
+Para detalhes, consulte o documento: [Modelo de Dados](../bd/MODELO_DE_DADOS.md)

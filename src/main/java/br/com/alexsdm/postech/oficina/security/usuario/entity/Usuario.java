@@ -23,10 +23,13 @@ public class Usuario {
 
     private String password;
 
-    public Usuario(String username, String password) {
+    private String role;
+
+    public Usuario(String username, String password, String role) {
         this.id = UUID.randomUUID();
         this.password = password;
         this.username = username;
+        this.role = role;
     }
 
 }

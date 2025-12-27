@@ -22,19 +22,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final CustomUserDetailsService customUserDetailsService;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final JwtUtil jwtUtils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        var jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtils, customUserDetailsService);
+        var jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtils);
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/logins", "/usuarios", "clientes/*/ordensServicos" ,"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html" , "/actuator/**").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/logins", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html" , "/actuator/**").permitAll()
+                        .requestMatchers("/clientes/*/ordensServicos").hasRole("CLIENTE")
+                        .requestMatchers("/usuarios").hasRole("FUNCIONARIO")
+                        .anyRequest().hasRole("FUNCIONARIO")
                 )
                 .exceptionHandling(ex -> ex
                         .accessDeniedHandler(customAccessDeniedHandler)
