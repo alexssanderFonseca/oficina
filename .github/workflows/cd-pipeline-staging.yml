@@ -1,54 +1,27 @@
-
-name: CD Pipeline - Deploy
-
-
+name: CD Pipeline - Deploy Staging
 
 on:
-
   push:
-
     branches:
-
-      - 'main'
-
-
+      - 'staging'
 
 jobs:
-
   publish-image:
-
     name: Publicar Imagem no Docker Hub
-
     uses: ./.github/workflows/reusable-publish-docker.yml
-
     secrets: inherit
 
 
-
-
-
   deploy-application:
-
-    name: Deploy da Aplicação no Kubernetes
-
+    name: Deploy da Aplicação no Kubernetes (Homolog)
     needs: [publish-image]
-
     uses: ./.github/workflows/reusable-deploy-k8s.yml
-
     with:
-
       image-tag: ${{ needs.publish-image.outputs.image-tag }}
-
-      environment: producao
-
+      environment: homolog
     secrets:
-
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
       AWS_REGION: ${{ secrets.AWS_REGION }}
-
       EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
-
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

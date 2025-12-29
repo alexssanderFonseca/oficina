@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://academico-rds.cpu6wek2azm8.us-east-1.rds.amazonaws.com:5432/oficinadb_homolog"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+data:
+  POSTGRES_DB: "oficinadb_homolog"
