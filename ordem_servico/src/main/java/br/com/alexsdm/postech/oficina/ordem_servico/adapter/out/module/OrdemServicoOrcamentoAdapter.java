@@ -24,6 +24,7 @@ public class OrdemServicoOrcamentoAdapter implements OrdemServicoOrcamentoPort {
     public Optional<Orcamento> buscarPorId(UUID id) {
         var buscarOrcamentoOutput = buscarOrcamentoPorIdUseCase.executar(id);
 
+
         // TODO REVISTAR
         var servicos = buscarOrcamentoOutput.servicos()
                 .stream()
@@ -49,6 +50,7 @@ public class OrdemServicoOrcamentoAdapter implements OrdemServicoOrcamentoPort {
                 buscarOrcamentoOutput.id(),
                 UUID.fromString(buscarOrcamentoOutput.cliente().id()),
                 UUID.fromString(buscarOrcamentoOutput.veiculo().id()),
+                buscarOrcamentoOutput.status(),
                 servicos,
                 pecas
         ));

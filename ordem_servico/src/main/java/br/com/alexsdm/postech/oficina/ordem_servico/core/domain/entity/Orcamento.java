@@ -14,6 +14,7 @@ public class Orcamento {
     private UUID id;
     private UUID clienteId;
     private UUID veiculoId;
+    private String status;
     private List<ItemServicoOrcamento> servicos;
     private List<ItemPecaOrcamento> pecas;
 

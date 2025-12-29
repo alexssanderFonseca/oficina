@@ -32,6 +32,7 @@ public class OrdemServicoController {
     private final EntregarOrdemServicoUseCase entregarOrdemServicoUseCase;
     private final BuscarOrdemServicoPorIdUseCase buscarOrdemServicoPorIdUseCase;
     private final ListarOrdemServicoUsecase listarOrdemServicoUsecase;
+    private final IniciarDiagnosticoOrdemServicoUsecase iniciarDiagnosticoOrdemServicoUsecase;
     private final OrdemServicoControllerMapper mapper;
 
 
@@ -43,7 +44,7 @@ public class OrdemServicoController {
     @PostMapping
     public ResponseEntity<?> criar(@RequestBody @Valid CriarOrdemDeServicoRequest request) {
         var id = abrirOrdemServicoUseCase.executar(mapper.toInput(request));
-        return ResponseEntity.created(URI.create("/ordens-servicos/" + id)).build();
+        return ResponseEntity.created(URI.create("/ordens-servicos/" + id)).body(new IdResponse(id));
     }
 
     @Operation(summary = "Finaliza o diagnóstico de uma OS, informando peças e serviços necessários")
@@ -124,6 +125,12 @@ public class OrdemServicoController {
                 "totalElementos", output.totalElementos(),
                 "data", output.conteudo());
         return ResponseEntity.ok(data);
+    }
+
+    @PostMapping("/{osId}/diagnosticos")
+    public ResponseEntity<?> listar(@PathVariable("osId") UUID osId) {
+        iniciarDiagnosticoOrdemServicoUsecase.executar(osId);
+        return ResponseEntity.ok().build();
     }
 
 }

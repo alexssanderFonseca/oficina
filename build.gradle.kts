@@ -52,6 +52,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
     implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    implementation("io.opentelemetry:opentelemetry-exporter-otlp")
+    runtimeOnly("io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:2.23.0-alpha")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
 

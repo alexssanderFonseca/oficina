@@ -1,19 +1,14 @@
 <configuration>
-    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="oficina-app"/>
 
-    <appender name="jsonConsole" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <timestamp/>
-                <logLevel/>
-                <message/>
-                <mdc/>
-                <customFields>{"application_name":"${appName}"}</customFields>
-            </providers>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeContext>true</includeContext>
+            <customFields>{"service":"oficina","env":"local"}</customFields>
         </encoder>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="jsonConsole"/>
+        <appender-ref ref="STDOUT"/>
     </root>
+
 </configuration>

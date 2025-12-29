@@ -1,9 +1,11 @@
-server.port: 9091
+server:
+  port: ${SERVER_PORT:9091}
+
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: none
@@ -12,22 +14,44 @@ spring:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 
 management:
-  oltp:
-    metrics:
-      export:
-        url:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,metrics,prometheus
   endpoint:
     health:
       show-details: always
-      probes:
-        enabled: true
+
 jwt:
-  key: 1kGCW3CtZfT/pSBWIMDWY7//RJk0As4VfEybjgbuOW4=
+  key: ${JWT_KEY}
 
 otel:
-  service.name: oficina
-  oltp.endpoint: ${OTEL_ENDPOINT}
+  service:
+    name: oficina
+    resource:
+      attributes:
+        environment: ${OTEL_ENVIRONMENT}
+        version: ${OTEL_VERSION}
+        team: backend
+
+  traces:
+    exporter: otlp
+    endpoint: ${OTEL_ENDPOINT}
+    sampler: always_on
+
+  metrics:
+    exporter: otlp
+    endpoint: ${OTEL_ENDPOINT}
+
+  logs:
+    exporter: none
+
+  instrumentation:
+    spring-webmvc:
+      enabled: true
+    jdbc:
+      enabled: true
+    logback-appender:
+      enabled: true
+    micrometer:
+      enabled: true

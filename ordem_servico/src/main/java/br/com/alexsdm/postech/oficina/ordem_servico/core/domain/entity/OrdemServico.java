@@ -139,6 +139,12 @@ public class OrdemServico {
         this.dataInicioDaExecucao = LocalDateTime.now();
     }
 
+    public void iniciarDiagnostico() {
+        this.status = Status.EM_DIAGNOSTICO;
+        this.dataInicioDiagnostico = LocalDateTime.now();
+    }
+
+
     public void finalizarDiagnostico() {
         this.status = Status.AGUARDANDO_APROVACAO;
         this.dataFimDiagnostico = LocalDateTime.now();

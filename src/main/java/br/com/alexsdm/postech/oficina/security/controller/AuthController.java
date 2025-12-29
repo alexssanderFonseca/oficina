@@ -57,7 +57,7 @@ public class AuthController {
     @PostMapping("/usuarios")
     public ResponseEntity<?> cadastrarUsuario(@RequestBody UsuarioRequest usuarioRequest) {
         try {
-            var input = new UsuarioInput(usuarioRequest.username(), usuarioRequest.password(), usuarioRequest.role());
+            var input = new UsuarioInput(usuarioRequest.username(), usuarioRequest.password(), "FUNCIONARIO");
             var output = usuarioService.cadastrar(input);
             return ResponseEntity.created(URI.create("/usuarios/" + output.id())).body(output);
         } catch (RuntimeException e) {

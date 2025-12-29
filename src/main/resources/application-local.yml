@@ -21,12 +21,6 @@ management:
   endpoint:
     health:
       show-details: always
-      probes:
-        enabled: true
-
-
-jwt:
-  key: 1kGCW3CtZfT/pSBWIMDWY7//RJk0As4VfEybjgbuOW4=
 
 otel:
   service:
@@ -36,27 +30,21 @@ otel:
         environment: local
         version: 1.0.0
         team: backend
-        deployment.environment: local
 
-    traces:
-      exporter: otlp
-      sampler: always_on
+  traces:
+    exporter: otlp
+    endpoint: http://host.docker.internal:4318
+    sampler: always_on
 
-    metrics:
-      exporter: otlp
+  metrics:
+    exporter: otlp
+    endpoint: http://host.docker.internal:4318
 
-    logs:
-      exporter: otlp
+jwt:
+  key: 1kGCW3CtZfT/pSBWIMDWY7//RJk0As4VfEybjgbuOW4=
 
-    exporter:
-      otlp:
-        endpoint: "http://otel-collector:4318"
-        protocol: http
-        timeout: 10s
-        metrics:
-          temporality:
-            preference: delta
-  propagators: tracecontext,baggage
+  logs:
+    exporter: none
 
   instrumentation:
     spring-webmvc:
@@ -68,10 +56,3 @@ otel:
     micrometer:
       enabled: true
 
-logging:
-  level:
-    root: INFO
-    io.opentelemetry: INFO
-    io.micrometer: INFO
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n trace_id=%X{trace_id} span_id=%X{span_id}"

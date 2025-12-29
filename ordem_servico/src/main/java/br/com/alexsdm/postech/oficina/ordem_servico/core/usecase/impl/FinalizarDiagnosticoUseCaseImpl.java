@@ -34,6 +34,7 @@ public class FinalizarDiagnosticoUseCaseImpl implements FinalizarDiagnosticoUseC
                 UUID.randomUUID(),
                 ordemServico.getClienteId(),
                 ordemServico.getVeiculoId(),
+                null,
                 montarItensServicosNecessariosOrcamento(input.servicosIds()),
                 montarItensPecaInsumoNecessariosOrcamento(input.pecas())
         );

@@ -4,6 +4,7 @@ import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.entity.ItemPecaO
 import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.entity.ItemPecaOrdemServico;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.entity.ItemServicoOrcamento;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.entity.ItemServicoOrdemServico;
+import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.exception.OrdemServicoException;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.exception.OrdemServicoNaoEncontradaException;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.domain.exception.OrdemServicoOrcamentoNaoEncontradoException;
 import br.com.alexsdm.postech.oficina.ordem_servico.core.port.in.ExecutarOrdemServicoUseCase;
@@ -30,6 +31,9 @@ public class ExecutarOrdemServicoUseCaseImpl implements ExecutarOrdemServicoUseC
         var orcamento = orcamentoGateway.buscarPorId(orcamentoId)
                 .orElseThrow(OrdemServicoOrcamentoNaoEncontradoException::new);
 
+        if (!"ACEITO".equals(orcamento.getStatus())) {
+            throw new OrdemServicoException("Orcamento nao está no status ACEITO");
+        }
 
         ordemServico.executar(mapearPecasInsumosParaOrdemServico(orcamento.getPecas()),
                 mapearServicosParaOrdemServico(orcamento.getServicos()));
