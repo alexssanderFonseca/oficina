@@ -17,9 +17,8 @@ COPY servico ./servico
 COPY monitoramento ./monitoramento
 COPY src ./src
 
-ENV OTEL_SDK_AUTOCONFIGURE_ENABLED=false
 RUN chmod +x gradlew
-RUN ./gradlew --debug build bootJar --no-daemon
+RUN ./gradlew clean build -x test bootJar --no-daemon
 
 
 FROM eclipse-temurin:21-jdk-jammy
