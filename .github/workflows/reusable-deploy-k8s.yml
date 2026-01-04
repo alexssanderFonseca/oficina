@@ -47,10 +47,10 @@ jobs:
       - name: Configurar Kubeconfig
         run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
-      - name: Instalar kustomize
-        run: |
-          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/main/hack/install_kustomize.sh" | bash
-          sudo mv kustomize /usr/local/bin/
+      - name: Setup Kustomize
+        uses: kodermax/setup-kustomize@master
+        with:
+          kustomize-version: 5.8.0
 
       - name: Substituir IMAGE_TAG no Deployment
         run: |
