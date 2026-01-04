@@ -18,4 +18,8 @@ spring:
 jwt:
   key: 1kGCW3CtZfT/pSBWIMDWY7//RJk0As4VfEybjgbuOW4=
 
-
+otel:
+  traces:
+    exporter: none
+  metrics:
+    exporter: none
