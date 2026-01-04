@@ -64,6 +64,6 @@ jobs:
       - name: Aplicar Kustomize e Injetar Segredos
         run: |
           kustomize build infra/k8s/overlays/${{ inputs.environment }} | \
-          sed "s|DB_PASSWORD_PLACEHOLDER|$(echo -n "${{ inputs.DB_PASSWORD }}" | base64 -w 0)|g" | \
-          sed "s|JWT_KEY_PLACEHOLDER|$(echo -n "${{ inputs.JWT_KEY }}" | base64 -w 0)|g" | \
+          sed "s|DB_PASSWORD_PLACEHOLDER|$(echo -n "${{ secrets.DB_PASSWORD }}" | base64 -w 0)|g" | \
+          sed "s|JWT_KEY_PLACEHOLDER|$(echo -n "${{ secrets.JWT_KEY }}" | base64 -w 0)|g" | \
           kubectl apply -f -
