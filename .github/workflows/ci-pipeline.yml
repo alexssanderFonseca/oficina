@@ -13,9 +13,15 @@ jobs:
     secrets: inherit
 
 
+  validate-docker:
+    name: Validação Docker
+    needs: build-and-test
+    uses: ./.github/workflows/reusable-docker.yml
+    secrets: inherit
+
   create-pull-request:
     name: Criar Pull Request
-    needs: [build-and-test]
+    needs: [validate-docker]
     permissions:
       contents: write
       pull-requests: write

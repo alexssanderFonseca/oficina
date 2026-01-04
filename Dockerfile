@@ -17,10 +17,8 @@ COPY servico ./servico
 COPY monitoramento ./monitoramento
 COPY src ./src
 
-# Build the application
-ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 RUN chmod +x gradlew
-RUN ./gradlew build bootJar --no-daemon
+RUN ./gradlew clean build -x test bootJar --no-daemon
 
 
 FROM eclipse-temurin:21-jdk-jammy
