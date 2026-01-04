@@ -18,6 +18,8 @@ COPY monitoramento ./monitoramento
 COPY src ./src
 
 # Build the application
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
+RUN chmod +x gradlew
 RUN ./gradlew build bootJar --no-daemon
 
 
