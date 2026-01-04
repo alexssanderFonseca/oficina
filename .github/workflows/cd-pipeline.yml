@@ -17,7 +17,7 @@ jobs:
     uses: ./.github/workflows/reusable-deploy-k8s.yml
     with:
       image-tag: ${{ needs.publish-image.outputs.image-tag }}
-      environment: production
+      environment: producao
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
