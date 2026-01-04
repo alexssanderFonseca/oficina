@@ -26,6 +26,9 @@ on:
       JWT_KEY:
         description: 'JWT Key from GitHub Secret'
         required: true
+      DOCKER_USERNAME:
+        description: 'Docker Hub username for image pulling'
+        required: true
 
 jobs:
   deploy:

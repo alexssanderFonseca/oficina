@@ -17,11 +17,12 @@ jobs:
     uses: ./.github/workflows/reusable-deploy-k8s.yml
     with:
       image-tag: ${{ needs.publish-image.outputs.image-tag }}
+      environment: production
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       JWT_KEY: ${{ secrets.JWT_KEY }}
