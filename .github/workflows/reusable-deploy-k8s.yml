@@ -48,9 +48,12 @@ jobs:
         run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
 
       - name: Setup Kustomize
-        uses: kodermax/setup-kustomize@master
-        with:
-          kustomize-version: 5.8.0
+        run: |
+          KUSTOMIZE_VERSION="5.8.0"
+          KUSTOMIZE_RELEASE_URL="https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_linux_amd64"
+          curl -sL "${KUSTOMIZE_RELEASE_URL}" -o kustomize
+          chmod +x kustomize
+          sudo mv kustomize /usr/local/bin/
 
       - name: Substituir IMAGE_TAG no Deployment
         run: |
