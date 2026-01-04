@@ -12,15 +12,23 @@ spec:
       app: oficina-app
   template:
     metadata:
+      annotations:
+        ad.datadoghq.com/oficina-app.logs: '[{"source": "java", "service": "oficina"}]'
       labels:
         app: oficina-app
+        admission.datadoghq.com/enabled: "true"
     spec:
       containers:
         - name: oficina-app
           image: alexmarquesfa/oficina:latest
           imagePullPolicy: Always
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              export OTEL_EXPORTER_OTLP_ENDPOINT="http://${DD_AGENT_HOST}:4318"
+              exec java -jar app.jar
           ports:
-            - containerPort: 9090
+            - containerPort: 9091
           env:
             - name: SPRING_DATASOURCE_URL
               valueFrom:
@@ -35,8 +43,22 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: oficina-db-secret # New Secret managed by ESO
+                  name: oficina-secret
                   key: SPRING_DATASOURCE_PASSWORD
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: oficina-secret
+                  key: JWT_KEY
+            - name: ENV_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: ENV_NAME
+                  name: app-config
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
           resources:
             requests:
               memory: "512Mi"
@@ -50,7 +72,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 9090
+              port: 9091
             initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
@@ -59,7 +81,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 9090
+              port: 9091
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 3

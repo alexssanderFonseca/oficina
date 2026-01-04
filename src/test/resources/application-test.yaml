@@ -1,4 +1,6 @@
 spring:
+  flyway:
+    enabled: false
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driverClassName: org.h2.Driver
@@ -15,3 +17,5 @@ spring:
 
 jwt:
   key: 1kGCW3CtZfT/pSBWIMDWY7//RJk0As4VfEybjgbuOW4=
+
+

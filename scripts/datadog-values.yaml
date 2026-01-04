@@ -1,0 +1,50 @@
+# datadog-values.yaml
+datadog:
+  # Referencia o secret 'datadog-secret' que criamos para a API key.
+  # A chave dentro do secret deve ser 'api-key'.
+  apiKeyExistingSecret: "datadog-secret"
+
+  # Define o site da Datadog. O seu é us5.datadoghq.com.
+  site: us5.datadoghq.com
+
+  # Habilita a coleta de logs de todos os containers.
+  logs:
+    enabled: true
+    containerCollectAll: true
+    autoMultiLineDetection: false
+
+  # Habilita o recebimento de OTLP para traces da sua aplicação.
+  otlp:
+    receiver:
+      protocols:
+        grpc:
+          enabled: true
+        http:
+          enabled: true
+
+  kubelet:
+    tlsVerify: false
+
+  # Desabilita componentes que podem causar problemas no Minikube e não são essenciais para o dev local.
+  systemProbe:
+    enabled: false
+  securityAgent:
+    enabled: false
+
+  # Garante que o agente pode ser acessado de outros pods via service
+  # O nome do service será 'datadog'
+  agents:
+    service:
+      name: datadog
+      type: ClusterIP
+      port: 8126
+      # Adicionando as portas OTLP para serem expostas no service
+      # Isso não é estritamente necessário se os pods usarem o endpoint do pod do agente diretamente,
+      # mas expor via service é uma prática mais robusta.
+      # A configuração do chart do datadog pode não expor estas portas por padrão no service principal,
+      # a comunicação OTLP geralmente é feita diretamente para o pod do agente no nó.
+      # O mais importante é o agente estar ouvindo nestas portas.
+      # A aplicação irá encontrar o agente via DNS do K8s.
+
+# O chart do Datadog cria um DaemonSet, o que significa que um pod do agente
+# rodará em cada nó do seu cluster Minikube.

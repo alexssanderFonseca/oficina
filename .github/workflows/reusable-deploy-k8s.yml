@@ -20,6 +20,12 @@ on:
         required: true
       EKS_CLUSTER_NAME:
         required: true
+      DB_PASSWORD:
+        description: 'Database password from GitHub Secret'
+        required: true
+      JWT_KEY:
+        description: 'JWT Key from GitHub Secret'
+        required: true
 
 jobs:
   deploy:
@@ -48,5 +54,9 @@ jobs:
           kustomize edit set image oficinamecanica=${{ secrets.DOCKER_USERNAME }}/oficinamecanica:${{ inputs.image-tag }}
         working-directory: infra/k8s/overlays/${{ inputs.environment }}
 
-      - name: Aplicar Kustomize
-        run: kubectl apply -k infra/k8s/overlays/${{ inputs.environment }}
+      - name: Aplicar Kustomize e Injetar Segredos
+        run: |
+          kustomize build infra/k8s/overlays/${{ inputs.environment }} | \
+          sed "s|DB_PASSWORD_PLACEHOLDER|$(echo -n "${{ inputs.DB_PASSWORD }}" | base64 -w 0)|g" | \
+          sed "s|JWT_KEY_PLACEHOLDER|$(echo -n "${{ inputs.JWT_KEY }}" | base64 -w 0)|g" | \
+          kubectl apply -f -

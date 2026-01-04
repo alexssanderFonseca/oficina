@@ -1,0 +1,52 @@
+# datadog-values-eks.yaml
+# Este arquivo contém as configurações recomendadas para o Datadog Agent em um cluster EKS.
+datadog:
+  # É altamente recomendado usar um secret do Kubernetes para a chave de API.
+  # O script deploy-monitoring.sh já cria um secret chamado 'datadog-secret'.
+  apiKeyExistingSecret: "datadog-secret"
+
+  # Defina o site da Datadog. 'us5.datadoghq.com' é o seu.
+  site: us5.datadoghq.com
+
+  # Atribua um nome exclusivo ao seu cluster no Datadog para facilitar a organização.
+  clusterName: "EKS-FIAP" # Altere para o nome do seu cluster
+
+  # O Datadog Cluster Agent é recomendado para monitoramento do Kubernetes,
+  # pois centraliza certas funções e reduz o uso de recursos.
+  clusterAgent:
+    enabled: true
+
+  # Habilita o Process Agent para visibilidade aprimorada de contêineres.
+  processAgent:
+    enabled: true
+
+  # Habilita o Orchestrator Explorer para visualização da topologia do Kubernetes.
+  orchestratorExplorer:
+    enabled: true
+  
+  # O EKS usa 'containerd' como runtime. Este path garante que o Agent possa se comunicar com ele.
+  criSocketPath: "/var/run/containerd/containerd.sock"
+
+  # Usar o registro de imagens da Datadog no ECR da AWS pode melhorar a performance e a confiabilidade.
+  registry: "public.ecr.aws/datadog"
+
+  # Habilita a coleta de logs de todos os contêineres.
+  logs:
+    enabled: true
+    containerCollectAll: true
+
+  # Habilita o APM (Application Performance Monitoring).
+  apm:
+    enabled: true
+
+  # Habilita o monitoramento de performance de rede (NPM).
+  networkMonitoring:
+    enabled: true
+
+  # Habilita o Security Agent para detecção de ameaças.
+  securityAgent:
+    enabled: true
+    
+  # Habilita a verificação de TLS do Kubelet, uma boa prática em produção.
+  kubelet:
+    tlsVerify: true

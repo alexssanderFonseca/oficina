@@ -50,5 +50,7 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
 
       EKS_CLUSTER_NAME: ${{ secrets.EKS_CLUSTER_NAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      JWT_KEY: ${{ secrets.JWT_KEY }}
 
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

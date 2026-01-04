@@ -3,7 +3,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <includeContext>true</includeContext>
-            <customFields>{"service":"oficina","env":"local"}</customFields>
+            <customFields>{"service":"oficina","env":"${ENV_NAME:-local}"}</customFields>
         </encoder>
     </appender>
 
