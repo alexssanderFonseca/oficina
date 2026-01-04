@@ -129,6 +129,7 @@ tasks.withType<Test> {
     maxParallelForks = 1
     useJUnitPlatform()
     finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+    jvmArgs("-Dotel.traces.exporter=none", "-Dotel.metrics.exporter=none") // Disable OTLP exporters for tests
 }
 
 tasks.jacocoTestReport {
