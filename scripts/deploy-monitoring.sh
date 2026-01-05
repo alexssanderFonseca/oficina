@@ -9,7 +9,7 @@ HELM_RELEASE_NAME="datadog-agent"
 # The namespace for the installation (optional, default is 'default')
 NAMESPACE="default"
 # Default path to the values file
-DEFAULT_VALUES_FILE="datadog-values.yaml"
+DEFAULT_VALUES_FILE="datadog-values-eks.yaml"
 # The name of the Kubernetes secret for the Datadog API key
 K8S_SECRET_NAME="datadog-secret"
 
