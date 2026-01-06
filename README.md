@@ -27,7 +27,6 @@ A aplicação foi desenvolvida com foco em **boas práticas**, **DDD**, e uma ar
 -   **PostgreSQL**
 -   **Gradle** (gerenciamento de dependências)
 -   **JUnit 5** (testes automatizados)
--   **Terraform**
 -   **AWS** (deploy na cloud)
 
 
@@ -131,25 +130,6 @@ minikube service oficina-app-service -n oficina-ns
 
 ---
 
-## 🏗️ Infraestrutura como Código (Terraform)
-
-![Desenho da Arquitetura EKS](docs/arquitetura/eks.png)
-
-Toda a infraestrutura na AWS necessária para rodar esta aplicação é gerenciada como código usando o Terraform. Os arquivos de configuração se encontram no diretório `infra/terraform`.
-
-A arquitetura provisionada inclui os seguintes recursos principais:
-
--   **VPC:** Uma Virtual Private Cloud é criada usando o módulo `terraform-aws-modules/vpc/aws` para isolar os recursos da aplicação. Ela é configurada com sub-redes públicas e privadas.
--   **NAT Gateway:** Um NAT Gateway é habilitado para permitir que os recursos nas sub-redes privadas (como os nós do EKS) tenham acesso à internet para baixar imagens e atualizações, sem serem expostos diretamente.
--   **Cluster EKS:** O "cérebro" do Kubernetes é provisionado usando o módulo `terraform-aws-modules/eks/aws`. A configuração inclui:
-    -   Acesso público ao API Server para permitir o deploy via GitHub Actions.
-    -   Criptografia de segredos usando uma chave KMS existente.
-    -   Autorização de acesso para o usuário do pipeline via EKS Access Entries.
--   **Node Group:** Um grupo de instâncias EC2 (`t3.micro`) é criado para servir como os nós de trabalho (workers) do cluster, onde os contêineres da aplicação efetivamente rodam.
--   **Backend Remoto (S3 + DynamoDB):** O estado do Terraform é gerenciado remotamente em um bucket S3, com travamento (locking) de estado via DynamoDB. Isso garante a segurança e consistência ao trabalhar em equipe ou com pipelines de CI/CD.
-
----
-
 ## 🔄 Fluxo de CI/CD (GitHub Actions)
 
 O projeto utiliza GitHub Actions para automação de integração e deploy contínuo. Os workflows estão definidos em `.github/workflows`.
@@ -160,9 +140,8 @@ Este pipeline é acionado a cada `push` em uma branch com o padrão `feature/*`.
 
 -   **Etapas:**
     1.  **Build e Testes:** Compila o código Java da aplicação e executa todos os testes unitários.
-    2.  **Validação Terraform:** Roda `terraform plan` para garantir que o código de infraestrutura está sintaticamente correto e é aplicável.
-    3.  **Validação Docker:** Constrói a imagem Docker para garantir que o `Dockerfile` está funcionando.
-    4.  **Criar Pull Request:** Se todas as etapas anteriores passarem, um Pull Request é criado automaticamente para a branch `main`, sinalizando que a feature está pronta para revisão.
+    2.  **Validação Docker:** Constrói a imagem Docker para garantir que o `Dockerfile` está funcionando.
+    3.  **Criar Pull Request:** Se todas as etapas anteriores passarem, um Pull Request é criado automaticamente para a branch `main`, sinalizando que a feature está pronta para revisão.
 
 ### CD - Deploy Contínuo (`cd-pipeline.yml`)
 
@@ -170,8 +149,7 @@ Este pipeline é acionado automaticamente após um `merge` na branch `main`. Seu
 
 -   **Etapas:**
     1.  **Publicar Imagem no Docker Hub:** Constrói a imagem Docker da aplicação, a identifica com uma tag única (o hash do commit) e a envia para o Docker Hub.
-    2.  **Deploy da Infraestrutura:** Roda `terraform apply` para aplicar qualquer mudança pendente na infraestrutura do EKS ou da VPC.
-    3.  **Deploy da Aplicação:** Executa os seguintes passos:
+    2.  **Deploy da Aplicação:** Executa os seguintes passos:
         -   Usa `kustomize` para atualizar o manifesto do `Deployment` com a tag da nova imagem Docker.
         -   Usa `kubectl apply` para aplicar os manifestos Kubernetes no cluster EKS.
         -   Verifica o status do rollout para garantir que a nova versão subiu com sucesso.
