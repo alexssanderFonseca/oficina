@@ -69,6 +69,8 @@ Esta é a forma mais rápida e simples de subir a aplicação e o banco de dados
     ```
     http://localhost:9090/swagger-ui/index.html
     ```
+Obs: É necessário definir a variavel de ambiente DD_API_KEY para a integração com o datadog funcionar corretamente
+
 
 ### Opção 2: Ambiente Kubernetes Completo (com Minikube)
 
