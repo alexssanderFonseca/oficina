@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: app-config
 data:
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://academico-rds.cmvwumiyi5g1.us-east-1.rds.amazonaws.com/5432/oficinadb"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://academico-rds.cmvwumiyi5g1.us-east-1.rds.amazonaws.com:5432/oficinadb"
   ENV_NAME: "producao"
 ---
 apiVersion: v1

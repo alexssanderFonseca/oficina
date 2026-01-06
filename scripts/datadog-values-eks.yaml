@@ -9,7 +9,7 @@ datadog:
   site: us5.datadoghq.com
 
   # Atribua um nome exclusivo ao seu cluster no Datadog para facilitar a organização.
-  clusterName: "EKS-FIAP" # Altere para o nome do seu cluster
+  clusterName: "eks-fiap" # Nome do cluster no Datadog. Este valor deve seguir as convenções de nomes do Datadog (apenas letras minúsculas, números e hífens). O nome do cluster EKS pode ser "EKS-FIAP", mas para o Datadog usamos este identificador.
 
   # O Datadog Cluster Agent é recomendado para monitoramento do Kubernetes,
   # pois centraliza certas funções e reduz o uso de recursos.
@@ -50,3 +50,11 @@ datadog:
   # Habilita a verificação de TLS do Kubelet, uma boa prática em produção.
   kubelet:
     tlsVerify: true
+  
+  otlp:
+    receiver:
+      protocols:
+        http:
+          enabled: true
+          endpoint: "0.0.0.0:4318" # Default HTTP endpoint
+          useHostPort: true # Enable the Host Port for the OTLP/HTTP endpoint
